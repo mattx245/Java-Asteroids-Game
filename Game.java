@@ -15,13 +15,15 @@ public class Game extends Application {
     public void start(Stage stage) throws IOException {
         //FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("hello-view.fxml"));
         Pane pane = new Pane();
-        pane.setPrefSize(700, 500);
+        pane.setPrefSize(950, 700);
 
         // Rocket
-        Polygon ship = new Polygon(-5, -5, 10, 0, -5, 5);
-        ship.setTranslateX(300);
-        ship.setTranslateY(200);
-        ship.setStroke(Color.WHITE);
+        //Polygon ship = new Polygon(-5, -10, 25, 0, -5, 10);
+        //ship.setTranslateX(450);
+        //ship.setTranslateY(350);
+        //ship.setStroke(Color.WHITE);
+        Rocketship rocket = new Rocketship();
+        Polygon ship = rocket.getElement();
 
         pane.getChildren().add(ship);
 
