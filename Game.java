@@ -3,6 +3,7 @@ package com.example.asteroidsfx;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Polygon;
@@ -32,6 +33,17 @@ public class Game extends Application {
         stage.setScene(scene);
         scene.setFill(Color.BLACK);
         stage.show();
+
+
+        scene.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.LEFT) {
+                rocket.turnLeft();
+            }
+
+            if (event.getCode() == KeyCode.RIGHT) {
+                rocket.turnRight();
+            }
+        });
     }
 
     public static void main(String[] args) {
