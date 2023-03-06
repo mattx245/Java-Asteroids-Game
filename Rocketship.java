@@ -5,13 +5,14 @@ import javafx.scene.shape.Polygon;
 
 public class Rocketship implements Elements{
     int[] position = new int[2];
+    position =[450, 350]
     Polygon ship;
 
     public Rocketship(){
         // Rocket
         ship = new Polygon(-5, -10, 25, 0, -5, 10);
-        ship.setTranslateX(450);
-        ship.setTranslateY(350);
+        ship.setTranslateX(position[0]);
+        ship.setTranslateY(position[1]);
         ship.setStroke(Color.WHITE);
     }
 
@@ -24,9 +25,4 @@ public class Rocketship implements Elements{
         return position;
     }
 
-    @Override
-    public void setPosition(int X, int Y){
-        position[0] = X;
-        position[1] = Y;
-    }
 }
