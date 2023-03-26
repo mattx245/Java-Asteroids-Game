@@ -18,18 +18,18 @@ public class NameChangeScene extends Application {
     @Override
     public void start(Stage stage) {
 
-        // creating a VBox layout with black backgroung
+        // creating a VBox layout with black background
         VBox layout = new VBox();
         layout.setAlignment(Pos.CENTER);
         layout.setSpacing(20);
-        layout.setBackground(new Background(new BackgroundFill(Color.BLACK, CornerRadii.EMPTY, javafx.geometry.Insets.EMPTY)));
+        layout.setStyle("-fx-background-color: black;");
 
         // creating a label for the input field
         Label NewNameLabel = new Label("Enter New Name:");
         NewNameLabel.setTextFill(Color.WHITE);
         NewNameLabel.setFont(Font.font("Arial", 18));
 
-        // text field for user input
+        // user input field
         TextField newNameField = new TextField();
         newNameField.setMaxWidth(200);
         newNameField.setFont(Font.font("Arial", 16));
@@ -46,15 +46,15 @@ public class NameChangeScene extends Application {
             // code to update the name in the game to come :)
         });
 
-        // add the Confirm button to the layout
+        // adding the Confirm-button to the layout
         layout.getChildren().add(confirmButton);
 
         // creating a scene with the created layout
-        Scene scene = new Scene(layout, 400, 300);
-        scene.setFill(Color.BLACK);
+        Scene newNameScene = new Scene(layout, 400, 300);
+        newNameScene.setFill(Color.BLACK);
 
-        // set the scene for the stage
-        stage.setScene(scene);
+        // seting the scene for the stage
+        stage.setScene(newNameScene);
         stage.setTitle("Name Change");
         stage.show();
     }
