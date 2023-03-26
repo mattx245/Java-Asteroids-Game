@@ -2,8 +2,8 @@ Scenes:
 
 Scene               | Responsible member 
 ----------------------------------------------
-Play Game           |
+Play Game           | Florian Lechner
 High Scores         | 
 Game Over           |
-How to Play         |
+How to Play         | Yiming Liu
 Change Name         | Anita Salopek
