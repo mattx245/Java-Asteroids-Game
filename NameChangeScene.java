@@ -47,15 +47,19 @@ public class NameChangeScene extends Application {
             // code to update the name in the game to come :)
         });
 
-        // add the Confirm button to the layout
+        // adding the button to the layout
         layout.getChildren().add(confirmButton);
 
         // creating a scene with the created layout
         Scene newNameScene = new Scene(layout, 400, 300);
         newNameScene.setFill(Color.BLACK);
 
-        // set the scene for the stage
+        // seting the scene for the stage
         stage.setScene(newNameScene);
         stage.setTitle("Name Change");
         stage.show();
     }
+ public static void main(String[] args) {
+        launch(args);
+    }
+}
