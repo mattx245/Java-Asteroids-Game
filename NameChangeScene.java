@@ -43,6 +43,8 @@ public class NameChangeScene extends Application {
         confirmButton.setOnAction(event -> {
             String newName = newNameField.getText();
             System.out.println("Name changed to: " + newName);
+            
+            // printing the new name on the screen by updating the newNameLabel
             newNameLabel.setText("Your new name is: " + newName);
             // code to update the name in the game to come :)
         });
