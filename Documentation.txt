@@ -1,0 +1,9 @@
+Scenes:
+
+Scene               | Responsible member 
+----------------------------------------------
+Play Game           |
+High Scores         | 
+Game Over           |
+How to Play         |
+Change Name         |
