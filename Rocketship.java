@@ -9,7 +9,8 @@ public class Rocketship implements Elements{
 
     public Rocketship(){
         // Rocket
-        ship = new Polygon(-5, -10, 25, 0, -5, 10);
+        //changed the coordinates so it's upright
+        ship = new Polygon(0,0,-10,20,10,20);
         ship.setTranslateX(position[0]);
         ship.setTranslateY(position[1]);
         ship.setRotate(position[2]);
