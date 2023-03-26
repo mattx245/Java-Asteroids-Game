@@ -6,4 +6,4 @@ Play Game           |
 High Scores         | 
 Game Over           |
 How to Play         |
-Change Name         |
+Change Name         | Anita Salopek
