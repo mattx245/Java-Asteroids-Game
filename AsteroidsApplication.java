@@ -73,6 +73,7 @@ public class AsteroidsApplication extends Application {
 
 
         Scene scene = new Scene(pane);
+        scene.setFill(Color.BLACK);
         //rotating the ship
         //creating an animation timer that needs a pressedKeys hashmap to smooth the animation
         Map<KeyCode, Boolean> pressedKeys = new HashMap<>();
