@@ -34,7 +34,7 @@ public class HowToPlay extends Application {
         root.getChildren().add(vbox);
 
 
-        Scene scene = new Scene(root, 500, 300);
+        Scene scene = new Scene(root, 950, 700);
         primaryStage.setTitle("HowToPlay");
         primaryStage.setScene(scene);
 
