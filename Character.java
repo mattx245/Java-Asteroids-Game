@@ -17,6 +17,7 @@ public abstract class Character {
         this.character.setTranslateX(x);
         this.character.setTranslateY(y);
         this.alive = true;
+        this.character.setFill(Color.WHITE);
 
         this.movement = new Point2D(0, 0);
     }
