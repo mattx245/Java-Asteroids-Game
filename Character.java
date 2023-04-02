@@ -8,9 +8,9 @@ public abstract class Character {
     //declaring the characters are polygons
     private Polygon character;
     //movement variable
-    private Point2D movement;
+    public Point2D movement;
     //alive tracker variable
-    private boolean alive;
+    public boolean alive;
 
     public Character(Polygon polygon, int x, int y) {
         this.character = polygon;
@@ -100,5 +100,11 @@ public abstract class Character {
 
     public boolean isAlive() {
         return this.alive;
+    }
+    
+    public void respawning(){
+        this.character.setTranslateX(300);
+        this.character.setTranslateY(200);
+
     }
 }
