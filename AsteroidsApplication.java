@@ -181,7 +181,6 @@ public class AsteroidsApplication extends Application {
                         ship.death();
                         if (ship.health >0){
                         ship.alive = true;
-
                         ship.movement = new Point2D(0, 0);
                         ship.respawning();}
                         else{
