@@ -52,6 +52,7 @@ public class AsteroidsApplication extends Application {
         //new ship from its own class
         //setting the position to center
         Ship ship = new Ship(300, 200);
+        ship.setHealth(3);
         //adding the asteroids as a list
         List<Asteroid> asteroids = new ArrayList<>();
         for (int i = 0; i < 5; i++) {
@@ -177,7 +178,15 @@ public class AsteroidsApplication extends Application {
 
                 asteroids.forEach(asteroid -> {
                     if (ship.collide(asteroid)) {
-                        stop();
+                        ship.death();
+                        if (ship.health >0){
+                        ship.alive = true;
+
+                        ship.movement = new Point2D(0, 0);
+                        ship.respawning();}
+                        else{
+                            stop();
+                        }
                     }
                 });
 
