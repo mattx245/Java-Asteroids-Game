@@ -1,3 +1,5 @@
+package com.example.asteroidsfx;
+
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
@@ -14,7 +16,6 @@ import java.util.Random;
 import java.util.ArrayList;
 import java.util.List;
 //projectiles removing asteroids
-import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Collectors;
 //shooting projectiles
 import javafx.animation.Timeline;

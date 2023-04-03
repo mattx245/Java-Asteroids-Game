@@ -1,3 +1,5 @@
+package com.example.asteroidsfx;
+
 import java.util.Random;
 
 public class Asteroid extends Character {
