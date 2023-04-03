@@ -1,3 +1,5 @@
+package com.example.asteroidsfx;
+
 import javafx.scene.shape.Polygon;
 
 public class Projectile extends Character {
