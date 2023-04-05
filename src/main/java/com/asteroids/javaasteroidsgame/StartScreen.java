@@ -1,4 +1,4 @@
-package com.example.asteroidsfx;
+package com.asteroids.javaasteroidsgame;
 //By Matthew
 import javafx.application.Application;
 import javafx.event.ActionEvent;

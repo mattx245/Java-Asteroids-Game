@@ -1,3 +1,4 @@
+package com.asteroids.javaasteroidsgame;
 import java.util.Random;
 
 public class Asteroid extends Character {

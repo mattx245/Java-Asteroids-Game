@@ -1,4 +1,4 @@
-package com.example.asteroidsfx;
+package com.asteroids.javaasteroidsgame;
 
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;

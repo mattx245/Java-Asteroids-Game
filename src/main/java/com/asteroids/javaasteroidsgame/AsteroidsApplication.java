@@ -1,8 +1,11 @@
+package com.asteroids.javaasteroidsgame;
+
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.scene.input.KeyCode;
+import javafx.scene.paint.Color;
 //imports for the animation of turning
 import java.util.HashMap;
 import javafx.animation.AnimationTimer;

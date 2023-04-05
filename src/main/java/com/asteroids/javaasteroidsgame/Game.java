@@ -1,4 +1,4 @@
-package com.example.asteroidsfx;
+package com.asteroids.javaasteroidsgame;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;

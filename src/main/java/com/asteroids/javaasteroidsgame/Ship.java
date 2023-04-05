@@ -1,3 +1,5 @@
+package com.asteroids.javaasteroidsgame;
+
 import javafx.scene.shape.Polygon;
 
 public class Ship extends Character {

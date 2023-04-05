@@ -1,5 +1,8 @@
+package com.asteroids.javaasteroidsgame;
+
 import javafx.geometry.Point2D;
 import javafx.scene.shape.Polygon;
+import javafx.scene.paint.Color;
 //collision import
 import javafx.scene.shape.Shape;
 

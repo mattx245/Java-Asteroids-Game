@@ -1,4 +1,5 @@
-package com.example.helloworld;
+package com.asteroids.javaasteroidsgame;
+
 import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
