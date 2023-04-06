@@ -3,6 +3,7 @@ package com.asteroids.javaasteroidsgame;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
@@ -18,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 //projectiles removing asteroids
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 //shooting projectiles
 import javafx.animation.Timeline;
@@ -45,6 +47,11 @@ public class AsteroidsApplication extends Application {
         Pane pane = new Pane();
         pane.setPrefSize(WIDTH, HEIGHT);
 
+        //text for points
+        Text points = new Text(10, 20, "Points: 0");
+        pane.getChildren().add(points);
+
+        AtomicInteger pts = new AtomicInteger();
         //old ship
         //Polygon ship = new Polygon(0,0,-10,20,10,20);
         //ship.setTranslateX(300);
@@ -78,6 +85,7 @@ public class AsteroidsApplication extends Application {
 
         Scene scene = new Scene(pane);
         scene.setFill(Color.BLACK);
+        points.setFill(Color.WHITE);
         //rotating the ship
         //creating an animation timer that needs a pressedKeys hashmap to smooth the animation
         Map<KeyCode, Boolean> pressedKeys = new HashMap<>();
@@ -155,6 +163,9 @@ public class AsteroidsApplication extends Application {
                             asteroid.setAlive(false);
                         }
                     });
+                    if(!projectile.isAlive()) {
+                        points.setText("Points" + pts.addAndGet(1000));
+                    }
                 });
 
                 //managing removing projectiles of the screen
@@ -199,6 +210,8 @@ public class AsteroidsApplication extends Application {
         stage.setScene(scene);
         stage.show();
     }
+
+
 
     public static void main(String[] args) {
         launch(args);
