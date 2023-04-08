@@ -42,6 +42,9 @@ public class AsteroidsApplication extends Application {
     //variable for controlling the shooting of projectiles
     private boolean canShoot = true;
 
+    //creates variable for startscreen
+    //static Stage classStage = new Stage();
+
     @Override
     public void start(Stage stage) throws Exception {
         Pane pane = new Pane();
@@ -51,7 +54,10 @@ public class AsteroidsApplication extends Application {
         Text points = new Text(10, 20, "Points: 0");
         pane.getChildren().add(points);
 
+        //points in
         AtomicInteger pts = new AtomicInteger();
+
+        //file i/o for points
         //old ship
         //Polygon ship = new Polygon(0,0,-10,20,10,20);
         //ship.setTranslateX(300);
@@ -209,6 +215,8 @@ public class AsteroidsApplication extends Application {
         stage.setTitle("Asteroids!");
         stage.setScene(scene);
         stage.show();
+        //assigns stage variable for call in startscreen
+        //classStage = stage;
     }
 
 

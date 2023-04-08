@@ -20,12 +20,20 @@ public class StartScreen extends Application {
 
         Button btn = new Button();
         btn.setText("Start Game");
-        btn.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                System.out.println("Start Game");
-            }
-        });
+//        btn.setOnAction(new EventHandler<ActionEvent>() {
+//            @Override
+//            public void handle(ActionEvent actionEvent) {
+//                AsteroidsApplication game = new AsteroidsApplication();
+//                try {
+//                    game.start(AsteroidsApplication.classStage);
+//                    stage.close();
+//                } catch (Exception e) {
+//                    throw new RuntimeException(e);
+//                }
+//
+//
+//            }
+//        });
 
         Button btn2 = new Button();
         btn2.setText("High Score");
