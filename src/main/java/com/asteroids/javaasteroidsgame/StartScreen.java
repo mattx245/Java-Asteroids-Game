@@ -16,7 +16,7 @@ public class StartScreen extends Application {
     public void start(Stage stage) throws IOException {
         //FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("hello-view.fxml"));
         Pane pane = new Pane();
-        pane.setPrefSize(700, 500);
+        pane.setPrefSize(950, 700);
 
         Button btn = new Button();
         btn.setText("Start Game");
@@ -47,7 +47,7 @@ public class StartScreen extends Application {
         btn2.setFont(Font.font("Bauhaus",20));
         scene.getChildren().add(btn);
         scene.getChildren().add(btn2);
-        Scene scene2 = new Scene(scene,500,500);
+        Scene scene2 = new Scene(scene,950,700);
         scene.setStyle("-fx-background-color:black");
         stage.setScene(scene2);
         stage.show();

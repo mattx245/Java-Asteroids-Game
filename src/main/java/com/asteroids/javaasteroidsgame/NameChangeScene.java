@@ -51,7 +51,7 @@ public class NameChangeScene extends Application {
         layout.getChildren().add(confirmButton);
 
         // creating a scene with the created layout
-        Scene newNameScene = new Scene(layout, 400, 300);
+        Scene newNameScene = new Scene(layout, 950, 700);
         newNameScene.setFill(Color.BLACK);
 
         // seting the scene for the stage

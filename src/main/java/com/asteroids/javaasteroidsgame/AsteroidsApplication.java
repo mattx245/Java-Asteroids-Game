@@ -1,8 +1,11 @@
 package com.asteroids.javaasteroidsgame;
 
 import javafx.application.Application;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.scene.input.KeyCode;
@@ -32,8 +35,8 @@ public class AsteroidsApplication extends Application {
     //setting the rotation angle for the on click event
     private double rotationAngle = 0.0;
     //size of screen
-    public static int WIDTH = 600;
-    public static int HEIGHT = 400;
+    public static int WIDTH = 950;
+    public static int HEIGHT = 700;
     //declaring the projectile list and leaving it empty at the beginning
     List<Projectile> projectiles = new ArrayList<>();
 
@@ -49,7 +52,14 @@ public class AsteroidsApplication extends Application {
 
         //text for points
         Text points = new Text(10, 20, "Points: 0");
-        pane.getChildren().add(points);
+
+        // point test design & position
+        points.setFont(Font.font(20));
+        VBox vbox_points = new VBox(points);
+        vbox_points.setAlignment(Pos.CENTER);
+        vbox_points.setPrefWidth(WIDTH);
+        pane.getChildren().add(vbox_points);
+        vbox_points.setLayoutY(20);
 
         AtomicInteger pts = new AtomicInteger();
         //old ship
@@ -86,6 +96,22 @@ public class AsteroidsApplication extends Application {
         Scene scene = new Scene(pane);
         scene.setFill(Color.BLACK);
         points.setFill(Color.WHITE);
+
+        // Text help
+        Text help = new Text();
+        help.setText("Help");
+        help.setFont(Font.font(20));
+        help.setFill(Color.WHITE);
+
+        // Create VBox to hold help
+        VBox vbox_help = new VBox(help);
+        vbox_help.setAlignment(Pos.CENTER);
+        pane.getChildren().add(vbox_help);
+
+        // Set position of VBox to top of Pane
+        vbox_help.setLayoutY(20);
+        vbox_help.setLayoutX(880);
+
         //rotating the ship
         //creating an animation timer that needs a pressedKeys hashmap to smooth the animation
         Map<KeyCode, Boolean> pressedKeys = new HashMap<>();
@@ -164,7 +190,7 @@ public class AsteroidsApplication extends Application {
                         }
                     });
                     if(!projectile.isAlive()) {
-                        points.setText("Points" + pts.addAndGet(1000));
+                        points.setText("Points: " + pts.addAndGet(1000));
                     }
                 });
 
@@ -206,7 +232,7 @@ public class AsteroidsApplication extends Application {
             }
         }.start();
 
-        stage.setTitle("Asteroids!");
+        stage.setTitle("Asteroids Game!");
         stage.setScene(scene);
         stage.show();
     }
