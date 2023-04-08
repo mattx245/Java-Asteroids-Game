@@ -8,6 +8,10 @@ import javafx.stage.Stage;
 import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
 //imports for the animation of turning
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.HashMap;
 import javafx.animation.AnimationTimer;
 import java.util.Map;
@@ -25,6 +29,10 @@ import java.util.stream.Collectors;
 import javafx.animation.Timeline;
 import javafx.animation.KeyFrame;
 import javafx.util.Duration;
+
+
+
+
 
 //created following the mooc.fi tutorial: https://java-programming.mooc.fi/part-14/3-larger-application-asteroids
 public class AsteroidsApplication extends Application {
@@ -45,11 +53,30 @@ public class AsteroidsApplication extends Application {
     //creates variable for startscreen
     //static Stage classStage = new Stage();
 
+    //function to handle high score file
+    public void makefile() {
+        try {
+            File high_scores = new File("high_scores.txt");
+
+            if (high_scores.createNewFile()) {
+                System.out.println("Created high score file");
+            }
+            else {
+                System.out.println("The high score file already exists");
+            }
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     @Override
     public void start(Stage stage) throws Exception {
         Pane pane = new Pane();
         pane.setPrefSize(WIDTH, HEIGHT);
 
+        //creates high score file
+        makefile();
         //text for points
         Text points = new Text(10, 20, "Points: 0");
         pane.getChildren().add(points);
@@ -204,6 +231,24 @@ public class AsteroidsApplication extends Application {
                         ship.movement = new Point2D(0, 0);
                         ship.respawning();}
                         else{
+                            //writes high score
+                            FileWriter fw = null;
+                            try {
+                                fw = new FileWriter("high_scores.txt", true);
+                            } catch (IOException e) {
+                                throw new RuntimeException(e);
+                            }
+                            BufferedWriter writer = new BufferedWriter(fw);
+                            try {
+                                writer.write(String.valueOf(pts));
+                            } catch (IOException e) {
+                                throw new RuntimeException(e);
+                            }
+                            try {
+                                writer.close();
+                            } catch (IOException e) {
+                                throw new RuntimeException(e);
+                            }
                             stop();
                         }
                     }
@@ -215,6 +260,7 @@ public class AsteroidsApplication extends Application {
         stage.setTitle("Asteroids!");
         stage.setScene(scene);
         stage.show();
+
         //assigns stage variable for call in startscreen
         //classStage = stage;
     }
