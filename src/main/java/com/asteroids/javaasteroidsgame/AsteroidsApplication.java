@@ -54,7 +54,7 @@ public class AsteroidsApplication extends Application {
     private boolean canShoot = true;
 
     //creates variable for startscreen
-    //static Stage classStage = new Stage();
+    static Stage classStage = new Stage();
 
     //function to handle high score file
     public void makefile() {
@@ -77,6 +77,7 @@ public class AsteroidsApplication extends Application {
     public void start(Stage stage) throws Exception {
         Pane pane = new Pane();
         pane.setPrefSize(WIDTH, HEIGHT);
+        pane.setStyle("-fx-background-color: black;");
 
         //creates high score file
         makefile();
@@ -288,7 +289,7 @@ public class AsteroidsApplication extends Application {
         stage.show();
 
         //assigns stage variable for call in startscreen
-        //classStage = stage;
+        classStage = stage;
     }
 
 
