@@ -1,7 +1,10 @@
 package com.asteroids.javaasteroidsgame;
 
 import javafx.application.Application;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -11,6 +14,8 @@ import javafx.stage.Stage;
 import javafx.geometry.Pos;
 public class HowToPlay extends Application {
 
+    //scene switching stage
+    static Stage classStage = new Stage();
     @Override
     public void start(Stage primaryStage) {
         // Text content
@@ -30,6 +35,10 @@ public class HowToPlay extends Application {
         vbox.setSpacing(80); //Add space between the title and text
         vbox.setAlignment(Pos.CENTER);
 
+        //button to return to title
+        Button btn = new Button();
+        btn.setText("Title Screen");
+
         // Create a StackPane to get the vbox
         StackPane root = new StackPane();
         root.setStyle("-fx-background-color: black");
@@ -38,9 +47,12 @@ public class HowToPlay extends Application {
 
         Scene scene = new Scene(root, 950, 700);
         primaryStage.setTitle("HowToPlay");
+
         primaryStage.setScene(scene);
 
         primaryStage.show();
+        //assigns stage variable for call in startscreen
+        classStage = primaryStage;
     }
 
     public static void main(String[] args) {
