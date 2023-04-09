@@ -91,10 +91,10 @@ public class AsteroidsApplication extends Application {
         pane.getChildren().add(vbox_points);
         vbox_points.setLayoutY(20);
 
-        //points in
+        //points int
         AtomicInteger pts = new AtomicInteger();
 
-        //file i/o for points
+
         //old ship
         //Polygon ship = new Polygon(0,0,-10,20,10,20);
         //ship.setTranslateX(300);
