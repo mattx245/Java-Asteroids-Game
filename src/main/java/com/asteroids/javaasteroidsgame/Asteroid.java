@@ -15,7 +15,7 @@ public class Asteroid extends Character {
         //small: even faster -> destroyed
 
         super(new PolygonFactory().createPolygon(), x, y);
-        size = "Large"
+        size = "Large";
         Random rnd = new Random();
 
         super.getCharacter().setRotate(rnd.nextInt(360));
@@ -48,7 +48,7 @@ public class Asteroid extends Character {
     public Polygon createAsteroid(String size) {
         Random rnd = new Random();
 
-        double size = 10 + rnd.nextInt(10);
+        double size_n = 10 + rnd.nextInt(10);
 
         Polygon polygon = new Polygon();
         double c1 = Math.cos(Math.PI * 2 / 5);
@@ -57,11 +57,11 @@ public class Asteroid extends Character {
         double s2 = Math.sin(Math.PI * 4 / 5);
 
         polygon.getPoints().addAll(
-                size, 0.0,
-                size * c1, -1 * size * s1,
-                -1 * size * c2, -1 * size * s2,
-                -1 * size * c2, size * s2,
-                size * c1, size * s1);
+                size_n, 0.0,
+                size_n * c1, -1 * size_n * s1,
+                -1 * size_n * c2, -1 * size_n * s2,
+                -1 * size_n * c2, size_n * s2,
+                size_n * c1, size_n * s1);
 
         for (int i = 0; i < polygon.getPoints().size(); i++) {
             int change = rnd.nextInt(5) - 2;
