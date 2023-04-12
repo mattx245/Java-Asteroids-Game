@@ -19,22 +19,28 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class HighScore extends Application {
 
+    private AtomicInteger pts = new AtomicInteger();
+
+    public void setpts(AtomicInteger add){
+        pts = add;
+    }
+
     //scene switching stage
     static Stage classStage = new Stage();
     @Override
     public void start(Stage primaryStage) {
 
         //asteroidsapplication class to access points
-        AsteroidsApplication pointsapp = new AsteroidsApplication();
+        //AsteroidsApplication pointsapp = new AsteroidsApplication();
 
         //points from current game session
-        AtomicInteger currentpoints = pointsapp.getpoints();
+        //AtomicInteger currentpoints = pointsapp.getpoints();
         //creates high score hashmap
-        HashMap<String, Integer> hiscore = new HashMap<String, Integer>();
+        //HashMap<String, Integer> hiscore = new HashMap<String, Integer>();
         //gets content from sorted hashmap and displays as high score
 
         Text text = new Text();
-        text.setText(String.valueOf(currentpoints));
+        text.setText(String.valueOf(pts));
         text.setFont(Font.font(20));
         text.setFill(Color.WHITE);
 

@@ -56,11 +56,12 @@ public class AsteroidsApplication extends Application {
     static Stage classStage = new Stage();
 
     //points int
+    HighScore hs = new HighScore();
     private AtomicInteger pts = new AtomicInteger();
 
-    public AtomicInteger getpoints(){
-        return pts;
-    }
+//    public AtomicInteger getpoints(){
+//        return pts;
+//    }
 
     @Override
     public void start(Stage stage) throws Exception {
@@ -249,9 +250,9 @@ public class AsteroidsApplication extends Application {
                             stop();
 
                             //game over scene switch
-                            GameOverScreen gameover = new GameOverScreen();
                             try {
-                                gameover.start(GameOverScreen.classStage);
+                                hs.setpts(pts);
+                                hs.start(GameOverScreen.classStage);
                                 stage.close();
                             } catch (Exception e) {
                                 throw new RuntimeException(e);
