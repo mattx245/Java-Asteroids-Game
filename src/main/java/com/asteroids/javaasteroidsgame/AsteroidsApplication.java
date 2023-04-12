@@ -36,7 +36,6 @@ import javafx.util.Duration;
 
 
 
-
 //created following the mooc.fi tutorial: https://java-programming.mooc.fi/part-14/3-larger-application-asteroids
 public class AsteroidsApplication extends Application {
 
@@ -56,21 +55,11 @@ public class AsteroidsApplication extends Application {
     //creates variable for startscreen
     static Stage classStage = new Stage();
 
-    //function to handle high score file
-    public void makefile() {
-        try {
-            File high_scores = new File("high_scores.txt");
+    //points int
+    private AtomicInteger pts = new AtomicInteger();
 
-            if (high_scores.createNewFile()) {
-                System.out.println("Created high score file");
-            }
-            else {
-                System.out.println("The high score file already exists");
-            }
-        }
-        catch (IOException e) {
-            e.printStackTrace();
-        }
+    public AtomicInteger getpoints(){
+        return pts;
     }
 
     @Override
@@ -79,8 +68,6 @@ public class AsteroidsApplication extends Application {
         pane.setPrefSize(WIDTH, HEIGHT);
         pane.setStyle("-fx-background-color: black;");
 
-        //creates high score file
-        makefile();
         //text for points
         Text points = new Text(10, 20, "Points: 0");
 
@@ -91,9 +78,6 @@ public class AsteroidsApplication extends Application {
         vbox_points.setPrefWidth(WIDTH);
         pane.getChildren().add(vbox_points);
         vbox_points.setLayoutY(20);
-
-        //points int
-        AtomicInteger pts = new AtomicInteger();
 
 
         //old ship
@@ -258,25 +242,20 @@ public class AsteroidsApplication extends Application {
                         ship.movement = new Point2D(0, 0);
                         ship.respawning();}
                         else{
+
                             //writes high score
-                            FileWriter fw = null;
-                            try {
-                                fw = new FileWriter("high_scores.txt", true);
-                            } catch (IOException e) {
-                                throw new RuntimeException(e);
-                            }
-                            BufferedWriter writer = new BufferedWriter(fw);
-                            try {
-                                writer.write(String.valueOf(pts));
-                            } catch (IOException e) {
-                                throw new RuntimeException(e);
-                            }
-                            try {
-                                writer.close();
-                            } catch (IOException e) {
-                                throw new RuntimeException(e);
-                            }
+
+                            //hiscore.put(name, pts);
                             stop();
+
+                            //game over scene switch
+                            GameOverScreen gameover = new GameOverScreen();
+                            try {
+                                gameover.start(GameOverScreen.classStage);
+                                stage.close();
+                            } catch (Exception e) {
+                                throw new RuntimeException(e);
+                            }
                         }
                     }
                 });
