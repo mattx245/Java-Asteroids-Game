@@ -44,7 +44,13 @@ public class StartScreen extends Application {
         btn2.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                System.out.println("High Score");
+                HighScore hs = new HighScore();
+                try {
+                    hs.start(HighScore.classStage);
+                    stage.close();
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
             }
         });
 

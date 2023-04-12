@@ -16,6 +16,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class GameOverScreen extends Application {
+
+    //scene switching stage
+    static Stage classStage = new Stage();
     private ArrayList<Integer> playerHighScores = new ArrayList<Integer>();
 
     @Override
@@ -104,6 +107,8 @@ public class GameOverScreen extends Application {
         Scene scene = new Scene(pane,700,500);
         stage.setScene(scene);
         stage.show();
+        //assigns stage variable for call in startscreen
+        classStage = stage;
     }
 
     public static void main(String[] args) {
