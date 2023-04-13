@@ -3,6 +3,7 @@ package com.asteroids.javaasteroidsgame;
 import java.util.Random;
 import javafx.scene.shape.Polygon;
 
+
 public class PolygonFactory {
 
     public Polygon createPolygon() {

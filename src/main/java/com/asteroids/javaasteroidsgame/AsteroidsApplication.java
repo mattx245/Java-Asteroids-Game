@@ -11,10 +11,6 @@ import javafx.stage.Stage;
 import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
 //imports for the animation of turning
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.HashMap;
 import javafx.animation.AnimationTimer;
 import java.util.Map;
@@ -25,7 +21,6 @@ import java.util.Random;
 import java.util.ArrayList;
 import java.util.List;
 //projectiles removing asteroids
-import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 //shooting projectiles
@@ -104,12 +99,12 @@ public class AsteroidsApplication extends Application {
         asteroids.forEach(asteroid -> pane.getChildren().add(asteroid.getCharacter()));
 
         // asteroid movement
-        for (Asteroid asteroid : asteroids) {
+        /*for (Asteroid asteroid : asteroids) {
             asteroid.turnRight();
             asteroid.turnRight();
             asteroid.accelerate();
             asteroid.accelerate();
-        }
+        }*/
 
 
         Scene scene = new Scene(pane);
@@ -201,10 +196,15 @@ public class AsteroidsApplication extends Application {
                     projectiles.subList(0, projectiles.size() - 3).clear();
                 }
                 //controlling the effect of projectiles: removing asteroids from the list
+                List<Asteroid> newAsteroids = new ArrayList<>();
                 projectiles.forEach(projectile -> {
                     asteroids.forEach(asteroid -> {
                         if(projectile.collide(asteroid)) {
                             projectile.setAlive(false);
+                            if (!asteroid.getSize().equals("small")) {
+                                newAsteroids.add(asteroid.createSmallerAsteroid());
+                                newAsteroids.add(asteroid.createSmallerAsteroid());
+                            }
                             asteroid.setAlive(false);
                         }
                     });
@@ -212,6 +212,12 @@ public class AsteroidsApplication extends Application {
                         points.setText("Points: " + pts.addAndGet(1000));
                     }
                 });
+
+                // Add new asteroids to game
+                for (Asteroid asteroid : newAsteroids) {
+                    asteroids.add(asteroid);
+                    pane.getChildren().add(asteroid.getCharacter());
+                }
 
                 //managing removing projectiles of the screen
                 projectiles.stream()
@@ -237,12 +243,13 @@ public class AsteroidsApplication extends Application {
 
                 asteroids.forEach(asteroid -> {
                     if (ship.collide(asteroid)) {
+                        asteroid.setAlive(false);
                         ship.death();
-                        if (ship.health >0){
+                        if (ship.health >0) {
                         ship.alive = true;
                         ship.movement = new Point2D(0, 0);
-                        ship.respawning();}
-                        else{
+                        ship.respawning();
+                        } else {
 
                             //writes high score
 
