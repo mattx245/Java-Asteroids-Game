@@ -1,10 +1,10 @@
 package com.asteroids.javaasteroidsgame;
 
+
 import javafx.geometry.Point2D;
 import javafx.scene.layout.Pane;
-import javafx.scene.shape.Polygon;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.Polygon;
 
 public class UFO extends Character {
     private Point2D targetPosition;
@@ -67,4 +67,3 @@ public class UFO extends Character {
         return false;
     }
 }
-

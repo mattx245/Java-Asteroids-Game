@@ -105,7 +105,7 @@ public abstract class Character {
     public boolean isAlive() {
         return this.alive;
     }
-    
+
     public void respawning(){
         this.character.setTranslateX(300);
         this.character.setTranslateY(200);

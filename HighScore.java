@@ -62,7 +62,7 @@ public class HighScore extends Application {
 
 
         Scene scene = new Scene(root, 950, 700);
-        primaryStage.setTitle("HowToPlay");
+        primaryStage.setTitle("High score");
 
         primaryStage.setScene(scene);
 
