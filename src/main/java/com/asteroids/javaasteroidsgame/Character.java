@@ -65,8 +65,9 @@ public abstract class Character {
     }
 
     public void accelerate() {
-        double changeX = Math.cos(Math.toRadians(this.character.getRotate()));
-        double changeY = Math.sin(Math.toRadians(this.character.getRotate()));
+        double angle = Math.toRadians(this.character.getRotate());
+        double changeX = Math.cos(angle);
+        double changeY = Math.sin(angle);
 
         changeX *= 0.05;
         changeY *= 0.05;
@@ -104,7 +105,7 @@ public abstract class Character {
     public boolean isAlive() {
         return this.alive;
     }
-    
+
     public void respawning(){
         this.character.setTranslateX(300);
         this.character.setTranslateY(200);
