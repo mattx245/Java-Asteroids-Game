@@ -95,7 +95,7 @@ public class AsteroidsApplication extends Application {
 
         //new ship from its own class
         //setting the position to center
-        Ship ship = new Ship(300, 200);
+        Ship ship = new Ship(WIDTH, HEIGHT);
         ship.setHealth(3);
         //adding the asteroids as a list
         List<Asteroid> asteroids = new ArrayList<>();
