@@ -63,7 +63,7 @@ public class AsteroidsApplication extends Application {
 //        return pts;
 //    }
 
-
+    int level = 1; //initialize level
     @Override
     public void start(Stage stage) throws Exception {
         Pane pane = new Pane();
@@ -80,7 +80,17 @@ public class AsteroidsApplication extends Application {
         vbox_points.setPrefWidth(WIDTH);
         pane.getChildren().add(vbox_points);
         vbox_points.setLayoutY(20);
-
+        
+        // text for level
+        Text levelText = new Text(6, 20, "Level: 1");
+        levelText.setFont(Font.font(20));
+        levelText.setFill(Color.WHITE);
+        VBox vbox_level = new VBox(levelText);
+        vbox_level.setPrefWidth(WIDTH);
+        pane.getChildren().add(vbox_level);
+        vbox_level.setLayoutY(20);
+        
+        
         UFO ufo = new UFO(WIDTH / 3, HEIGHT / 3);
         pane.getChildren().add(ufo.getCharacter());
         ufo.getCharacter().setVisible(false);
@@ -358,7 +368,17 @@ public class AsteroidsApplication extends Application {
                 asteroids.removeAll(asteroids.stream()
                         .filter(asteroid -> !asteroid.isAlive())
                         .collect(Collectors.toList()));
-
+                // level part
+                while (asteroids.size() == 0) {
+                    for (int i = 0; i < level+1; i++) {
+                        Random rnd = new Random();
+                        Asteroid asteroid = new Asteroid(rnd.nextInt(WIDTH / 3), rnd.nextInt(HEIGHT));
+                        asteroids.add(asteroid);
+                    }
+                    asteroids.forEach(asteroid -> pane.getChildren().add(asteroid.getCharacter()));
+                    level++;
+                    levelText.setText("Level: " + level);
+                }
                 ship.move();
                 //adding asteroid movement
                 //collision = stop animation add-on
