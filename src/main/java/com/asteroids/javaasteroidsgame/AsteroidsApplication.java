@@ -85,7 +85,7 @@ public class AsteroidsApplication extends Application {
 
         //new ship from its own class
         //setting the position to center
-        Ship ship = new Ship(WIDTH, HEIGHT);
+        Ship ship = new Ship(WIDTH/2, HEIGHT/2);
         ship.setHealth(3);
 
         //new UFO
