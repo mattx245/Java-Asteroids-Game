@@ -18,12 +18,11 @@ public class Ship extends Character {
     public int health;
     public Ship(int x, int y) {
 
-        super(new Polygon( -20, 20,
-                0, -20,
-                20, 20,
-                10, 20,
-                0, 0,
-                -10, 20), x, y);
+        super(new Polygon( 0, 20,
+                8, -2,
+                1, 0,
+                -1, 0,
+                -8, -2), x, y);
 
 
     }
