@@ -171,23 +171,25 @@ public class AsteroidsApplication extends Application {
 
             private long lastSpawnTime = System.nanoTime();
 
+            private long lastUfoUpdateTime = 0;
+
             private long lastVisibleTime = 0;
             private boolean ufoSpawned = false;
 
             @Override
             public void handle(long now) {
-                if(pressedKeys.getOrDefault(KeyCode.LEFT, false)) {
+                if (pressedKeys.getOrDefault(KeyCode.LEFT, false)) {
                     ship.turnLeft();
                 }
 
-                if(pressedKeys.getOrDefault(KeyCode.RIGHT, false)) {
+                if (pressedKeys.getOrDefault(KeyCode.RIGHT, false)) {
                     ship.turnRight();
                 }
 
-                if(pressedKeys.getOrDefault(KeyCode.UP, false)) {
+                if (pressedKeys.getOrDefault(KeyCode.UP, false)) {
                     ship.accelerate();
                 }
-                if(pressedKeys.getOrDefault(KeyCode.DOWN, false)) {
+                if (pressedKeys.getOrDefault(KeyCode.DOWN, false)) {
                     ship.reverse();
                 }
                 //adding projectiles
@@ -242,22 +244,26 @@ public class AsteroidsApplication extends Application {
                 if (ufoSpawned) {
                     // Adding random movement for the UFO
                     Random random = new Random();
-                    double randomDirection = random.nextDouble() * 2 * Math.PI;
-                    double ufoSpeed = 2.0; // adjust as needed
-                    Point2D randomVector = new Point2D(Math.cos(randomDirection), Math.sin(randomDirection)).normalize().multiply(ufoSpeed);
-                    ufo.setMovement(ufo.getMovement().add(randomVector).normalize().multiply(5)); // increase speed
-
-                    ufo.move(); // Add this line to update the UFO's position
+                    // Update the UFO's movement direction every 1 second
+                    if (now - lastUfoUpdateTime >= 1_000_000_000L) {
+                        double randomDirection = random.nextDouble() * 2 * Math.PI;
+                        double ufoSpeed = 1.5; // adjust as needed
+                        Point2D randomVector = new Point2D(Math.cos(randomDirection), Math.sin(randomDirection)).normalize().multiply(ufoSpeed);
+                        ufo.setMovement(randomVector);
+                        lastUfoUpdateTime = now;
+                    }
 
                     // Make the UFO shoot projectiles if it's alive and canShootUFO is true
                     if (ufo.isAlive() && canShootUFO) {
                         // Create a new UFO projectile
-                        Projectile ufoProjectile = new Projectile((int) ufo.getCharacter().getTranslateX(), (int) ufo.getCharacter().getTranslateY(), Projectile.ProjectileOrigin.UFO);
+                        double angle = Math.toDegrees(ufo.calculateAngleBetweenUFOAndShip(ship));
+                        Projectile ufoProjectile = new Projectile((int) ufo.getCharacter().getTranslateX(), (int) ufo.getCharacter().getTranslateY(), angle, Projectile.ProjectileOrigin.UFO, Color.GREEN);
                         // Set the fill color to green
                         ufoProjectile.getCharacter().setFill(Color.GREEN);
 
                         // Set the rotation of the UFO projectile
-                        double angle = ufo.calculateAngleBetweenUFOAndShip(ship);
+                        double ufoToShipAngle = Math.toDegrees(ufo.calculateAngleBetweenUFOAndShip(ship));
+
                         ufoProjectile.getCharacter().setRotate(angle);
 
                         ufoProjectiles.add(ufoProjectile);
@@ -273,19 +279,21 @@ public class AsteroidsApplication extends Application {
                         Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(1.5), event -> canShootUFO = true));
                         timeline.play();
                     }
+                    ufo.move(); // Update the UFO's position
                 }
 
 
                 ufoProjectiles.forEach(projectile -> {
-                    ufo.move(); // Update the UFO's position
+                    projectile.move();
                 });
+
 
                 // Collision detection between the UFO projectiles and the ship
                 ufoProjectiles.forEach(projectile -> {
                     if (ship.getCharacter().getBoundsInParent().intersects(projectile.getCharacter().getBoundsInParent())) {
                         ship.death();
                         healthText.setText("Lives: " + ls.decrementAndGet());
-                        if (ship.health >0) {
+                        if (ship.health > 0) {
                             ship.alive = true;
                             ship.movement = new Point2D(0, 0);
                             ship.respawning();
@@ -309,8 +317,24 @@ public class AsteroidsApplication extends Application {
                     }
                 });
 
+                // Collision detection between the player's projectiles and the UFO
+                projectiles.forEach(projectile -> {
+                    if (ufoSpawned && ufo.isAlive() && projectile.getOrigin() == Projectile.ProjectileOrigin.SHIP && ufo.getCharacter().getBoundsInParent().intersects(projectile.getCharacter().getBoundsInParent())) {
+                        // Increase player's score by 5,000 points
+                        points.setText("Points: " + pts.addAndGet(5000));
 
-// remove projectiles that are off the screen
+                        // Destroy the UFO
+                        ufo.setAlive(false);
+                        ufo.getCharacter().setVisible(false);
+                        ufoSpawned = false;
+
+                        // Remove the projectile
+                        projectile.setAlive(false);
+                    }
+                });
+
+
+                // remove projectiles that are off the screen
                 projectiles.removeIf(projectile -> {
                     if (projectile.getCharacter().getTranslateX() < 0 ||
                             projectile.getCharacter().getTranslateX() > AsteroidsApplication.WIDTH ||
@@ -325,22 +349,15 @@ public class AsteroidsApplication extends Application {
                     return false;
                 });
 
-                // Collision detection between the UFO and the ship
+                // Existing UFO collision code
                 if (ufoSpawned && ufo.getCharacter().getBoundsInParent().intersects(ship.getCharacter().getBoundsInParent())) {
-                    ship.death();
+                    ship.health--; // Reduce ship health by 1
                     healthText.setText("Lives: " + ls.decrementAndGet());
-                    if (ship.health >0) {
-                        ship.alive = true;
-                        ship.movement = new Point2D(0, 0);
-                        ship.respawning();
-                    } else {
-
-                        //writes high score
-
-                        //hiscore.put(name, pts);
+                    if (ship.health <= 0) {
+                        // If the ship's health is 0 or less, end the game
                         stop();
 
-                        //game over scene switch
+                        // Game over scene switch
                         try {
                             hs.setpts(pts);
                             hs.start(GameOverScreen.classStage);
@@ -348,11 +365,15 @@ public class AsteroidsApplication extends Application {
                         } catch (Exception e) {
                             throw new RuntimeException(e);
                         }
-                    } // reduce ship health
+                    } else {
+                        // If the ship's health is still greater than 0, respawn the ship
+                        ship.movement = new Point2D(0, 0);
+                        ship.respawning();
+                    }
                 }
 
 
-// ensure that there are no more than three projectiles on the screen
+                // ensure that there are no more than three projectiles on the screen
                 if (projectiles.size() > 3) {
                     projectiles.subList(0, projectiles.size() - 3).clear();
                 }

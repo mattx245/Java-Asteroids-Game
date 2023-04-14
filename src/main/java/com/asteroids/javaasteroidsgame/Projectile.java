@@ -1,7 +1,6 @@
 package com.asteroids.javaasteroidsgame;
 
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
 import javafx.scene.shape.Polygon;
 
 public class Projectile extends Character {
@@ -14,7 +13,7 @@ public class Projectile extends Character {
     }
 
     public Projectile(int x, int y, double rotation, ProjectileOrigin origin) {
-        super(new Polygon(-1, 1, 1, 1, 0, -2), x, y); // Small triangle shape
+        super(origin == ProjectileOrigin.SHIP ? new Polygon(-1, 1, 1, 1, 0, -2) : new Polygon(-2, 2, 2, 2, 0, -4), x, y); // Larger triangle shape for UFO projectiles
         this.origin = origin;
         this.setAlive(true);
 
@@ -22,20 +21,21 @@ public class Projectile extends Character {
         this.getCharacter().setRotate(rotation);
 
         double radians = Math.toRadians(rotation);
-        double offsetX = 20 * Math.cos(radians);
-        double offsetY = 20 * Math.sin(radians);
+        double offsetX = 30 * Math.cos(radians);
+        double offsetY = 30 * Math.sin(radians);
 
         this.getCharacter().setTranslateX(x + offsetX);
         this.getCharacter().setTranslateY(y + offsetY);
 
-        this.shooting_distance = 100;
+        this.shooting_distance = 300;
     }
-    private ProjectileOrigin origin;
 
-    public Projectile(int x, int y, ProjectileOrigin origin) {
-        super(new Polygon(2, -2, 2, 2, -2, 2, -2, -2), x, y);
-        this.origin = origin;
+    public Projectile(int x, int y, double rotation, ProjectileOrigin origin, Color color) {
+        this(x, y, rotation, origin);
+        this.getCharacter().setFill(color);
     }
+
+    private ProjectileOrigin origin;
 
     public ProjectileOrigin getOrigin() {
         return origin;
@@ -43,8 +43,9 @@ public class Projectile extends Character {
 
     @Override
     public void move() {
-        if(shooting_distance < 1) {
+        if (shooting_distance < 1) {
             this.setAlive(false);
+            this.getCharacter().setVisible(false); // Hide the projectile when it's no longer alive
         } else {
             super.move();
             shooting_distance -= 1;
