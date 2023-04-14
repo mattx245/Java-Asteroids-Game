@@ -9,8 +9,5 @@
         <module name="Java-Asteroids-Game" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="Java-Asteroids-Game" target="19" />
-    </bytecodeTargetLevel>
   </component>
 </project>

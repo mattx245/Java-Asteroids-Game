@@ -85,8 +85,11 @@ public class AsteroidsApplication extends Application {
 
         //new ship from its own class
         //setting the position to center
-        Ship ship = new Ship(300, 200);
+        Ship ship = new Ship(WIDTH, HEIGHT);
         ship.setHealth(3);
+
+        //new UFO
+        UFO ufo = new UFO(WIDTH/10, HEIGHT/10);
         //adding the asteroids as a list
         List<Asteroid> asteroids = new ArrayList<>();
         for (int i = 0; i < 5; i++) {
@@ -95,6 +98,7 @@ public class AsteroidsApplication extends Application {
             asteroids.add(asteroid);
         }
 
+        pane.getChildren().add(ufo.getCharacter());
         pane.getChildren().add(ship.getCharacter());
         asteroids.forEach(asteroid -> pane.getChildren().add(asteroid.getCharacter()));
 
