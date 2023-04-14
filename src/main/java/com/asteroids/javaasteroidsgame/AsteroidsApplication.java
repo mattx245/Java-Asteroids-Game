@@ -90,6 +90,13 @@ public class AsteroidsApplication extends Application {
         pane.getChildren().add(vbox_level);
         vbox_level.setLayoutY(20);
         
+        // text for lives
+        AtomicInteger ls = new AtomicInteger();
+        ls.set(3);
+        Text healthText = new Text(200, 39, "Lives:" + ls);
+        healthText.setFont(Font.font(20));
+        healthText.setFill(Color.WHITE);
+        pane.getChildren().add(healthText);
         
         UFO ufo = new UFO(WIDTH / 3, HEIGHT / 3);
         pane.getChildren().add(ufo.getCharacter());
@@ -276,15 +283,20 @@ public class AsteroidsApplication extends Application {
                 // Collision detection between the UFO projectiles and the ship
                 ufoProjectiles.forEach(projectile -> {
                     if (ship.getCharacter().getBoundsInParent().intersects(projectile.getCharacter().getBoundsInParent())) {
-                        ship.setHealth(ship.getHealth() - 1); // reduce ship health
-                        projectile.setAlive(false);
+                        ship.death();
+                        healthText.setText("Lives: " + ls.decrementAndGet());
+                        if (ship.health >0) {
+                            ship.alive = true;
+                            ship.movement = new Point2D(0, 0);
+                            ship.respawning();
+                        } else {
 
-                        // Check if the ship has no more health left
-                        if (ship.getHealth() <= 0) {
-                            ship.setAlive(false);
+                            //writes high score
 
-                            // End the game and show the game over screen
+                            //hiscore.put(name, pts);
                             stop();
+
+                            //game over scene switch
                             try {
                                 hs.setpts(pts);
                                 hs.start(GameOverScreen.classStage);
@@ -292,7 +304,8 @@ public class AsteroidsApplication extends Application {
                             } catch (Exception e) {
                                 throw new RuntimeException(e);
                             }
-                        }
+                        } // reduce ship health
+                        projectile.setAlive(false);
                     }
                 });
 
@@ -314,17 +327,28 @@ public class AsteroidsApplication extends Application {
 
                 // Collision detection between the UFO and the ship
                 if (ufoSpawned && ufo.getCharacter().getBoundsInParent().intersects(ship.getCharacter().getBoundsInParent())) {
-                    ship.setAlive(false);
+                    ship.death();
+                    healthText.setText("Lives: " + ls.decrementAndGet());
+                    if (ship.health >0) {
+                        ship.alive = true;
+                        ship.movement = new Point2D(0, 0);
+                        ship.respawning();
+                    } else {
 
-                    // End the game and show the game over screen
-                    stop();
-                    try {
-                        hs.setpts(pts);
-                        hs.start(GameOverScreen.classStage);
-                        stage.close();
-                    } catch (Exception e) {
-                        throw new RuntimeException(e);
-                    }
+                        //writes high score
+
+                        //hiscore.put(name, pts);
+                        stop();
+
+                        //game over scene switch
+                        try {
+                            hs.setpts(pts);
+                            hs.start(GameOverScreen.classStage);
+                            stage.close();
+                        } catch (Exception e) {
+                            throw new RuntimeException(e);
+                        }
+                    } // reduce ship health
                 }
 
 
@@ -390,6 +414,7 @@ public class AsteroidsApplication extends Application {
                     if (ship.collide(asteroid)) {
                         asteroid.setAlive(false);
                         ship.death();
+                        healthText.setText("Lives: " + ls.decrementAndGet());
                         if (ship.health >0) {
                             ship.alive = true;
                             ship.movement = new Point2D(0, 0);
