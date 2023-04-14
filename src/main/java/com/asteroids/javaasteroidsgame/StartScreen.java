@@ -14,6 +14,8 @@ import java.io.IOException;
 
 public class StartScreen extends Application {
 
+    //creates variable for startscreen
+    static Stage classStage = new Stage();
 
     @Override
     public void start(Stage stage) throws IOException {
@@ -89,6 +91,9 @@ public class StartScreen extends Application {
         Scene scene2 = new Scene(scene,950,700);
         scene.setStyle("-fx-background-color:black");
         stage.setScene(scene2);
+
+        //assigns stage variable for call in startscreen
+        classStage = stage;
         stage.show();
 
 

@@ -35,14 +35,33 @@ public class HowToPlay extends Application {
         vbox.setSpacing(80); //Add space between the title and text
         vbox.setAlignment(Pos.CENTER);
 
-        //button to return to title
+        //button to return to start screen
         Button btn = new Button();
-        btn.setText("Title Screen");
+        btn.setText("Start Screen");
+
+        btn.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                StartScreen ss = new StartScreen();
+                try {
+                    ss.start(StartScreen.classStage);
+                    primaryStage.close();
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        });
+
+        vbox.getChildren().add(btn);
+        btn.setLayoutX(350);
+        btn.setLayoutY(800);
+        btn.setFont(Font.font(35));
 
         // Create a StackPane to get the vbox
         StackPane root = new StackPane();
         root.setStyle("-fx-background-color: black");
         root.getChildren().add(vbox);
+
 
 
         Scene scene = new Scene(root, 950, 700);
