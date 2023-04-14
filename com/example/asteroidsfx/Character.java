@@ -1,24 +1,25 @@
-package com.example.asteroidsfx;
 
 import javafx.geometry.Point2D;
 import javafx.scene.shape.Polygon;
 //collision import
 import javafx.scene.shape.Shape;
+import javafx.scene.paint.Color;
 
 public abstract class Character {
 
     //declaring the characters are polygons
     private Polygon character;
     //movement variable
-    private Point2D movement;
+    public Point2D movement;
     //alive tracker variable
-    private boolean alive;
+    public boolean alive;
 
     public Character(Polygon polygon, int x, int y) {
         this.character = polygon;
-        this.character.setTranslateX(x);
-        this.character.setTranslateY(y);
+        this.character.setTranslateX(x/2);
+        this.character.setTranslateY(y/2);
         this.alive = true;
+        this.character.setFill(Color.WHITE);
 
         this.movement = new Point2D(0, 0);
     }
@@ -32,6 +33,10 @@ public abstract class Character {
         this.character.setRotate(this.character.getRotate() - 5);
     }
 
+    public void setFill(Color color){
+        this.character.setFill(color);
+    }
+
     public void turnRight() {
         this.character.setRotate(this.character.getRotate() + 5);
     }
@@ -43,21 +48,22 @@ public abstract class Character {
 
         //making so the character stays on screen by reentering on the other side
         if (this.character.getTranslateX() < 0) {
-            this.character.setTranslateX(this.character.getTranslateX() + AsteroidsApplication.WIDTH);
+            this.character.setTranslateX(this.character.getTranslateX() + Game.WIDTH);
         }
 
-        if (this.character.getTranslateX() > AsteroidsApplication.WIDTH) {
-            this.character.setTranslateX(this.character.getTranslateX() % AsteroidsApplication.WIDTH);
+        if (this.character.getTranslateX() > Game.WIDTH) {
+            this.character.setTranslateX(this.character.getTranslateX() % Game.WIDTH);
         }
 
         if (this.character.getTranslateY() < 0) {
-            this.character.setTranslateY(this.character.getTranslateY() + AsteroidsApplication.HEIGHT);
+            this.character.setTranslateY(this.character.getTranslateY() + Game.HEIGHT);
         }
 
-        if (this.character.getTranslateY() > AsteroidsApplication.HEIGHT) {
-            this.character.setTranslateY(this.character.getTranslateY() % AsteroidsApplication.HEIGHT);
+        if (this.character.getTranslateY() > Game.HEIGHT) {
+            this.character.setTranslateY(this.character.getTranslateY() % Game.HEIGHT);
         }
-        //The size of the character is not taken into account, so its x- or y -coordinates can be outside of the screen,
+        //The size of the character is not taken into account,
+        // so its x- or y -coordinates can be outside of the screen,
         // even if part of the character stays visible.
         // We can —probably— solve this problem with the getBoundsInParent-method of the Node -class. (mooc.fi)
     }
@@ -101,5 +107,11 @@ public abstract class Character {
 
     public boolean isAlive() {
         return this.alive;
+    }
+
+    public void respawning(){
+        this.character.setTranslateX(300);
+        this.character.setTranslateY(200);
+
     }
 }
