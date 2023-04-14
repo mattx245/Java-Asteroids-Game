@@ -5,6 +5,9 @@ import javafx.scene.shape.Circle;
 import javafx.scene.shape.Polygon;
 
 public class Projectile extends Character {
+
+    private int shooting_distance;
+
     public enum ProjectileOrigin {
         SHIP,
         UFO
@@ -24,6 +27,8 @@ public class Projectile extends Character {
 
         this.getCharacter().setTranslateX(x + offsetX);
         this.getCharacter().setTranslateY(y + offsetY);
+
+        this.shooting_distance = 100;
     }
     private ProjectileOrigin origin;
 
@@ -34,5 +39,15 @@ public class Projectile extends Character {
 
     public ProjectileOrigin getOrigin() {
         return origin;
+    }
+
+    @Override
+    public void move() {
+        if(shooting_distance < 1) {
+            this.setAlive(false);
+        } else {
+            super.move();
+            shooting_distance -= 1;
+        }
     }
 }
