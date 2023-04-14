@@ -1,0 +1,19 @@
+Scenes:
+
+Scene               | Responsible member 
+----------------------------------------------
+Play Game           | Florian Lechner
+High Scores         | MAtthew
+Game Over           | Ronan
+How to Play         | Yiming Liu
+Change Name         | Anita Salopek
+
+Coding parts               | Responsible member 
+----------------------------------------------
+Scene changes + highscores and points system (10000 for extra life) | Matthew
+Asteroid changes, break animation, and creation of smaller ones | Florian
+UFO                        | Ronan
+ship shooting, dying, flying | Anita
+spawning elements + levels + coordinates of where to spawn| Yiming
+
+
