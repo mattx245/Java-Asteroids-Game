@@ -201,7 +201,6 @@ public class AsteroidsApplication extends Application {
                     asteroids.forEach(asteroid -> {
                         if(projectile.collide(asteroid)) {
                             projectile.setAlive(false);
-                            points.setText("Points: " + pts.addAndGet(1000));
                             if (!asteroid.getSize().equals("small")) {
                                 newAsteroids.add(asteroid.createSmallerAsteroid());
                                 newAsteroids.add(asteroid.createSmallerAsteroid());
@@ -209,6 +208,9 @@ public class AsteroidsApplication extends Application {
                             asteroid.setAlive(false);
                         }
                     });
+                    if(!projectile.isAlive()) {
+                        points.setText("Points: " + pts.addAndGet(1000));
+                    }
                 });
 
                 // Add new asteroids to game
