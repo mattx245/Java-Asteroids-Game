@@ -15,7 +15,7 @@ public class Asteroid extends Character {
         size = "large";
 
         setColor();
-        double initialSpeed = 0.5 + RANDOM.nextDouble() * 0.5;
+        double initialSpeed = 0.25 + RANDOM.nextDouble() * 0.5;
         double angle = RANDOM.nextDouble() * 2 * Math.PI;
         setMovement(new Point2D(Math.cos(angle) * initialSpeed, Math.sin(angle) * initialSpeed));
     }
@@ -66,11 +66,11 @@ public class Asteroid extends Character {
         if (size.equals("medium")) { //try: getSize() == "medium"
             getCharacter().setScaleX(0.5);
             getCharacter().setScaleY(0.5);
-            newSpeed = 0.75 + RANDOM.nextDouble() * 1;
+            newSpeed = 0.5 + RANDOM.nextDouble() * 0.75;
         } else {
             getCharacter().setScaleX(0.25);
             getCharacter().setScaleY(0.25);
-            newSpeed = 1 + RANDOM.nextDouble() * 1.5;
+            newSpeed = 0.75 + RANDOM.nextDouble() * 1.25;
         }
         double angle = RANDOM.nextDouble() * 2 * Math.PI;
         setMovement(new Point2D(Math.cos(angle) * newSpeed, Math.sin(angle) * newSpeed));
