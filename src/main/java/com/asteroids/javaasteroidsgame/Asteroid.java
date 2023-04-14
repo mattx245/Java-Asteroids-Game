@@ -45,13 +45,15 @@ public class Asteroid extends Character {
         return polygon;
     }
 
-    /*@Override
-    public void setAlive(boolean alive) {
-        if(!alive) {
-           //
+    public int getPoints(){
+        if(size.equals("large")) {
+            return 20;
+        } else if (size.equals("medium")) {
+            return 50;
+        } else {
+            return 100;
         }
-        super.setAlive(alive);
-    }*/
+    }
 
     public String getSize() {
         return size;
