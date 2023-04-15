@@ -105,6 +105,8 @@ public class AsteroidsApplication extends Application {
         pane.getChildren().add(ufo.getCharacter());
         ufo.getCharacter().setVisible(false);
 
+        // Sounds
+        Sounds sounds = new Sounds();
 
         //old ship
         //Polygon ship = new Polygon(0,0,-10,20,10,20);
@@ -115,7 +117,7 @@ public class AsteroidsApplication extends Application {
 
         //new ship from its own class
         //setting the position to center
-        Ship ship = new Ship(300, 200);
+        Ship ship = new Ship(WIDTH / 2, HEIGHT / 2, sounds);
         ship.setHealth(3);
         //adding the asteroids as a list
         List<Asteroid> asteroids = new ArrayList<>();
@@ -123,7 +125,7 @@ public class AsteroidsApplication extends Application {
         List<Projectile> ufoProjectiles = new ArrayList<>();
         for (int i = 0; i < 1; i++) {
             Random rnd = new Random();
-            Asteroid asteroid = new Asteroid(rnd.nextInt(WIDTH / 3), rnd.nextInt(HEIGHT));
+            Asteroid asteroid = new Asteroid(rnd.nextInt(WIDTH / 3), rnd.nextInt(HEIGHT), sounds);
             asteroids.add(asteroid);
         }
 
@@ -190,15 +192,18 @@ public class AsteroidsApplication extends Application {
                 }
 
                 if (pressedKeys.getOrDefault(KeyCode.UP, false)) {
+                    sounds.playSound("thrust");
                     ship.accelerate();
                 }
                 if (pressedKeys.getOrDefault(KeyCode.DOWN, false)) {
+                    sounds.playSound("thrust");
                     ship.reverse();
                 }
                 //adding projectiles
                 // shoot only if there are less than three projectiles on the screen
                 if (pressedKeys.getOrDefault(KeyCode.SPACE, false) && projectiles.size() < 3 && canShoot) {
                     // Inside the AnimationTimer where the ship shoots
+                    sounds.playSound("fire");
                     Projectile projectile = new Projectile((int) ship.getCharacter().getTranslateX(), (int) ship.getCharacter().getTranslateY(), ship.getCharacter().getRotate(), Projectile.ProjectileOrigin.SHIP);
                     projectile.getCharacter().setRotate(ship.getCharacter().getRotate());
                     projectiles.add(projectile);
@@ -211,7 +216,7 @@ public class AsteroidsApplication extends Application {
 
                     // Set canShoot to false and start a 1-second delay before enabling shooting again
                     canShoot = false;
-                    Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(1), event -> canShoot = true));
+                    Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(0.3), event -> canShoot = true));
                     timeline.play();
                 }
 
@@ -220,6 +225,7 @@ public class AsteroidsApplication extends Application {
                     if (!ufoSpawned) {
                         // if the UFO has not entered the screen yet, move it to the right edge of the screen
                         if (!ufoEntered) {
+                            sounds.playSound("saucer");
                             ufo.getCharacter().setTranslateX(WIDTH);
                             ufo.getCharacter().setTranslateY(new Random().nextInt(HEIGHT));
                             ufoEntered = true;
@@ -420,7 +426,7 @@ public class AsteroidsApplication extends Application {
                 while (asteroids.size() == 0) {
                     for (int i = 0; i < level+1; i++) {
                         Random rnd = new Random();
-                        Asteroid asteroid = new Asteroid(rnd.nextInt(WIDTH / 3), rnd.nextInt(HEIGHT));
+                        Asteroid asteroid = new Asteroid(rnd.nextInt(WIDTH / 3), rnd.nextInt(HEIGHT), sounds);
                         asteroids.add(asteroid);
                     }
                     asteroids.forEach(asteroid -> pane.getChildren().add(asteroid.getCharacter()));

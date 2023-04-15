@@ -27,7 +27,7 @@ public class Projectile extends Character {
         this.getCharacter().setTranslateX(x + offsetX);
         this.getCharacter().setTranslateY(y + offsetY);
 
-        this.shooting_distance = 300;
+        this.shooting_distance = 200;
     }
 
     public Projectile(int x, int y, double rotation, ProjectileOrigin origin, Color color) {

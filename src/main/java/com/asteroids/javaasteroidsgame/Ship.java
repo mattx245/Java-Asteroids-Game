@@ -16,14 +16,16 @@ import javafx.scene.shape.Polygon;
 
 public class Ship extends Character {
     public int health;
-    public Ship(int x, int y) {
+    private Sounds sounds;
+    public Ship(int x, int y, Sounds sounds) {
 
         super(new Polygon( 0, 20,
                 8, -2,
                 1, 0,
                 -1, 0,
                 -8, -2), x, y);
-
+        setWhiteStroke();
+        this.sounds = sounds;
 
     }
     public int getHealth() {
@@ -35,6 +37,7 @@ public class Ship extends Character {
     }
 
     public void death() {
+        sounds.playSound("beat");
         this.health = this.health-1;
     }
 }

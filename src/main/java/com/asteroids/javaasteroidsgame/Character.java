@@ -20,11 +20,16 @@ public abstract class Character {
         this.character.setTranslateX(x);
         this.character.setTranslateY(y);
         this.alive = true;
-        this.character.setFill(Color.WHITE);
+        //this.character.setFill(Color.WHITE);
 
         this.movement = new Point2D(0, 0);
     }
 
+    public void setWhiteStroke() {
+        getCharacter().setFill(Color.TRANSPARENT);
+        getCharacter().setStroke(Color.WHITE);
+        getCharacter().setStrokeWidth(2.0);
+    }
 
     public Polygon getCharacter() {
         return character;
