@@ -40,4 +40,32 @@ public class Ship extends Character {
         sounds.playSound("beat");
         this.health = this.health-1;
     }
+    public boolean ship_collides() {
+        for (Character character : characters) {
+            if (character != this && character.collide(this)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void hyperspaceJump() {
+        boolean valid = false;
+        int newX, newY;
+        while (!valid){
+            newX = (int)(Math.random() * 950);
+            newY = (int)(Math.random() * 700);
+            if ((!new Ship(newX,newY).ship_collides())&&(!new Ship(newX+40,newY).ship_collides())&&(!new Ship(newX-40,newY).ship_collides())&&(!new Ship(newX,newY-40).ship_collides())&&(!new Ship(newX,newY+40).ship_collides()) ){
+                valid = true;
+                this.movement = new Point2D(0, 0);
+                // Set the position of the player's ship to the new location
+                this.character.setTranslateX(newX);
+                this.character.setTranslateY(newY);
+
+            }
+        }
+    }
+    public void respawning(){
+        this.hyperspaceJump();
+    }
 }
