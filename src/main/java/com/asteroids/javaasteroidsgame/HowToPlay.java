@@ -35,9 +35,13 @@ public class HowToPlay extends Application {
         vbox.setSpacing(80); //Add space between the title and text
         vbox.setAlignment(Pos.CENTER);
 
+        // Button style
+        String buttonStyle = "-fx-background-color: #000000; -fx-text-fill: #FFFFFF; -fx-border-color: #FFFFFF; -fx-border-width: 2; -fx-font-family: Monospace; -fx-font-size: 24;";
+
         //button to return to start screen
         Button btn = new Button();
         btn.setText("Start Screen");
+        btn.setStyle(buttonStyle);
 
         btn.setOnAction(new EventHandler<ActionEvent>() {
             @Override

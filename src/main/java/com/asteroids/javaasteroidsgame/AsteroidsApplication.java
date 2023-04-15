@@ -31,6 +31,9 @@ import javafx.util.Duration;
 
 
 
+
+
+
 //created following the mooc.fi tutorial: https://java-programming.mooc.fi/part-14/3-larger-application-asteroids
 public class AsteroidsApplication extends Application {
 
@@ -80,7 +83,7 @@ public class AsteroidsApplication extends Application {
         vbox_points.setPrefWidth(WIDTH);
         pane.getChildren().add(vbox_points);
         vbox_points.setLayoutY(20);
-        
+
         // text for level
         Text levelText = new Text(6, 20, "Level: 1");
         levelText.setFont(Font.font(20));
@@ -89,7 +92,7 @@ public class AsteroidsApplication extends Application {
         vbox_level.setPrefWidth(WIDTH);
         pane.getChildren().add(vbox_level);
         vbox_level.setLayoutY(20);
-        
+
         // text for lives
         AtomicInteger ls = new AtomicInteger();
         ls.set(3);
@@ -97,7 +100,7 @@ public class AsteroidsApplication extends Application {
         healthText.setFont(Font.font(20));
         healthText.setFill(Color.WHITE);
         pane.getChildren().add(healthText);
-        
+
         UFO ufo = new UFO(WIDTH / 3, HEIGHT / 3);
         pane.getChildren().add(ufo.getCharacter());
         ufo.getCharacter().setVisible(false);

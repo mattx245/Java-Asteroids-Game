@@ -61,11 +61,15 @@ public class GameOverScreen extends Application {
             highScoresText.setText(highScoresText.getText() + score + "\n");
         }
 
+        // Button style
+        String buttonStyle = "-fx-background-color: #000000; -fx-text-fill: #FFFFFF; -fx-border-color: #FFFFFF; -fx-border-width: 2; -fx-font-family: Monospace; -fx-font-size: 24;";
+
+
         // Play again button which should bring the player back into the game
         Button btn = new Button();
         btn.setText("Play Again?");
         btn.setFont(Font.font("Bauhaus 93"));
-        btn.setStyle("-fx-background-color: black; -fx-text-fill: white; -fx-font-size: 20pt; -fx-padding: 20px 20px;");
+        btn.setStyle(buttonStyle);
         btn.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
@@ -78,7 +82,7 @@ public class GameOverScreen extends Application {
         // Change name button which should give the player the option to change their name
         Button changeNameBtn = new Button();
         changeNameBtn.setText("Change Name");
-        changeNameBtn.setStyle("-fx-background-color: black; -fx-font-family: 'Digital-7'; -fx-text-fill: white; -fx-font-size: 20pt; -fx-padding: 20px 20px;");
+        btn.setStyle(buttonStyle);
         changeNameBtn.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
@@ -91,7 +95,7 @@ public class GameOverScreen extends Application {
         // High Score button that should show the player the stats of the high scores associated with the names of every player
         Button highScoresBtn = new Button();
         highScoresBtn.setText("High Scores");
-        highScoresBtn.setStyle("-fx-background-color: black; -fx-text-fill: white; -fx-font-size: 20pt; -fx-padding: 20px 20px;");
+        btn.setStyle(buttonStyle);
         highScoresBtn.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
