@@ -55,7 +55,7 @@ public class Ship extends Character {
         while (!valid){
             newX = (int)(Math.random() * 950);
             newY = (int)(Math.random() * 700);
-            if ((!new Ship(newX,newY).ship_collides())&&(!new Ship(newX+40,newY).ship_collides())&&(!new Ship(newX-40,newY).ship_collides())&&(!new Ship(newX,newY-40).ship_collides())&&(!new Ship(newX,newY+40).ship_collides()) ){
+            if ((!new Ship(newX,newY, sounds).ship_collides())&&(!new Ship(newX+40,newY, sounds).ship_collides())&&(!new Ship(newX-40,newY, sounds).ship_collides())&&(!new Ship(newX,newY-40, sounds).ship_collides())&&(!new Ship(newX,newY+40, sounds).ship_collides()) ){
                 valid = true;
                 this.movement = new Point2D(0, 0);
                 // Set the position of the player's ship to the new location
