@@ -11,15 +11,33 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.scene.shape.Circle;
+import java.util.Random;
+
 
 public class StartScreen extends Application {
 
     static Stage classStage = new Stage();
 
+    private void createStars(Pane pane, int numStars) {
+        Random random = new Random();
+
+        for (int i = 0; i < numStars; i++) {
+            double x = random.nextDouble() * pane.getPrefWidth();
+            double y = random.nextDouble() * pane.getPrefHeight();
+            double radius = 1 + random.nextDouble() * 2;
+
+            Circle star = new Circle(x, y, radius, Color.WHITE);
+            pane.getChildren().add(star);
+        }
+    }
+
+
     @Override
     public void start(Stage stage) {
         Pane pane = new Pane();
-        pane.setPrefSize(950, 700);
+        pane.setPrefSize(1280, 720);
+        createStars(pane, 200);
 
         // Game title
         Text title = new Text("Asteroids!");
@@ -42,12 +60,12 @@ public class StartScreen extends Application {
         buttonContainer.setLayoutY(250);
 
         // Button style
-        String buttonStyle = "-fx-background-color: #000000; -fx-text-fill: #FFFFFF; -fx-border-color: #FFFFFF; -fx-border-width: 2; -fx-font-family: Monospace; -fx-font-size: 24;";
+        String buttonStyle = "-fx-background-color: #000000; -fx-text-fill: #FFFFFF; -fx-border-color: #FFFFFF; -fx-border-width: 2; -fx-font-family: Monospace; -fx-font-size: 24; -fx-pref-height: 60;";
 
         // Start game button
         Button btn = new Button("Start Game");
         btn.setStyle(buttonStyle);
-        btn.setPrefWidth(200);
+        btn.setPrefWidth(300);
 
         btn.setOnAction(actionEvent -> {
             AsteroidsApplication game = new AsteroidsApplication();
@@ -62,7 +80,7 @@ public class StartScreen extends Application {
         // High score button
         Button btn2 = new Button("High Score");
         btn2.setStyle(buttonStyle);
-        btn2.setPrefWidth(200);
+        btn2.setPrefWidth(300);
 
         btn2.setOnAction(actionEvent -> {
             HighScore hs = new HighScore();
@@ -77,7 +95,7 @@ public class StartScreen extends Application {
         // How to play button
         Button btn3 = new Button("How to Play");
         btn3.setStyle(buttonStyle);
-        btn3.setPrefWidth(200);
+        btn3.setPrefWidth(300);
 
         btn3.setOnAction(actionEvent -> {
             HowToPlay htp = new HowToPlay();
@@ -91,6 +109,11 @@ public class StartScreen extends Application {
 
         // Add buttons to the container
         buttonContainer.getChildren().addAll(btn, btn2, btn3);
+
+        // Background: creates 200 stars randomly distributed across the pane
+        pane.setPrefSize(1280, 720);
+        createStars(pane, 200); // The second parameter is the number of stars
+
 
         // Set up the scene
         pane.getChildren().addAll(title, subheading, buttonContainer);
