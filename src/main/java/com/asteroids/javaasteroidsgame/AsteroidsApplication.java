@@ -219,6 +219,9 @@ public class AsteroidsApplication extends Application {
                     Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(0.3), event -> canShoot = true));
                     timeline.play();
                 }
+                if (pressedKeys.getOrDefault(KeyCode.J ,false)) {
+                    ship.hyperspaceJump();
+                }
 
                 // UFO behavior
                 if (now - lastSpawnTime >= 5_000_000_000L) {
