@@ -1,11 +1,8 @@
 package com.asteroids.javaasteroidsgame;
 
-import javafx.animation.Interpolatable;
 import javafx.application.Application;
-import javafx.application.Platform;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.TextInputDialog;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
@@ -14,16 +11,15 @@ import javafx.stage.Stage;
 import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
 //imports for the animation of turning
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.*;
-
+import java.util.HashMap;
 import javafx.animation.AnimationTimer;
+import java.util.Map;
 //movement imports
 import javafx.geometry.Point2D;
 //array of asteroids imports
+import java.util.Random;
+import java.util.ArrayList;
+import java.util.List;
 //projectiles removing asteroids
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
@@ -66,15 +62,9 @@ public class AsteroidsApplication extends Application {
     HighScore hs = new HighScore();
     private AtomicInteger pts = new AtomicInteger();
 
-    //high score hashmap nd filepath
-    final static String outputpath = "score.txt";
-    HashMap<String, AtomicInteger> map = new HashMap<String, AtomicInteger>();
-
-    //name for high score and setter
-    String name;
-    public void setName (String nm)  {
-        this.name = nm;
-    }
+//    public AtomicInteger getpoints(){
+//        return pts;
+//    }
 
     int level = 1; //initialize level
     @Override
@@ -368,37 +358,13 @@ public class AsteroidsApplication extends Application {
                     healthText.setText("Lives: " + ls.decrementAndGet());
                     if (ship.health <= 0) {
                         // If the ship's health is 0 or less, end the game
+                        stop();
 
                         // Game over scene switch
                         try {
-                            //popup box asking for name
-                            Platform.runLater(() -> {
-                                stop();
-                                TextInputDialog dialog = new TextInputDialog();
-                                dialog.setTitle("Enter name here: ");
-                                dialog.showAndWait().ifPresent(string -> setName(string));
-
-                                //write name and points to hashmap
-                                map.put(name, pts);
-                                File file = new File(outputpath);
-                                BufferedWriter bf = null;
-                                try {
-                                    bf = new BufferedWriter(new FileWriter(file));
-                                    for (Map.Entry<String, AtomicInteger> entry:
-                                            map.entrySet()) {
-                                        bf.write(entry.getKey() + ":" + entry.getValue());
-                                        bf.newLine();
-                                    }
-                                    bf.flush();
-                                } catch (IOException e) {
-                                    e.printStackTrace();
-                                }
-
-                                //high score screen
-                                hs.setpts(pts);
-                                hs.start(HighScore.classStage);
-                                stage.close();
-                            });
+                            hs.setpts(pts);
+                            hs.start(GameOverScreen.classStage);
+                            stage.close();
                         } catch (Exception e) {
                             throw new RuntimeException(e);
                         }
@@ -478,43 +444,19 @@ public class AsteroidsApplication extends Application {
                             ship.movement = new Point2D(0, 0);
                             ship.respawning();
                         } else {
-                            if (ship.health <= 0) {
-                                // If the ship's health is 0 or less, end the game
 
+                            //writes high score
 
-                                // Game over scene switch
-                                try {
-                                    //popup box asking for name
-                                    Platform.runLater(() -> {
-                                        stop();
-                                        TextInputDialog dialog = new TextInputDialog();
-                                        dialog.setTitle("Enter name here: ");
-                                        dialog.showAndWait().ifPresent(string -> setName(string));
+                            //hiscore.put(name, pts);
+                            stop();
 
-                                        //write name and points to hashmap
-                                        map.put(name, pts);
-                                        File file = new File(outputpath);
-                                        BufferedWriter bf = null;
-                                        try {
-                                            bf = new BufferedWriter(new FileWriter(file));
-                                            for (Map.Entry<String, AtomicInteger> entry:
-                                            map.entrySet()) {
-                                                bf.write(entry.getKey() + ":" + entry.getValue());
-                                                bf.newLine();
-                                            }
-                                            bf.flush();
-                                        } catch (IOException e) {
-                                            e.printStackTrace();
-                                        }
-
-                                        //high score screen
-                                        hs.setpts(pts);
-                                        hs.start(HighScore.classStage);
-                                        stage.close();
-                                    });
-                                } catch (Exception e) {
-                                    throw new RuntimeException(e);
-                                }
+                            //game over scene switch
+                            try {
+                                hs.setpts(pts);
+                                hs.start(GameOverScreen.classStage);
+                                stage.close();
+                            } catch (Exception e) {
+                                throw new RuntimeException(e);
                             }
                         }
                     }
