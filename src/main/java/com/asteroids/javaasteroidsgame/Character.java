@@ -5,15 +5,18 @@ import javafx.scene.shape.Polygon;
 import javafx.scene.paint.Color;
 //collision import
 import javafx.scene.shape.Shape;
+import java.util.List;
+import java.util.ArrayList;
 
 public abstract class Character {
 
     //declaring the characters are polygons
-    private Polygon character;
+    public Polygon character;
     //movement variable
     public Point2D movement;
     //alive tracker variable
     public boolean alive;
+    public List<Character> characters = new ArrayList<>();
 
     public Character(Polygon polygon, int x, int y) {
         this.character = polygon;
@@ -23,6 +26,7 @@ public abstract class Character {
         //this.character.setFill(Color.WHITE);
 
         this.movement = new Point2D(0, 0);
+        characters.add(this);
     }
 
     public void setWhiteStroke() {
@@ -111,9 +115,5 @@ public abstract class Character {
         return this.alive;
     }
 
-    public void respawning(){
-        this.character.setTranslateX(300);
-        this.character.setTranslateY(200);
-
-    }
+    
 }
