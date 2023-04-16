@@ -79,7 +79,7 @@ public class AsteroidsApplication extends Application {
     public void setName (String nm)  {
         this.name = nm;
     }
-
+    private int respawnSafe = 0;
     int level = 1; //initialize level
     @Override
     public void start(Stage stage) throws Exception {
@@ -230,7 +230,7 @@ public class AsteroidsApplication extends Application {
                     timeline.play();
                 }
                 if (pressedKeys.getOrDefault(KeyCode.J, false)) {
-                    ship.hyperspaceJump();
+                    respawnSafe = ship.hyperspaceJump();
                 }
 
                 // UFO behavior
@@ -389,7 +389,7 @@ public class AsteroidsApplication extends Application {
                 });
 
                 // UFO collision code
-                if (ufoSpawned && ufo.getCharacter().getBoundsInParent().intersects(ship.getCharacter().getBoundsInParent())) {
+                if (ufoSpawned && ufo.getCharacter().getBoundsInParent().intersects(ship.getCharacter().getBoundsInParent()) && respawnSafe < 1) {
                     ship.death(); // Reduce ship health by 1
                     ship.fallingApart().forEach(fallingLine -> fallingLines.add(fallingLine));
                     healthText.setText("Lives: " + ls.decrementAndGet());
@@ -432,7 +432,7 @@ public class AsteroidsApplication extends Application {
                     } else {
                         // If the ship's health is still greater than 0, respawn the ship
                         ship.movement = new Point2D(0, 0);
-                        ship.respawning();
+                        respawnSafe = ship.respawning();
                     }
                 }
 
@@ -496,7 +496,7 @@ public class AsteroidsApplication extends Application {
                 projectiles.forEach(projectile -> projectile.move());
 
                 asteroids.forEach(asteroid -> {
-                    if (ship.collide(asteroid)) {
+                    if (ship.collide(asteroid) && respawnSafe < 1) {
                         asteroid.setAlive(false);
                         ship.death();
                         ship.fallingApart().forEach(fallingLine -> fallingLines.add(fallingLine));
@@ -504,7 +504,7 @@ public class AsteroidsApplication extends Application {
                         if (ship.health >0) {
                             ship.alive = true;
                             ship.movement = new Point2D(0, 0);
-                            ship.respawning();
+                            respawnSafe = ship.respawning();
                         } else {
                             //game over scene switch
                             try {
@@ -559,6 +559,7 @@ public class AsteroidsApplication extends Application {
                         .filter(fallingLine -> !fallingLine.isAlive())
                         .collect(Collectors.toList()));
 
+                respawnSafe--;
             }
         }.start();
 

@@ -19,6 +19,7 @@ import javafx.scene.shape.Polygon;
 public class Ship extends Character {
     public int health;
     private Sounds sounds;
+    private int respawnSafe;
     public Ship(int x, int y, Sounds sounds) {
         super(new Polygon( 0, 1,
                 -2, 8,
@@ -29,6 +30,7 @@ public class Ship extends Character {
         setWhiteStroke();
         this.getCharacter().setFill(Color.BLACK);
         this.sounds = sounds;
+        this.respawnSafe = 0;
 
     }
     public int getHealth() {
@@ -41,7 +43,7 @@ public class Ship extends Character {
 
     public void death() {
         sounds.playSound("beat");
-        this.health = this.health-1;
+        this.health = this.health - 1;
     }
     public boolean ship_collides() {
         for (Character character : characters) {
@@ -52,9 +54,10 @@ public class Ship extends Character {
         return false;
     }
 
-    public void hyperspaceJump() {
+    public int hyperspaceJump() {
         boolean valid = false;
         int newX, newY;
+        this.respawnSafe = 100;
         while (!valid){
             newX = (int)(Math.random() * 950);
             newY = (int)(Math.random() * 700);
@@ -67,24 +70,42 @@ public class Ship extends Character {
 
             }
         }
+        return this.respawnSafe;
     }
-    public void respawning(){
+    public int respawning(){
         this.hyperspaceJump();
+        return this.respawnSafe;
     }
-    
+
+    @Override
+    public void move() {
+        this.respawnSafe--;
+        if(this.respawnSafe > 1) {
+            if(this.respawnSafe % 16 == 0) {
+                this.getCharacter().setStroke(Color.BLACK);
+            }
+            else if(this.respawnSafe % 8 == 0) {
+                this.getCharacter().setStroke(Color.WHITE);
+            }
+        }
+        super.move();
+    }
+
     public List<FallingLines> fallingApart(){
-        int x_ship = (int) this.getCharacter().getTranslateX();
-        int y_ship = (int) this.getCharacter().getTranslateY();
-        Point2D movement_ship = this.getMovement();
-
         List<FallingLines> fallingLines = new ArrayList<>();
-        // Line 1
-        fallingLines.add(new FallingLines(new Polygon(-2, 8, 20, 0), x_ship+2, y_ship-8, movement_ship));
-        // Line 2
-        fallingLines.add(new FallingLines(new Polygon(-2, -8, 20, 0), x_ship+2, y_ship+8, movement_ship));
-        // Line 3
-        fallingLines.add(new FallingLines(new Polygon(-2, -8, -2, 8), x_ship+20, y_ship, movement_ship));
+        if(this.respawnSafe < 1) {
+            int x_ship = (int) this.getCharacter().getTranslateX();
+            int y_ship = (int) this.getCharacter().getTranslateY();
+            Point2D movement_ship = this.getMovement();
 
+
+            // Line 1
+            fallingLines.add(new FallingLines(new Polygon(-2, 8, 20, 0), x_ship + 2, y_ship - 8, movement_ship));
+            // Line 2
+            fallingLines.add(new FallingLines(new Polygon(-2, -8, 20, 0), x_ship + 2, y_ship + 8, movement_ship));
+            // Line 3
+            fallingLines.add(new FallingLines(new Polygon(-2, -8, -2, 8), x_ship + 20, y_ship, movement_ship));
+        }
         return fallingLines;
     }
 }
