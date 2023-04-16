@@ -4,6 +4,8 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
 import javafx.geometry.Point2D;
 import java.lang.Math;
+import java.util.ArrayList;
+import java.util.List;
 
 //Classes like Polygon and Circle inherit the Node class of JavaFx.
 // The Node class has a variable rotate, which describes the rotation of the node in degrees.
@@ -24,11 +26,6 @@ public class Ship extends Character {
                 -2, -8,
                 0, -1), x, y);
 
-        /*super(new Polygon( 0, 20,
-                8, -2,
-                1, 0,
-                -1, 0,
-                -8, -2), x, y);*/
         setWhiteStroke();
         this.getCharacter().setFill(Color.BLACK);
         this.sounds = sounds;
@@ -73,5 +70,21 @@ public class Ship extends Character {
     }
     public void respawning(){
         this.hyperspaceJump();
+    }
+    
+    public List<FallingLines> fallingApart(){
+        int x_ship = (int) this.getCharacter().getTranslateX();
+        int y_ship = (int) this.getCharacter().getTranslateY();
+        Point2D movement_ship = this.getMovement();
+
+        List<FallingLines> fallingLines = new ArrayList<>();
+        // Line 1
+        fallingLines.add(new FallingLines(new Polygon(-2, 8, 20, 0), x_ship+2, y_ship-8, movement_ship));
+        // Line 2
+        fallingLines.add(new FallingLines(new Polygon(-2, -8, 20, 0), x_ship+2, y_ship+8, movement_ship));
+        // Line 3
+        fallingLines.add(new FallingLines(new Polygon(-2, -8, -2, 8), x_ship+20, y_ship, movement_ship));
+
+        return fallingLines;
     }
 }

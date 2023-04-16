@@ -165,6 +165,9 @@ public class AsteroidsApplication extends Application {
             pressedKeys.put(event.getCode(), Boolean.FALSE);
         });
 
+        // FallingLines:
+        List<FallingLines> fallingLines = new ArrayList<>();
+
         new AnimationTimer() {
 
             private long lastSpawnTime = System.nanoTime();
@@ -373,7 +376,8 @@ public class AsteroidsApplication extends Application {
 
                 // UFO collision code
                 if (ufoSpawned && ufo.getCharacter().getBoundsInParent().intersects(ship.getCharacter().getBoundsInParent())) {
-                    ship.health--; // Reduce ship health by 1
+                    ship.death(); // Reduce ship health by 1
+                    ship.fallingApart().forEach(fallingLine -> fallingLines.add(fallingLine));
                     healthText.setText("Lives: " + ls.decrementAndGet());
                     sounds.playSound("large"); // Explosion sound when ship and UFO collide
                     if (ship.health <= 0) {
@@ -458,6 +462,7 @@ public class AsteroidsApplication extends Application {
                     if (ship.collide(asteroid)) {
                         asteroid.setAlive(false);
                         ship.death();
+                        ship.fallingApart().forEach(fallingLine -> fallingLines.add(fallingLine));
                         healthText.setText("Lives: " + ls.decrementAndGet());
                         if (ship.health >0) {
                             ship.alive = true;
@@ -481,6 +486,22 @@ public class AsteroidsApplication extends Application {
                         }
                     }
                 });
+
+
+                fallingLines.forEach(fallingLine -> {
+                    if (!pane.getChildren().contains(fallingLine.getCharacter())) {
+                        pane.getChildren().add(fallingLine.getCharacter()); // Add the Line character to the Pane
+                    }
+                    fallingLine.move();
+                    fallingLine.move();
+                    if(!fallingLine.isAlive()) {
+                        pane.getChildren().remove(fallingLine.getCharacter());
+                    }
+                });
+
+                fallingLines.removeAll(fallingLines.stream()
+                        .filter(fallingLine -> !fallingLine.isAlive())
+                        .collect(Collectors.toList()));
 
             }
         }.start();
