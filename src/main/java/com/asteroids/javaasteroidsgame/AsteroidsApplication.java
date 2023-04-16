@@ -375,7 +375,7 @@ public class AsteroidsApplication extends Application {
                 if (ufoSpawned && ufo.getCharacter().getBoundsInParent().intersects(ship.getCharacter().getBoundsInParent())) {
                     ship.health--; // Reduce ship health by 1
                     healthText.setText("Lives: " + ls.decrementAndGet());
-                    sounds.playSound("large");
+                    sounds.playSound("large"); // Explosion sound when ship and UFO collide
                     if (ship.health <= 0) {
                         // If the ship's health is 0 or less, end the game
                         stop();
