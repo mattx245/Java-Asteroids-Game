@@ -102,8 +102,8 @@ public class AsteroidsApplication extends Application {
         pane.getChildren().add(healthText);
 
         UFO ufo = new UFO(WIDTH / 3, HEIGHT / 3);
-        pane.getChildren().add(ufo.getCharacter());
-        ufo.getCharacter().setVisible(false);
+        pane.getChildren().add(ufo.getCharacter()); // Add the UFO character to the Pane
+        ufo.getCharacter().setVisible(false); // Set the UFO visibility to false initially
 
         // Sounds
         Sounds sounds = new Sounds();
@@ -200,8 +200,8 @@ public class AsteroidsApplication extends Application {
                     ship.reverse();
                 }
                 //adding projectiles
-                // shoot only if there are less than three projectiles on the screen
-                if (pressedKeys.getOrDefault(KeyCode.SPACE, false) && projectiles.size() < 3 && canShoot) {
+                // shoot only if there are less than six projectiles on the screen
+                if (pressedKeys.getOrDefault(KeyCode.SPACE, false) && projectiles.size() < 6 && canShoot) {
                     // Inside the AnimationTimer where the ship shoots
                     sounds.playSound("fire");
                     Projectile projectile = new Projectile((int) ship.getCharacter().getTranslateX(), (int) ship.getCharacter().getTranslateY(), ship.getCharacter().getRotate(), Projectile.ProjectileOrigin.SHIP);
@@ -210,11 +210,11 @@ public class AsteroidsApplication extends Application {
 
                     //projectile movement
                     projectile.accelerate();
-                    projectile.setMovement(projectile.getMovement().normalize().multiply(3));
+                    projectile.setMovement(projectile.getMovement().normalize().multiply(6));
 
                     pane.getChildren().add(projectile.getCharacter());
 
-                    // Set canShoot to false and start a 1-second delay before enabling shooting again
+                    // Set canShoot to false and start a 0.3 -second delay before enabling shooting again
                     canShoot = false;
                     Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(0.3), event -> canShoot = true));
                     timeline.play();
@@ -226,13 +226,12 @@ public class AsteroidsApplication extends Application {
                 // UFO behavior
                 if (now - lastSpawnTime >= 5_000_000_000L) {
                     if (!ufoSpawned) {
-                        // if the UFO has not entered the screen yet, move it to the right edge of the screen
-                        if (!ufoEntered) {
-                            sounds.playSound("saucer");
-                            ufo.getCharacter().setTranslateX(WIDTH);
-                            ufo.getCharacter().setTranslateY(new Random().nextInt(HEIGHT));
-                            ufoEntered = true;
-                        }
+                        sounds.playSound("saucer");
+                        ufo.getCharacter().setTranslateX(WIDTH);
+                        ufo.getCharacter().setTranslateY(new Random().nextInt(HEIGHT));
+
+                        // Set UFO's alive status to true
+                        ufo.setAlive(true);
 
                         ufo.getCharacter().setVisible(true);
                         ufoSpawned = true;
@@ -246,6 +245,7 @@ public class AsteroidsApplication extends Application {
 
                             // if the UFO has left the screen, move it to a random y-coordinate on the right edge of the screen
                             if (ufoEntered) {
+                                pane.getChildren().remove(ufo.getCharacter()); // Remove the UFO character from the Pane
                                 ufo.getCharacter().setTranslateX(WIDTH);
                                 ufo.getCharacter().setTranslateY(new Random().nextInt(HEIGHT));
                                 ufoEntered = false;
@@ -253,52 +253,59 @@ public class AsteroidsApplication extends Application {
                         }
                     }
                 }
-                if (ufoSpawned) {
-                    // Adding random movement for the UFO
-                    Random random = new Random();
-                    // Update the UFO's movement direction every 1 second
-                    if (now - lastUfoUpdateTime >= 1_000_000_000L) {
-                        double randomDirection = random.nextDouble() * 2 * Math.PI;
-                        double ufoSpeed = 1.5; // adjust as needed
-                        Point2D randomVector = new Point2D(Math.cos(randomDirection), Math.sin(randomDirection)).normalize().multiply(ufoSpeed);
-                        ufo.setMovement(randomVector);
-                        lastUfoUpdateTime = now;
-                    }
 
-                    // Make the UFO shoot projectiles if it's alive and canShootUFO is true
-                    if (ufo.isAlive() && canShootUFO) {
-                        // Create a new UFO projectile
-                        double angle = Math.toDegrees(ufo.calculateAngleBetweenUFOAndShip(ship));
-                        Projectile ufoProjectile = new Projectile((int) ufo.getCharacter().getTranslateX(), (int) ufo.getCharacter().getTranslateY(), angle, Projectile.ProjectileOrigin.UFO, Color.GREEN);
-                        // Set the fill color to green
-                        ufoProjectile.getCharacter().setFill(Color.GREEN);
 
-                        // Set the rotation of the UFO projectile
-                        double ufoToShipAngle = Math.toDegrees(ufo.calculateAngleBetweenUFOAndShip(ship));
-
-                        ufoProjectile.getCharacter().setRotate(angle);
-
-                        ufoProjectiles.add(ufoProjectile);
-
-                        // Projectile movement
-                        ufoProjectile.accelerate();
-                        ufoProjectile.setMovement(ufoProjectile.getMovement().normalize().multiply(2));
-
-                        pane.getChildren().add(ufoProjectile.getCharacter());
-
-                        // Set canShootUFO to false and start a 1.5-second delay before enabling shooting again
-                        canShootUFO = false;
-                        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(1.5), event -> canShootUFO = true));
-                        timeline.play();
-                    }
-                    ufo.move(); // Update the UFO's position
+                // Adding random movement for the UFO
+                Random random = new Random();
+                // Update the UFO's movement direction every 1 second
+                if (now - lastUfoUpdateTime >= 1_000_000_000L) {
+                    double randomDirection = random.nextDouble() * 2 * Math.PI;
+                    double ufoSpeed = 1.5; // adjust as needed
+                    Point2D randomVector = new Point2D(Math.cos(randomDirection), Math.sin(randomDirection)).normalize().multiply(ufoSpeed);
+                    ufo.setMovement(randomVector);
+                    lastUfoUpdateTime = now;
                 }
+
+                // Make the UFO shoot projectiles if it's alive, spawned and canShootUFO is true
+                if (ufo.isAlive() && canShootUFO && ufoSpawned) {
+                    // Create a new UFO projectile
+                    double angle = Math.toDegrees(ufo.calculateAngleBetweenUFOAndShip(ship));
+                    Projectile ufoProjectile = new Projectile((int) ufo.getCharacter().getTranslateX(), (int) ufo.getCharacter().getTranslateY(), angle, Projectile.ProjectileOrigin.UFO, Color.GREEN);
+                    // Set the fill color to green
+                    ufoProjectile.getCharacter().setFill(Color.GREEN);
+
+                    // Set the rotation of the UFO projectile
+                    double ufoToShipAngle = Math.toDegrees(ufo.calculateAngleBetweenUFOAndShip(ship));
+
+                    ufoProjectile.getCharacter().setRotate(angle);
+
+                    ufoProjectiles.add(ufoProjectile);
+
+                    // Projectile movement
+                    ufoProjectile.accelerate();
+                    ufoProjectile.setMovement(ufoProjectile.getMovement().normalize().multiply(2));
+
+                    pane.getChildren().add(ufoProjectile.getCharacter());
+
+                    // Set canShootUFO to false and start a 1.5-second delay before enabling shooting again
+                    canShootUFO = false;
+                    Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(1.5), event -> canShootUFO = true));
+                    timeline.play();
+                }
+                ufo.move(); // Update the UFO's position
 
 
                 ufoProjectiles.forEach(projectile -> {
                     projectile.move();
                 });
 
+                // Remove projectiles that collided with the UFO
+                projectiles.stream()
+                        .filter(projectile -> !projectile.isAlive())
+                        .forEach(projectile -> pane.getChildren().remove(projectile.getCharacter()));
+                projectiles.removeAll(projectiles.stream()
+                        .filter(projectile -> !projectile.isAlive())
+                        .collect(Collectors.toList()));
 
                 // Collision detection between the UFO projectiles and the ship
                 ufoProjectiles.forEach(projectile -> {
@@ -340,10 +347,16 @@ public class AsteroidsApplication extends Application {
                         ufo.getCharacter().setVisible(false);
                         ufoSpawned = false;
 
+                        // Play the UFO explosion sound
+                        sounds.playSound("medium");
+                        // Remove the UFO from the screen
+                        pane.getChildren().remove(ufo.getCharacter());
+
                         // Remove the projectile
                         projectile.setAlive(false);
                     }
                 });
+
 
 
                 // remove projectiles that are off the screen
@@ -385,9 +398,9 @@ public class AsteroidsApplication extends Application {
                 }
 
 
-                // ensure that there are no more than three projectiles on the screen
-                if (projectiles.size() > 3) {
-                    projectiles.subList(0, projectiles.size() - 3).clear();
+                // ensure that there are no more than six projectiles on the screen
+                if (projectiles.size() > 6) {
+                    projectiles.subList(0, projectiles.size() - 6).clear();
                 }
                 //controlling the effect of projectiles: removing asteroids from the list
                 List<Asteroid> newAsteroids = new ArrayList<>();

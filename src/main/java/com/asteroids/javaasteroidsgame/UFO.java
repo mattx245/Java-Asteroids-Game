@@ -22,7 +22,7 @@ public class UFO extends Character {
         this.targetPosition = new Point2D(x, y);
         this.getCharacter().setFill(Color.GREEN);
         this.getCharacter().setVisible(false); // set initial state to invisible
-        this.isAlive = true; // Initialize isAlive to true
+        this.isAlive = false; // Initialize isAlive to false
     }
 
 
