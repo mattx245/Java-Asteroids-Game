@@ -41,23 +41,23 @@ public class StartScreen extends Application {
 
         // Game title
         Text title = new Text("Asteroids!");
-        title.setFont(Font.font("Monospace", FontWeight.BOLD, 72));
+        title.setFont(Font.font("Monospace", FontWeight.BOLD, 100));
         title.setFill(Color.WHITE);
-        title.setX(330);
+        title.setX(185);
         title.setY(150);
 
         // Subheading
         Text subheading = new Text("by Group 6");
         subheading.setFont(Font.font("Monospace", FontWeight.BOLD, 36));
         subheading.setFill(Color.WHITE);
-        subheading.setX(375);
-        subheading.setY(200);
+        subheading.setX(365);
+        subheading.setY(210);
 
         // Button container
         VBox buttonContainer = new VBox(20);
         buttonContainer.setAlignment(Pos.CENTER);
-        buttonContainer.setLayoutX(375);
-        buttonContainer.setLayoutY(250);
+        buttonContainer.setLayoutX(325);
+        buttonContainer.setLayoutY(300);
 
         // Button style
         String buttonStyle = "-fx-background-color: #000000; -fx-text-fill: #FFFFFF; -fx-border-color: #FFFFFF; -fx-border-width: 2; -fx-font-family: Monospace; -fx-font-size: 24; -fx-pref-height: 60;";
