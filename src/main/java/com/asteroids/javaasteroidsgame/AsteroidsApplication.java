@@ -7,6 +7,8 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.*;
 import javafx.application.Application;
 import javafx.geometry.Pos;
@@ -72,10 +74,16 @@ public class AsteroidsApplication extends Application {
 
     //high score hashmap nd filepath
     final static String outputpath = "score.txt";
+    Path path = Files.createTempFile("score", ".txt");
+    boolean exists = Files.exists(path);
     HashMap<String, AtomicInteger> map = new HashMap<String, AtomicInteger>();
 
     //name for high score and setter
     String name;
+
+    public AsteroidsApplication() throws IOException {
+    }
+
     public void setName (String nm)  {
         this.name = nm;
     }
@@ -403,10 +411,12 @@ public class AsteroidsApplication extends Application {
 
                                 //write name and points to hashmap
                                 map.put(name, pts);
-                                File file = new File(outputpath);
+                                if (!exists) {
+                                    File file = new File(outputpath);
+                                }
                                 BufferedWriter bf = null;
                                 try {
-                                    bf = new BufferedWriter(new FileWriter(file));
+                                    bf = new BufferedWriter(new FileWriter("score.txt", true));
                                     for (Map.Entry<String, AtomicInteger> entry:
                                             map.entrySet()) {
                                         bf.write(entry.getKey() + ":" + entry.getValue());
@@ -418,7 +428,6 @@ public class AsteroidsApplication extends Application {
                                 }
 
                                 //high score screen
-                                hs.setpts(pts);
                                 hs.start(HighScore.classStage);
                                 stage.close();
                             });
@@ -512,10 +521,12 @@ public class AsteroidsApplication extends Application {
 
                                     //write name and points to hashmap
                                     map.put(name, pts);
-                                    File file = new File(outputpath);
+                                    if (!exists) {
+                                        File file = new File(outputpath);
+                                    }
                                     BufferedWriter bf = null;
                                     try {
-                                        bf = new BufferedWriter(new FileWriter(file));
+                                        bf = new BufferedWriter(new FileWriter("score.txt", true));
                                         for (Map.Entry<String, AtomicInteger> entry:
                                                 map.entrySet()) {
                                             bf.write(entry.getKey() + ":" + entry.getValue());
@@ -527,7 +538,6 @@ public class AsteroidsApplication extends Application {
                                     }
 
                                     //high score screen
-                                    hs.setpts(pts);
                                     hs.start(HighScore.classStage);
                                     stage.close();
                                 });
