@@ -12,6 +12,8 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.scene.shape.Circle;
+
+import java.io.IOException;
 import java.util.Random;
 
 
@@ -68,7 +70,12 @@ public class StartScreen extends Application {
         btn.setPrefWidth(300);
 
         btn.setOnAction(actionEvent -> {
-            AsteroidsApplication game = new AsteroidsApplication();
+            AsteroidsApplication game = null;
+            try {
+                game = new AsteroidsApplication();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
             try {
                 game.start(AsteroidsApplication.classStage);
                 stage.close();
