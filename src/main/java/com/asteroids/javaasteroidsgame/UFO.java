@@ -11,9 +11,6 @@ public class UFO extends Character {
     private long lastShootTime;
     private static final int SHOOT_DELAY = 2000; // 2 seconds
 
-    public void addToPane(Pane pane) {
-        pane.getChildren().add(getCharacter());
-    }
 
     private boolean isAlive;
 
@@ -47,6 +44,11 @@ public class UFO extends Character {
         double angle = Math.atan2(deltaY, deltaX) * 180 / Math.PI;
         return angle;
     }
+
+    public void setVisibility(boolean visibility) {
+        this.getCharacter().setVisible(visibility);
+    }
+
 
 
 

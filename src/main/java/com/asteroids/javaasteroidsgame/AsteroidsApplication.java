@@ -108,13 +108,6 @@ public class AsteroidsApplication extends Application {
         // Sounds
         Sounds sounds = new Sounds();
 
-        //old ship
-        //Polygon ship = new Polygon(0,0,-10,20,10,20);
-        //ship.setTranslateX(300);
-        //ship.setTranslateY(200);
-        //ship.setRotate(rotationAngle);
-        //ship.setRotate(-90); // rotating the ship 90 degrees counterclockwise
-
         //new ship from its own class
         //setting the position to center
         Ship ship = new Ship(WIDTH / 2, HEIGHT / 2, sounds);
@@ -219,7 +212,7 @@ public class AsteroidsApplication extends Application {
                     Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(0.3), event -> canShoot = true));
                     timeline.play();
                 }
-                if (pressedKeys.getOrDefault(KeyCode.J ,false)) {
+                if (pressedKeys.getOrDefault(KeyCode.J, false)) {
                     ship.hyperspaceJump();
                 }
 
@@ -237,20 +230,25 @@ public class AsteroidsApplication extends Application {
                         ufoSpawned = true;
                         lastVisibleTime = now; // Store the time when the UFO was last made visible
                     } else {
-                        if (now - lastVisibleTime >= 5_000_000_000L) {
-                            // Check if 5 seconds have passed since the UFO was last made visible
-                            ufo.getCharacter().setVisible(false);
-                            ufoSpawned = false;
-                            lastSpawnTime = now;
+                        // Check if 5 seconds have passed since the UFO was last made visible
+                        ufoSpawned = true;
+                        lastSpawnTime = now;
 
-                            // if the UFO has left the screen, move it to a random y-coordinate on the right edge of the screen
-                            if (ufoEntered) {
-                                pane.getChildren().remove(ufo.getCharacter()); // Remove the UFO character from the Pane
-                                ufo.getCharacter().setTranslateX(WIDTH);
-                                ufo.getCharacter().setTranslateY(new Random().nextInt(HEIGHT));
-                                ufoEntered = false;
-                            }
+                        // if the UFO has left the screen, move it to a random y-coordinate on the right edge of the screen
+                        if (ufoEntered) {
+                            pane.getChildren().remove(ufo.getCharacter()); // Remove the UFO character from the Pane
+                            ufo.getCharacter().setTranslateX(WIDTH);
+                            ufo.getCharacter().setTranslateY(new Random().nextInt(HEIGHT));
+                            ufoEntered = false;
                         }
+
+                        if (!pane.getChildren().contains(ufo.getCharacter())) {
+                            pane.getChildren().add(ufo.getCharacter()); // Add the UFO character to the Pane
+                        }
+
+                        ufo.setAlive(true);
+                        ufo.setVisibility(true); // Make the UFO visible
+                        sounds.playSound("saucer");
                     }
                 }
 
@@ -307,34 +305,30 @@ public class AsteroidsApplication extends Application {
                         .filter(projectile -> !projectile.isAlive())
                         .collect(Collectors.toList()));
 
-                // Collision detection between the UFO projectiles and the ship
-                ufoProjectiles.forEach(projectile -> {
-                    if (ship.getCharacter().getBoundsInParent().intersects(projectile.getCharacter().getBoundsInParent())) {
-                        ship.death();
-                        healthText.setText("Lives: " + ls.decrementAndGet());
-                        if (ship.health > 0) {
-                            ship.alive = true;
-                            ship.movement = new Point2D(0, 0);
-                            ship.respawning();
-                        } else {
+                // Collision detection between the player's projectiles and the UFO
+                projectiles.forEach(projectile -> {
+                    if (ufoSpawned && ufo.isAlive() && projectile.getOrigin() == Projectile.ProjectileOrigin.SHIP && ufo.getCharacter().getBoundsInParent().intersects(projectile.getCharacter().getBoundsInParent())) {
+                        // Increase player's score by 5,000 points
+                        points.setText("Points: " + pts.addAndGet(5000));
 
-                            //writes high score
+                        // Destroy the UFO
+                        ufo.setAlive(false);
+                        ufo.getCharacter().setVisible(false);
+                        ufoSpawned = false;
 
-                            //hiscore.put(name, pts);
-                            stop();
+                        // Play the UFO explosion sound
+                        sounds.playSound("medium");
+                        // Remove the UFO from the screen
+                        pane.getChildren().remove(ufo.getCharacter());
 
-                            //game over scene switch
-                            try {
-                                hs.setpts(pts);
-                                hs.start(GameOverScreen.classStage);
-                                stage.close();
-                            } catch (Exception e) {
-                                throw new RuntimeException(e);
-                            }
-                        } // reduce ship health
+                        // Remove the projectile
                         projectile.setAlive(false);
+
+                        // Set the last spawn time to the current time, so the UFO will respawn after a delay
+                        lastSpawnTime = now;
                     }
                 });
+
 
                 // Collision detection between the player's projectiles and the UFO
                 projectiles.forEach(projectile -> {
@@ -354,6 +348,9 @@ public class AsteroidsApplication extends Application {
 
                         // Remove the projectile
                         projectile.setAlive(false);
+
+                        // Reset the lastSpawnTime
+                        lastSpawnTime = now;
                     }
                 });
 
