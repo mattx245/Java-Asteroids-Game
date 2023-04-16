@@ -371,10 +371,11 @@ public class AsteroidsApplication extends Application {
                     return false;
                 });
 
-                // Existing UFO collision code
+                // UFO collision code
                 if (ufoSpawned && ufo.getCharacter().getBoundsInParent().intersects(ship.getCharacter().getBoundsInParent())) {
                     ship.health--; // Reduce ship health by 1
                     healthText.setText("Lives: " + ls.decrementAndGet());
+                    sounds.playSound("large");
                     if (ship.health <= 0) {
                         // If the ship's health is 0 or less, end the game
                         stop();
