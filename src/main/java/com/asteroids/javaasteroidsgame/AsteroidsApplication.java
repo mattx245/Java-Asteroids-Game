@@ -1,5 +1,13 @@
 package com.asteroids.javaasteroidsgame;
 
+import javafx.animation.Interpolatable;
+import javafx.application.Platform;
+import javafx.scene.control.TextInputDialog;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.*;
 import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -62,9 +70,15 @@ public class AsteroidsApplication extends Application {
     HighScore hs = new HighScore();
     private AtomicInteger pts = new AtomicInteger();
 
-//    public AtomicInteger getpoints(){
-//        return pts;
-//    }
+    //high score hashmap nd filepath
+    final static String outputpath = "score.txt";
+    HashMap<String, AtomicInteger> map = new HashMap<String, AtomicInteger>();
+
+    //name for high score and setter
+    String name;
+    public void setName (String nm)  {
+        this.name = nm;
+    }
 
     int level = 1; //initialize level
     @Override
@@ -382,13 +396,36 @@ public class AsteroidsApplication extends Application {
                     sounds.playSound("large"); // Explosion sound when ship and UFO collide
                     if (ship.health <= 0) {
                         // If the ship's health is 0 or less, end the game
-                        stop();
-
                         // Game over scene switch
                         try {
-                            hs.setpts(pts);
-                            hs.start(GameOverScreen.classStage);
-                            stage.close();
+                            //popup box asking for name
+                            Platform.runLater(() -> {
+                                stop();
+                                TextInputDialog dialog = new TextInputDialog();
+                                dialog.setTitle("Enter name here: ");
+                                dialog.showAndWait().ifPresent(string -> setName(string));
+
+                                //write name and points to hashmap
+                                map.put(name, pts);
+                                File file = new File(outputpath);
+                                BufferedWriter bf = null;
+                                try {
+                                    bf = new BufferedWriter(new FileWriter(file));
+                                    for (Map.Entry<String, AtomicInteger> entry:
+                                            map.entrySet()) {
+                                        bf.write(entry.getKey() + ":" + entry.getValue());
+                                        bf.newLine();
+                                    }
+                                    bf.flush();
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+
+                                //high score screen
+                                hs.setpts(pts);
+                                hs.start(HighScore.classStage);
+                                stage.close();
+                            });
                         } catch (Exception e) {
                             throw new RuntimeException(e);
                         }
@@ -469,17 +506,36 @@ public class AsteroidsApplication extends Application {
                             ship.movement = new Point2D(0, 0);
                             ship.respawning();
                         } else {
-
-                            //writes high score
-
-                            //hiscore.put(name, pts);
-                            stop();
-
                             //game over scene switch
                             try {
-                                hs.setpts(pts);
-                                hs.start(GameOverScreen.classStage);
-                                stage.close();
+                                //popup box asking for name
+                                Platform.runLater(() -> {
+                                    stop();
+                                    TextInputDialog dialog = new TextInputDialog();
+                                    dialog.setTitle("Enter name here: ");
+                                    dialog.showAndWait().ifPresent(string -> setName(string));
+
+                                    //write name and points to hashmap
+                                    map.put(name, pts);
+                                    File file = new File(outputpath);
+                                    BufferedWriter bf = null;
+                                    try {
+                                        bf = new BufferedWriter(new FileWriter(file));
+                                        for (Map.Entry<String, AtomicInteger> entry:
+                                                map.entrySet()) {
+                                            bf.write(entry.getKey() + ":" + entry.getValue());
+                                            bf.newLine();
+                                        }
+                                        bf.flush();
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                    }
+
+                                    //high score screen
+                                    hs.setpts(pts);
+                                    hs.start(HighScore.classStage);
+                                    stage.close();
+                                });
                             } catch (Exception e) {
                                 throw new RuntimeException(e);
                             }
