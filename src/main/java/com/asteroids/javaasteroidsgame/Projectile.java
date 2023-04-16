@@ -21,13 +21,13 @@ public class Projectile extends Character {
         this.getCharacter().setRotate(rotation);
 
         double radians = Math.toRadians(rotation);
-        double offsetX = 30 * Math.cos(radians);
-        double offsetY = 30 * Math.sin(radians);
+        double offsetX = 1 * Math.cos(radians);
+        double offsetY = 1 * Math.sin(radians);
 
         this.getCharacter().setTranslateX(x + offsetX);
         this.getCharacter().setTranslateY(y + offsetY);
 
-        this.shooting_distance = 200;
+        this.shooting_distance = 180;
     }
 
     public Projectile(int x, int y, double rotation, ProjectileOrigin origin, Color color) {
