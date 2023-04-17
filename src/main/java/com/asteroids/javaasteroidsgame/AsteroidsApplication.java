@@ -44,7 +44,7 @@ import javafx.util.Duration;
 
 
 
-//created following the mooc.fi tutorial: https://java-programming.mooc.fi/part-14/3-larger-application-asteroids
+//base created following the mooc.fi tutorial loosely: https://java-programming.mooc.fi/part-14/3-larger-application-asteroids
 public class AsteroidsApplication extends Application {
 
     //setting the rotation angle for the on click event
@@ -134,8 +134,10 @@ public class AsteroidsApplication extends Application {
         //setting the position to center
         Ship ship = new Ship(WIDTH / 2, HEIGHT / 2, sounds);
         ship.setHealth(3);
+
         //Face ship upward
         ship.character.setRotate(-90);
+
         //adding the asteroids as a list
         List<Asteroid> asteroids = new ArrayList<>();
         // List of projectiles for UFO bullets
@@ -181,6 +183,7 @@ public class AsteroidsApplication extends Application {
         //creating an animation timer that needs a pressedKeys hashmap to smooth the animation
         Map<KeyCode, Boolean> pressedKeys = new HashMap<>();
         //getting the pressed keys from the hashmap for faster/smoother animation
+        //---------------------------------------------------------------------------------------
         scene.setOnKeyPressed(event -> {
             pressedKeys.put(event.getCode(), Boolean.TRUE);
         });
@@ -190,7 +193,11 @@ public class AsteroidsApplication extends Application {
         });
 
         // FallingLines:
+        //---------------------------------------------------------------------------------------
+
         List<FallingLines> fallingLines = new ArrayList<>();
+
+        //---------------------------------------------------------------------------------------
 
         new AnimationTimer() {
 
@@ -203,6 +210,8 @@ public class AsteroidsApplication extends Application {
 
             @Override
             public void handle(long now) {
+                //key controls
+                //---------------------------------------------------------------------------------------
                 if (pressedKeys.getOrDefault(KeyCode.LEFT, false)) {
                     ship.turnLeft();
                 }
@@ -243,6 +252,8 @@ public class AsteroidsApplication extends Application {
                     respawnSafe = ship.hyperspaceJump();
                 }
 
+                //---------------------------------------------------------------------------------------
+
                 // UFO behavior
                 if (now - lastSpawnTime >= 5_000_000_000L) {
                     if (!ufoSpawned) {
@@ -278,7 +289,6 @@ public class AsteroidsApplication extends Application {
                         sounds.playSound("saucer");
                     }
                 }
-
 
                 // Adding random movement for the UFO
                 Random random = new Random();
@@ -494,11 +504,28 @@ public class AsteroidsApplication extends Application {
 
 
                 // ensure that there are no more than six projectiles on the screen
+                // is this for ufoprojectiles still or all?
                 if (projectiles.size() > 6) {
                     projectiles.subList(0, projectiles.size() - 6).clear();
                 }
-                //controlling the effect of projectiles: removing asteroids from the list
+
+                //---------------------------------------------------------------------------------------
+
                 List<Asteroid> newAsteroids = new ArrayList<>();
+                // Add new asteroids to game
+                for (Asteroid asteroid : newAsteroids) {
+                    asteroids.add(asteroid);
+                    pane.getChildren().add(asteroid.getCharacter());
+                }
+                asteroids.stream()
+                        .filter(asteroid -> !asteroid.isAlive())
+                        .forEach(asteroid -> pane.getChildren().remove(asteroid.getCharacter()));
+                asteroids.removeAll(asteroids.stream()
+                        .filter(asteroid -> !asteroid.isAlive())
+                        .collect(Collectors.toList()));
+
+                //---------------------------------------------------------------------------------------
+                //controlling the effect of projectiles: removing asteroids from the list
                 projectiles.forEach(projectile -> {
                     asteroids.forEach(asteroid -> {
                         if(projectile.collide(asteroid)) {
@@ -515,11 +542,6 @@ public class AsteroidsApplication extends Application {
                     }
                 });
 
-                // Add new asteroids to game
-                for (Asteroid asteroid : newAsteroids) {
-                    asteroids.add(asteroid);
-                    pane.getChildren().add(asteroid.getCharacter());
-                }
 
                 //managing removing projectiles of the screen
                 projectiles.stream()
@@ -529,13 +551,8 @@ public class AsteroidsApplication extends Application {
                         .filter(projectile -> !projectile.isAlive())
                         .collect(Collectors.toList()));
 
-                asteroids.stream()
-                        .filter(asteroid -> !asteroid.isAlive())
-                        .forEach(asteroid -> pane.getChildren().remove(asteroid.getCharacter()));
-                asteroids.removeAll(asteroids.stream()
-                        .filter(asteroid -> !asteroid.isAlive())
-                        .collect(Collectors.toList()));
                 // level part
+                //---------------------------------------------------------------------------------------
                 while (asteroids.size() == 0) {
                     for (int i = 0; i < level+1; i++) {
                         Random rnd = new Random();
@@ -546,12 +563,18 @@ public class AsteroidsApplication extends Application {
                     level++;
                     levelText.setText("Level: " + level);
                 }
+
+                //declaring movement
+                //---------------------------------------------------------------------------------------
                 ship.move();
                 //adding asteroid movement
                 //collision = stop animation add-on
                 asteroids.forEach(asteroid -> asteroid.move());
                 //projectile movement
                 projectiles.forEach(projectile -> projectile.move());
+
+                // falling apart of the asteroids and ship
+                //---------------------------------------------------------------------------------------
 
                 asteroids.forEach(asteroid -> {
                     if (ship.collide(asteroid) && respawnSafe < 1) {
