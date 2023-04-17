@@ -5,16 +5,37 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.geometry.Pos;
+
+import java.util.Random;
+
 public class HowToPlay extends Application {
 
-    //scene switching stage
+    private void createStars(Pane pane, int numStars) {
+
+        pane.setPrefSize(1280, 720);
+        createStars(pane, 200);
+        Random random = new Random();
+
+        for (int i = 0; i < numStars; i++) {
+            double x = random.nextDouble() * pane.getPrefWidth();
+            double y = random.nextDouble() * pane.getPrefHeight();
+            double radius = 1 + random.nextDouble() * 2;
+
+            Circle star = new Circle(x, y, radius, Color.WHITE);
+            pane.getChildren().add(star);
+        }
+    }
+
+        //scene switching stage
     static Stage classStage = new Stage();
     @Override
     public void start(Stage primaryStage) {
