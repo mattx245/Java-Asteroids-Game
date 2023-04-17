@@ -228,7 +228,7 @@ public class AsteroidsApplication extends Application {
 
                     //projectile movement
                     projectile.accelerate();
-                    projectile.setMovement(projectile.getMovement().normalize().multiply(6));
+                    projectile.setMovement(projectile.getMovement().normalize().multiply(3));
 
                     pane.getChildren().add(projectile.getCharacter());
 
