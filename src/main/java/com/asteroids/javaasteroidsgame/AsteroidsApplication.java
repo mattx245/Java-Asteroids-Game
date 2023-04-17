@@ -240,7 +240,7 @@ public class AsteroidsApplication extends Application {
 
                     //projectile movement
                     projectile.accelerate();
-                    projectile.setMovement(projectile.getMovement().normalize().multiply(6));
+                    projectile.setMovement(projectile.getMovement().normalize().multiply(3));
 
                     pane.getChildren().add(projectile.getCharacter());
 
@@ -524,10 +524,6 @@ public class AsteroidsApplication extends Application {
 
                 List<Asteroid> newAsteroids = new ArrayList<>();
                 // Add new asteroids to game
-                for (Asteroid asteroid : newAsteroids) {
-                    asteroids.add(asteroid);
-                    pane.getChildren().add(asteroid.getCharacter());
-                }
                 asteroids.stream()
                         .filter(asteroid -> !asteroid.isAlive())
                         .forEach(asteroid -> pane.getChildren().remove(asteroid.getCharacter()));
@@ -541,6 +537,7 @@ public class AsteroidsApplication extends Application {
                     asteroids.forEach(asteroid -> {
                         if(projectile.collide(asteroid)) {
                             projectile.setAlive(false);
+                            points.setText("Points: " + pts.addAndGet(asteroid.getPoints()));
                             if (!asteroid.getSize().equals("small")) {
                                 newAsteroids.add(asteroid.createSmallerAsteroid());
                                 newAsteroids.add(asteroid.createSmallerAsteroid());
@@ -548,11 +545,11 @@ public class AsteroidsApplication extends Application {
                             asteroid.setAlive(false);
                         }
                     });
-                    if(!projectile.isAlive()) {
-                        points.setText("Points: " + pts.addAndGet(1000));
-                    }
                 });
-
+                for (Asteroid asteroid : newAsteroids) {
+                    asteroids.add(asteroid);
+                    pane.getChildren().add(asteroid.getCharacter());
+                }
 
                 //managing removing projectiles of the screen
                 projectiles.stream()
