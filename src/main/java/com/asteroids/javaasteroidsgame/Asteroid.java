@@ -11,25 +11,18 @@ public class Asteroid extends Character {
 
     private static final Random RANDOM = new Random();
     private String size;
+    private Sounds sounds;
 
-    public Asteroid(int x, int y) {
+    public Asteroid(int x, int y, Sounds sounds) {
         super(createPolygon(), x, y);
         size = "large";
+        this.sounds = sounds;
 
+        setWhiteStroke();
         setColor();
         double initialSpeed = 0.25 + RANDOM.nextDouble() * 0.5;
         double angle = RANDOM.nextDouble() * 2 * Math.PI;
         setMovement(new Point2D(Math.cos(angle) * initialSpeed, Math.sin(angle) * initialSpeed));
-    }
-
-    public int getPoints(){
-        if(size.equals("large")) {
-            return 20;
-        } else if (size.equals("medium")) {
-            return 50;
-        } else {
-            return 100;
-        }
     }
 
     public void setColor() {
@@ -97,7 +90,7 @@ public class Asteroid extends Character {
     }
 
     public Asteroid createSmallerAsteroid() {
-        Asteroid smallerAsteroid = new Asteroid((int) getCharacter().getTranslateX(), (int) getCharacter().getTranslateY());
+        Asteroid smallerAsteroid = new Asteroid((int) getCharacter().getTranslateX(), (int) getCharacter().getTranslateY(), this.sounds);
 
         if (getSize().equals("large")) {
             smallerAsteroid.setSize("medium");

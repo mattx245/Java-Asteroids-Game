@@ -134,6 +134,8 @@ public class AsteroidsApplication extends Application {
         //setting the position to center
         Ship ship = new Ship(WIDTH / 2, HEIGHT / 2, sounds);
         ship.setHealth(3);
+        //Face ship upward
+        ship.character.setRotate(-90);
         //adding the asteroids as a list
         List<Asteroid> asteroids = new ArrayList<>();
         // List of projectiles for UFO bullets
@@ -377,23 +379,6 @@ public class AsteroidsApplication extends Application {
                         // Reset the lastSpawnTime
                         lastSpawnTime = now;
                     }
-                });
-
-
-
-                // remove projectiles that are off the screen
-                projectiles.removeIf(projectile -> {
-                    if (projectile.getCharacter().getTranslateX() < 0 ||
-                            projectile.getCharacter().getTranslateX() > AsteroidsApplication.WIDTH ||
-                            projectile.getCharacter().getTranslateY() < 0 ||
-                            projectile.getCharacter().getTranslateY() > AsteroidsApplication.HEIGHT) {
-                        pane.getChildren().remove(projectile.getCharacter());
-
-
-                        return true;
-                    }
-
-                    return false;
                 });
 
                 // UFO collision code
