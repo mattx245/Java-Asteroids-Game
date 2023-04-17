@@ -32,6 +32,7 @@ public class Ship extends Character {
         this.sounds = sounds;
         this.respawnSafe = 0;
 
+
     }
     public int getHealth() {
         return health;
@@ -108,4 +109,6 @@ public class Ship extends Character {
         }
         return fallingLines;
     }
+
+
 }

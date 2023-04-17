@@ -27,7 +27,7 @@ public class Projectile extends Character {
         this.getCharacter().setTranslateX(x + offsetX);
         this.getCharacter().setTranslateY(y + offsetY);
 
-        this.shooting_distance = 180;
+        this.shooting_distance = 100;
     }
 
     public Projectile(int x, int y, double rotation, ProjectileOrigin origin, Color color) {
@@ -36,6 +36,11 @@ public class Projectile extends Character {
     }
 
     private ProjectileOrigin origin;
+
+    public Projectile(int x, int y, ProjectileOrigin origin) {
+        super(new Polygon(2, -2, 2, 2, -2, 2, -2, -2), x, y);
+        this.origin = origin;
+    }
 
     public ProjectileOrigin getOrigin() {
         return origin;

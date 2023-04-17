@@ -44,7 +44,7 @@ import javafx.util.Duration;
 
 
 
-//created following the mooc.fi tutorial: https://java-programming.mooc.fi/part-14/3-larger-application-asteroids
+//base created following the mooc.fi tutorial loosely: https://java-programming.mooc.fi/part-14/3-larger-application-asteroids
 public class AsteroidsApplication extends Application {
 
     //setting the rotation angle for the on click event
@@ -70,6 +70,7 @@ public class AsteroidsApplication extends Application {
 
     //points int
     HighScore hs = new HighScore();
+    GameOverScreen go = new GameOverScreen();
     private AtomicInteger pts = new AtomicInteger();
 
     //high score hashmap nd filepath
@@ -134,6 +135,10 @@ public class AsteroidsApplication extends Application {
         //setting the position to center
         Ship ship = new Ship(WIDTH / 2, HEIGHT / 2, sounds);
         ship.setHealth(3);
+
+        //Face ship upward
+        ship.character.setRotate(-90);
+
         //adding the asteroids as a list
         List<Asteroid> asteroids = new ArrayList<>();
         // List of projectiles for UFO bullets
@@ -179,6 +184,7 @@ public class AsteroidsApplication extends Application {
         //creating an animation timer that needs a pressedKeys hashmap to smooth the animation
         Map<KeyCode, Boolean> pressedKeys = new HashMap<>();
         //getting the pressed keys from the hashmap for faster/smoother animation
+        //---------------------------------------------------------------------------------------
         scene.setOnKeyPressed(event -> {
             pressedKeys.put(event.getCode(), Boolean.TRUE);
         });
@@ -188,7 +194,11 @@ public class AsteroidsApplication extends Application {
         });
 
         // FallingLines:
+        //---------------------------------------------------------------------------------------
+
         List<FallingLines> fallingLines = new ArrayList<>();
+
+        //---------------------------------------------------------------------------------------
 
         new AnimationTimer() {
 
@@ -201,6 +211,8 @@ public class AsteroidsApplication extends Application {
 
             @Override
             public void handle(long now) {
+                //key controls
+                //---------------------------------------------------------------------------------------
                 if (pressedKeys.getOrDefault(KeyCode.LEFT, false)) {
                     ship.turnLeft();
                 }
@@ -241,6 +253,8 @@ public class AsteroidsApplication extends Application {
                     respawnSafe = ship.hyperspaceJump();
                 }
 
+                //---------------------------------------------------------------------------------------
+
                 // UFO behavior
                 if (now - lastSpawnTime >= 5_000_000_000L) {
                     if (!ufoSpawned) {
@@ -277,7 +291,6 @@ public class AsteroidsApplication extends Application {
                     }
                 }
 
-
                 // Adding random movement for the UFO
                 Random random = new Random();
                 // Update the UFO's movement direction every 1 second
@@ -292,21 +305,22 @@ public class AsteroidsApplication extends Application {
                 // Make the UFO shoot projectiles if it's alive, spawned and canShootUFO is true
                 if (ufo.isAlive() && canShootUFO && ufoSpawned) {
                     // Create a new UFO projectile
-                    double angle = Math.toDegrees(ufo.calculateAngleBetweenUFOAndShip(ship));
+                    double angle = ufo.calculateAngleBetweenUFOAndShip(ship);
                     Projectile ufoProjectile = new Projectile((int) ufo.getCharacter().getTranslateX(), (int) ufo.getCharacter().getTranslateY(), angle, Projectile.ProjectileOrigin.UFO, Color.GREEN);
                     // Set the fill color to green
                     ufoProjectile.getCharacter().setFill(Color.GREEN);
 
-                    // Set the rotation of the UFO projectile
-                    double ufoToShipAngle = Math.toDegrees(ufo.calculateAngleBetweenUFOAndShip(ship));
+                    // Play the UFO projectile shooting sound
+                    sounds.playSound("beat");
 
-                    ufoProjectile.getCharacter().setRotate(angle);
+                    // Set the rotation of the UFO projectile
+                    ufoProjectile.getCharacter().setRotate(Math.toDegrees(angle));
 
                     ufoProjectiles.add(ufoProjectile);
 
                     // Projectile movement
                     ufoProjectile.accelerate();
-                    ufoProjectile.setMovement(ufoProjectile.getMovement().normalize().multiply(2));
+                    ufoProjectile.setMovement(ufoProjectile.getMovement().normalize().multiply(6));
 
                     pane.getChildren().add(ufoProjectile.getCharacter());
 
@@ -315,12 +329,73 @@ public class AsteroidsApplication extends Application {
                     Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(1.5), event -> canShootUFO = true));
                     timeline.play();
                 }
+
                 ufo.move(); // Update the UFO's position
 
 
                 ufoProjectiles.forEach(projectile -> {
                     projectile.move();
                 });
+
+                // Collision detection between the UFO's projectiles and the player's ship
+                ufoProjectiles.forEach(ufoProjectile -> {
+                    if (ufoProjectile.getOrigin() == Projectile.ProjectileOrigin.UFO && ship.getCharacter().getBoundsInParent().intersects(ufoProjectile.getCharacter().getBoundsInParent())) {
+                        // Handle the collision: decrease player's lives, end the game, etc.
+                        ship.death();
+                        healthText.setText("Lives: " + ls.decrementAndGet());
+                        sounds.playSound("large"); // Explosion sound when projectile and ship collide
+
+                        if (ship.health <= 0) {
+                            // If the ship's health is 0 or less, end the game
+                            // Game over scene switch
+                            try {
+                                //popup box asking for name
+                                Platform.runLater(() -> {
+                                    stop();
+                                    TextInputDialog dialog = new TextInputDialog();
+                                    dialog.setTitle("Enter name here: ");
+                                    dialog.showAndWait().ifPresent(string -> setName(string));
+
+                                    //write name and points to hashmap
+                                    map.put(name, pts);
+                                    if (!exists) {
+                                        File file = new File(outputpath);
+                                    }
+                                    BufferedWriter bf = null;
+                                    try {
+                                        bf = new BufferedWriter(new FileWriter("score.txt", true));
+                                        for (Map.Entry<String, AtomicInteger> entry:
+                                                map.entrySet()) {
+                                            bf.write(entry.getKey() + ":" + entry.getValue());
+                                            bf.newLine();
+                                        }
+                                        bf.flush();
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                    }
+
+                                    //high score screen
+                                    hs.start(HighScore.classStage);
+                                    stage.close();
+                                });
+                            } catch (Exception e) {
+                                throw new RuntimeException(e);
+                            }
+                        } else {
+                            // If the ship's health is still greater than 0, respawn the ship
+                            ship.movement = new Point2D(0, 0);
+                            respawnSafe = ship.respawning();
+                        }
+
+                        // Remove the UFO projectile from the scene and the ufoProjectiles list
+                        pane.getChildren().remove(ufoProjectile.getCharacter());
+                        ufoProjectile.setAlive(false);
+                    }
+                });
+
+                // Remove dead UFO projectiles
+                ufoProjectiles.removeIf(ufoProjectile -> !ufoProjectile.isAlive());
+
 
                 // Remove projectiles that collided with the UFO
                 projectiles.stream()
@@ -379,23 +454,6 @@ public class AsteroidsApplication extends Application {
                     }
                 });
 
-
-
-                // remove projectiles that are off the screen
-                projectiles.removeIf(projectile -> {
-                    if (projectile.getCharacter().getTranslateX() < 0 ||
-                            projectile.getCharacter().getTranslateX() > AsteroidsApplication.WIDTH ||
-                            projectile.getCharacter().getTranslateY() < 0 ||
-                            projectile.getCharacter().getTranslateY() > AsteroidsApplication.HEIGHT) {
-                        pane.getChildren().remove(projectile.getCharacter());
-
-
-                        return true;
-                    }
-
-                    return false;
-                });
-
                 // UFO collision code
                 if (ufoSpawned && ufo.getCharacter().getBoundsInParent().intersects(ship.getCharacter().getBoundsInParent()) && respawnSafe < 1) {
                     ship.death(); // Reduce ship health by 1
@@ -432,7 +490,12 @@ public class AsteroidsApplication extends Application {
                                 }
 
                                 //high score screen
-                                hs.start(HighScore.classStage);
+                                try {
+                                    go.start(GameOverScreen.classStage);
+                                } catch (IOException e) {
+                                    throw new RuntimeException(e);
+                                }
+                                //hs.start(HighScore.classStage);
                                 stage.close();
                             });
                         } catch (Exception e) {
@@ -447,16 +510,32 @@ public class AsteroidsApplication extends Application {
 
 
                 // ensure that there are no more than six projectiles on the screen
+                // is this for ufoprojectiles still or all?
                 if (projectiles.size() > 6) {
                     projectiles.subList(0, projectiles.size() - 6).clear();
                 }
-                //controlling the effect of projectiles: removing asteroids from the list
+
+                //---------------------------------------------------------------------------------------
+
                 List<Asteroid> newAsteroids = new ArrayList<>();
+                // Add new asteroids to game
+                for (Asteroid asteroid : newAsteroids) {
+                    asteroids.add(asteroid);
+                    pane.getChildren().add(asteroid.getCharacter());
+                }
+                asteroids.stream()
+                        .filter(asteroid -> !asteroid.isAlive())
+                        .forEach(asteroid -> pane.getChildren().remove(asteroid.getCharacter()));
+                asteroids.removeAll(asteroids.stream()
+                        .filter(asteroid -> !asteroid.isAlive())
+                        .collect(Collectors.toList()));
+
+                //---------------------------------------------------------------------------------------
+                //controlling the effect of projectiles: removing asteroids from the list
                 projectiles.forEach(projectile -> {
                     asteroids.forEach(asteroid -> {
                         if(projectile.collide(asteroid)) {
                             projectile.setAlive(false);
-                            points.setText("Points: " + pts.addAndGet(asteroid.getPoints()));
                             if (!asteroid.getSize().equals("small")) {
                                 newAsteroids.add(asteroid.createSmallerAsteroid());
                                 newAsteroids.add(asteroid.createSmallerAsteroid());
@@ -464,13 +543,11 @@ public class AsteroidsApplication extends Application {
                             asteroid.setAlive(false);
                         }
                     });
+                    if(!projectile.isAlive()) {
+                        points.setText("Points: " + pts.addAndGet(1000));
+                    }
                 });
 
-                // Add new asteroids to game
-                for (Asteroid asteroid : newAsteroids) {
-                    asteroids.add(asteroid);
-                    pane.getChildren().add(asteroid.getCharacter());
-                }
 
                 //managing removing projectiles of the screen
                 projectiles.stream()
@@ -480,13 +557,8 @@ public class AsteroidsApplication extends Application {
                         .filter(projectile -> !projectile.isAlive())
                         .collect(Collectors.toList()));
 
-                asteroids.stream()
-                        .filter(asteroid -> !asteroid.isAlive())
-                        .forEach(asteroid -> pane.getChildren().remove(asteroid.getCharacter()));
-                asteroids.removeAll(asteroids.stream()
-                        .filter(asteroid -> !asteroid.isAlive())
-                        .collect(Collectors.toList()));
                 // level part
+                //---------------------------------------------------------------------------------------
                 while (asteroids.size() == 0) {
                     for (int i = 0; i < level+1; i++) {
                         Random rnd = new Random();
@@ -497,12 +569,18 @@ public class AsteroidsApplication extends Application {
                     level++;
                     levelText.setText("Level: " + level);
                 }
+
+                //declaring movement
+                //---------------------------------------------------------------------------------------
                 ship.move();
                 //adding asteroid movement
                 //collision = stop animation add-on
                 asteroids.forEach(asteroid -> asteroid.move());
                 //projectile movement
                 projectiles.forEach(projectile -> projectile.move());
+
+                // falling apart of the asteroids and ship
+                //---------------------------------------------------------------------------------------
 
                 asteroids.forEach(asteroid -> {
                     if (ship.collide(asteroid) && respawnSafe < 1) {
@@ -542,8 +620,13 @@ public class AsteroidsApplication extends Application {
                                         e.printStackTrace();
                                     }
 
-                                    //high score screen
-                                    hs.start(HighScore.classStage);
+                                    //game over screen
+                                    try {
+                                        go.start(GameOverScreen.classStage);
+                                    } catch (IOException e) {
+                                        throw new RuntimeException(e);
+                                    }
+                                    //hs.start(HighScore.classStage);
                                     stage.close();
                                 });
                             } catch (Exception e) {

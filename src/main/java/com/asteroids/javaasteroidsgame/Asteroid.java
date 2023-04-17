@@ -1,6 +1,8 @@
 package com.asteroids.javaasteroidsgame;
 
 import java.util.Random;
+import java.util.concurrent.atomic.AtomicInteger;
+
 import javafx.scene.shape.Polygon;
 import javafx.geometry.Point2D;
 import javafx.scene.paint.Color;
@@ -13,13 +15,20 @@ public class Asteroid extends Character {
 
     public Asteroid(int x, int y, Sounds sounds) {
         super(createPolygon(), x, y);
-        this.size = "large";
+        size = "large";
         this.sounds = sounds;
 
         setWhiteStroke();
+        setColor();
         double initialSpeed = 0.25 + RANDOM.nextDouble() * 0.5;
         double angle = RANDOM.nextDouble() * 2 * Math.PI;
         setMovement(new Point2D(Math.cos(angle) * initialSpeed, Math.sin(angle) * initialSpeed));
+    }
+
+    public void setColor() {
+        getCharacter().setFill(Color.TRANSPARENT);
+        getCharacter().setStroke(Color.WHITE);
+        getCharacter().setStrokeWidth(2.0);
     }
 
     private static Polygon createPolygon() {
