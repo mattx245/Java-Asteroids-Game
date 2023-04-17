@@ -67,10 +67,10 @@ public class AsteroidsApplication extends Application {
 
     //creates variable for startscreen
     static Stage classStage = new Stage();
-
-    //points int
-    HighScore hs = new HighScore();
+    //game over screen switcher
     GameOverScreen go = new GameOverScreen();
+
+    //point int
     private AtomicInteger pts = new AtomicInteger();
 
     //high score hashmap nd filepath
@@ -375,7 +375,12 @@ public class AsteroidsApplication extends Application {
                                     }
 
                                     //high score screen
-                                    hs.start(HighScore.classStage);
+                                    try {
+                                        go.start(GameOverScreen.classStage);
+                                    } catch (IOException e) {
+                                        throw new RuntimeException(e);
+                                    }
+                                    //hs.start(HighScore.classStage);
                                     stage.close();
                                 });
                             } catch (Exception e) {
