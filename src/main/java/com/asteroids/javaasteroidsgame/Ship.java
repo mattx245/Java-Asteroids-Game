@@ -108,4 +108,29 @@ public class Ship extends Character {
         }
         return fallingLines;
     }
+
+    public void accelerate() {
+        double currentX = getCharacter().getTranslateX();
+        double currentY = getCharacter().getTranslateY();
+        double orientation = Math.toRadians(getCharacter().getRotate());
+        double velocityMagnitude = 5.5;
+        double velocityX = velocityMagnitude * Math.sin(orientation- Math.PI);
+        double velocityY = -velocityMagnitude * Math.cos(orientation- Math.PI);
+        double newX = currentX + velocityX;
+        double newY = currentY + velocityY;
+        if (newX < 0) {
+            newX += 950;
+        } else if (newX > 950) {
+            newX -= 950;
+        }
+        if (newY < 0) {
+            newY += 700;
+        } else if (newY > 700) {
+            newY -= 700;
+        }
+        getCharacter().setTranslateX(newX);
+        getCharacter().setTranslateY(newY);
+    }
+
+
 }
