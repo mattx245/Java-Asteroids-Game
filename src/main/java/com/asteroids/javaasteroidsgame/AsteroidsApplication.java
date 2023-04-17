@@ -414,7 +414,7 @@ public class AsteroidsApplication extends Application {
                 projectiles.forEach(projectile -> {
                     if (ufoSpawned && ufo.isAlive() && projectile.getOrigin() == Projectile.ProjectileOrigin.SHIP && ufo.getCharacter().getBoundsInParent().intersects(projectile.getCharacter().getBoundsInParent())) {
                         // Increase player's score by 5,000 points
-                        points.setText("Points: " + pts.addAndGet(5000));
+                        points.setText("Points: " + pts.addAndGet(300));
 
                         // Destroy the UFO
                         ufo.setAlive(false);

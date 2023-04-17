@@ -78,8 +78,6 @@ public abstract class Character {
         double changeX = Math.cos(angle);
         double changeY = Math.sin(angle);
 
-        //double factor = (8.0 - (Math.abs(getMovement().getX()) + Math.abs(getMovement().getY()))) / 40;
-
         changeX *= (8.0 - Math.abs(getMovement().getX()))/80;
         changeY *= (8.0 - Math.abs(getMovement().getY()))/80;
 
