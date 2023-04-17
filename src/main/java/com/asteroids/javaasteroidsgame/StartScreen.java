@@ -4,6 +4,8 @@ import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -121,8 +123,30 @@ public class StartScreen extends Application {
         pane.setPrefSize(1280, 720);
         createStars(pane, 200); // The second parameter is the number of stars
 
+        Image startImage_left = new Image(getClass().getResourceAsStream("/img/Startscreen1.png"));
+        Image startImage_right = new Image(getClass().getResourceAsStream("/img/Startscreen2.png"));
+
+        ImageView startImageView_left = new ImageView(startImage_left);
+        ImageView startImageView_right = new ImageView(startImage_right);
+
+        // Set the dimensions of the images
+        startImageView_left.setFitWidth(300);
+        startImageView_left.setFitHeight(200);
+        startImageView_right.setFitWidth(300);
+        startImageView_right.setFitHeight(200);
+
+        // Position the images on the left and right sides
+        startImageView_left.setX(50);
+        startImageView_right.setX(pane.getPrefWidth() - 650); // 950 - 300 (width) - 50 (margin)
+
+// Center the images on the Y-axis
+        double centerY = (pane.getPrefHeight() - 200) / 2; // (720 - 200) / 2
+        startImageView_left.setY(centerY);
+        startImageView_right.setY(centerY);
+
 
         // Set up the scene
+        pane.getChildren().addAll(startImageView_left, startImageView_right);
         pane.getChildren().addAll(title, subheading, buttonContainer);
         Scene scene = new Scene(pane, 950, 700);
         pane.setStyle("-fx-background-color: black");
