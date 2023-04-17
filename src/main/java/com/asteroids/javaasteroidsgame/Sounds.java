@@ -1,5 +1,7 @@
 package com.asteroids.javaasteroidsgame;
 
+// Sourced online at http://www.classicgaming.cc/classics/asteroids/sounds - Ronan
+
 import javafx.scene.media.AudioClip;
 import java.net.URL;
 import java.util.HashMap;

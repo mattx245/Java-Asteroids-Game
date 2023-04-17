@@ -41,7 +41,7 @@ public class UFO extends Character {
     public double calculateAngleBetweenUFOAndShip(Ship ship) {
         double deltaX = ship.getCharacter().getTranslateX() - this.getCharacter().getTranslateX();
         double deltaY = ship.getCharacter().getTranslateY() - this.getCharacter().getTranslateY();
-        double angle = Math.atan2(deltaY, deltaX) * 180 / Math.PI;
+        double angle = Math.atan2(deltaY, deltaX);
         return angle;
     }
 

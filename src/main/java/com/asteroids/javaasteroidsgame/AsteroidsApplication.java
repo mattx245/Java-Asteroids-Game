@@ -294,21 +294,22 @@ public class AsteroidsApplication extends Application {
                 // Make the UFO shoot projectiles if it's alive, spawned and canShootUFO is true
                 if (ufo.isAlive() && canShootUFO && ufoSpawned) {
                     // Create a new UFO projectile
-                    double angle = Math.toDegrees(ufo.calculateAngleBetweenUFOAndShip(ship));
+                    double angle = ufo.calculateAngleBetweenUFOAndShip(ship);
                     Projectile ufoProjectile = new Projectile((int) ufo.getCharacter().getTranslateX(), (int) ufo.getCharacter().getTranslateY(), angle, Projectile.ProjectileOrigin.UFO, Color.GREEN);
                     // Set the fill color to green
                     ufoProjectile.getCharacter().setFill(Color.GREEN);
 
-                    // Set the rotation of the UFO projectile
-                    double ufoToShipAngle = Math.toDegrees(ufo.calculateAngleBetweenUFOAndShip(ship));
+                    // Play the UFO projectile shooting sound
+                    sounds.playSound("beat");
 
-                    ufoProjectile.getCharacter().setRotate(angle);
+                    // Set the rotation of the UFO projectile
+                    ufoProjectile.getCharacter().setRotate(Math.toDegrees(angle));
 
                     ufoProjectiles.add(ufoProjectile);
 
                     // Projectile movement
                     ufoProjectile.accelerate();
-                    ufoProjectile.setMovement(ufoProjectile.getMovement().normalize().multiply(2));
+                    ufoProjectile.setMovement(ufoProjectile.getMovement().normalize().multiply(6));
 
                     pane.getChildren().add(ufoProjectile.getCharacter());
 
@@ -317,12 +318,73 @@ public class AsteroidsApplication extends Application {
                     Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(1.5), event -> canShootUFO = true));
                     timeline.play();
                 }
+
                 ufo.move(); // Update the UFO's position
 
 
                 ufoProjectiles.forEach(projectile -> {
                     projectile.move();
                 });
+
+                // Collision detection between the UFO's projectiles and the player's ship
+                ufoProjectiles.forEach(ufoProjectile -> {
+                    if (ufoProjectile.getOrigin() == Projectile.ProjectileOrigin.UFO && ship.getCharacter().getBoundsInParent().intersects(ufoProjectile.getCharacter().getBoundsInParent())) {
+                        // Handle the collision: decrease player's lives, end the game, etc.
+                        ship.death();
+                        healthText.setText("Lives: " + ls.decrementAndGet());
+                        sounds.playSound("large"); // Explosion sound when projectile and ship collide
+
+                        if (ship.health <= 0) {
+                            // If the ship's health is 0 or less, end the game
+                            // Game over scene switch
+                            try {
+                                //popup box asking for name
+                                Platform.runLater(() -> {
+                                    stop();
+                                    TextInputDialog dialog = new TextInputDialog();
+                                    dialog.setTitle("Enter name here: ");
+                                    dialog.showAndWait().ifPresent(string -> setName(string));
+
+                                    //write name and points to hashmap
+                                    map.put(name, pts);
+                                    if (!exists) {
+                                        File file = new File(outputpath);
+                                    }
+                                    BufferedWriter bf = null;
+                                    try {
+                                        bf = new BufferedWriter(new FileWriter("score.txt", true));
+                                        for (Map.Entry<String, AtomicInteger> entry:
+                                                map.entrySet()) {
+                                            bf.write(entry.getKey() + ":" + entry.getValue());
+                                            bf.newLine();
+                                        }
+                                        bf.flush();
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                    }
+
+                                    //high score screen
+                                    hs.start(HighScore.classStage);
+                                    stage.close();
+                                });
+                            } catch (Exception e) {
+                                throw new RuntimeException(e);
+                            }
+                        } else {
+                            // If the ship's health is still greater than 0, respawn the ship
+                            ship.movement = new Point2D(0, 0);
+                            respawnSafe = ship.respawning();
+                        }
+
+                        // Remove the UFO projectile from the scene and the ufoProjectiles list
+                        pane.getChildren().remove(ufoProjectile.getCharacter());
+                        ufoProjectile.setAlive(false);
+                    }
+                });
+
+                // Remove dead UFO projectiles
+                ufoProjectiles.removeIf(ufoProjectile -> !ufoProjectile.isAlive());
+
 
                 // Remove projectiles that collided with the UFO
                 projectiles.stream()
