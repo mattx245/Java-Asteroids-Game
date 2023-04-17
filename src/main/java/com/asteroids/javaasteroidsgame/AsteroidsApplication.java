@@ -70,6 +70,7 @@ public class AsteroidsApplication extends Application {
 
     //points int
     HighScore hs = new HighScore();
+    GameOverScreen go = new GameOverScreen();
     private AtomicInteger pts = new AtomicInteger();
 
     //high score hashmap nd filepath
@@ -489,7 +490,12 @@ public class AsteroidsApplication extends Application {
                                 }
 
                                 //high score screen
-                                hs.start(HighScore.classStage);
+                                try {
+                                    go.start(GameOverScreen.classStage);
+                                } catch (IOException e) {
+                                    throw new RuntimeException(e);
+                                }
+                                //hs.start(HighScore.classStage);
                                 stage.close();
                             });
                         } catch (Exception e) {
@@ -614,8 +620,13 @@ public class AsteroidsApplication extends Application {
                                         e.printStackTrace();
                                     }
 
-                                    //high score screen
-                                    hs.start(HighScore.classStage);
+                                    //game over screen
+                                    try {
+                                        go.start(GameOverScreen.classStage);
+                                    } catch (IOException e) {
+                                        throw new RuntimeException(e);
+                                    }
+                                    //hs.start(HighScore.classStage);
                                     stage.close();
                                 });
                             } catch (Exception e) {
