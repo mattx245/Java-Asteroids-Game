@@ -1,10 +1,10 @@
 package com.asteroids.javaasteroidsgame;
 
-
 import javafx.geometry.Point2D;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
+
 
 public class UFO extends Character {
     private Point2D targetPosition;
@@ -23,8 +23,6 @@ public class UFO extends Character {
     }
 
 
-
-
     public void setAlive(boolean isAlive) {
         this.isAlive = isAlive;
     }
@@ -32,11 +30,7 @@ public class UFO extends Character {
     public boolean isAlive() {
         return isAlive;
     }
-    public void updateTargetPosition(double x, double y) {
-        this.targetPosition = new Point2D(x, y);
-    }
 
-    private int movementChangeCooldown = 0;
 
     public double calculateAngleBetweenUFOAndShip(Ship ship) {
         double deltaX = ship.getCharacter().getTranslateX() - this.getCharacter().getTranslateX();
@@ -52,20 +46,13 @@ public class UFO extends Character {
 
 
 
-//    @Override
-//    public void move() {
-//        Point2D direction = targetPosition.subtract(getCharacter().getTranslateX(), getCharacter().getTranslateY());
-//        direction = direction.normalize().multiply(0.5);
-//        setMovement(direction);
-//        super.move();
+//    public boolean readyToShoot() {
+//        long currentTime = System.currentTimeMillis();
+//        if (currentTime - lastShootTime > SHOOT_DELAY) {
+//            lastShootTime = currentTime;
+//            return true;
+//        }
+//        return false;
 //    }
 
-    public boolean readyToShoot() {
-        long currentTime = System.currentTimeMillis();
-        if (currentTime - lastShootTime > SHOOT_DELAY) {
-            lastShootTime = currentTime;
-            return true;
-        }
-        return false;
-    }
 }

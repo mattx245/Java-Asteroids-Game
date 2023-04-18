@@ -55,6 +55,7 @@ public class HighScore extends Application {
                 }
             }
         }
+
         //sorts hashmap by value after
         LinkedHashMap<String, Integer> sortedMap = new LinkedHashMap<>();
         ArrayList<Integer> list = new ArrayList<>();
@@ -72,8 +73,34 @@ public class HighScore extends Application {
         return sortedMap;
     }
 
+    public static String getHighScoreText() {
+        StringBuilder toAdd = new StringBuilder();
+        LinkedHashMap<String, Integer> iterMap = toHash();
+        int count = 0;
 
+        // iterates through sorted map and displays first 10 entries
+        for (Map.Entry<String, Integer> entry : iterMap.entrySet()) {
+            toAdd.append("Name: " + entry.getKey() + ", Score: " + entry.getValue() + "\n");
+            count++;
 
+            if (count == 10) {
+                break;
+            }
+        }
+        return toAdd.toString();
+    }
+
+    public List<Integer> getHighScoreList() {
+        List<Integer> highScores = new ArrayList<>();
+        LinkedHashMap<String, Integer> iterMap = toHash();
+
+        // Add the high scores to the list
+        for (Map.Entry<String, Integer> entry : iterMap.entrySet()) {
+            highScores.add(entry.getValue());
+        }
+
+        return highScores;
+    }
     //scene switching stage
     static Stage classStage = new Stage();
     @Override

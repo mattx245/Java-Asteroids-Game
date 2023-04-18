@@ -68,10 +68,11 @@ public class AsteroidsApplication extends Application {
     //creates variable for startscreen
     static Stage classStage = new Stage();
     //game over screen switcher
-    GameOverScreen go = new GameOverScreen();
 
     //point int
     private AtomicInteger pts = new AtomicInteger();
+
+    GameOverScreen go = new GameOverScreen(pts.get());
 
     //high score hashmap nd filepath
     final static String outputpath = "score.txt";
@@ -348,44 +349,41 @@ public class AsteroidsApplication extends Application {
                         if (ship.health <= 0) {
                             // If the ship's health is 0 or less, end the game
                             // Game over scene switch
-                            try {
-                                //popup box asking for name
-                                Platform.runLater(() -> {
-                                    stop();
-                                    TextInputDialog dialog = new TextInputDialog();
-                                    dialog.setTitle("Enter name here: ");
-                                    dialog.showAndWait().ifPresent(string -> setName(string));
+                            //popup box asking for name
+                            Platform.runLater(() -> {
+                                stop();
+                                TextInputDialog dialog = new TextInputDialog();
+                                dialog.setTitle("Enter name here: ");
+                                dialog.showAndWait().ifPresent(string -> setName(string));
 
-                                    //write name and points to hashmap
-                                    map.put(name, pts);
-                                    if (!exists) {
-                                        File file = new File(outputpath);
+                                //write name and points to hashmap
+                                map.put(name, pts);
+                                if (!exists) {
+                                    File file = new File(outputpath);
+                                }
+                                BufferedWriter bf = null;
+                                try {
+                                    bf = new BufferedWriter(new FileWriter("score.txt", true));
+                                    for (Map.Entry<String, AtomicInteger> entry:
+                                            map.entrySet()) {
+                                        bf.write(entry.getKey() + ":" + entry.getValue());
+                                        bf.newLine();
                                     }
-                                    BufferedWriter bf = null;
-                                    try {
-                                        bf = new BufferedWriter(new FileWriter("score.txt", true));
-                                        for (Map.Entry<String, AtomicInteger> entry:
-                                                map.entrySet()) {
-                                            bf.write(entry.getKey() + ":" + entry.getValue());
-                                            bf.newLine();
-                                        }
-                                        bf.flush();
-                                    } catch (IOException e) {
-                                        e.printStackTrace();
-                                    }
+                                    bf.flush();
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
 
-                                    //high score screen
-                                    try {
-                                        go.start(GameOverScreen.classStage);
-                                    } catch (IOException e) {
-                                        throw new RuntimeException(e);
-                                    }
-                                    //hs.start(HighScore.classStage);
-                                    stage.close();
-                                });
-                            } catch (Exception e) {
-                                throw new RuntimeException(e);
-                            }
+                                //high score screen
+                                try {
+                                    go.start(GameOverScreen.classStage);
+                                } catch (Exception e) {
+                                    throw new RuntimeException(e);
+                                }
+
+                                //hs.start(HighScore.classStage);
+                                stage.close();
+                            });
                         } else {
                             // If the ship's health is still greater than 0, respawn the ship
                             ship.movement = new Point2D(0, 0);
@@ -497,7 +495,7 @@ public class AsteroidsApplication extends Application {
                                 //high score screen
                                 try {
                                     go.start(GameOverScreen.classStage);
-                                } catch (IOException e) {
+                                } catch (Exception e) {
                                     throw new RuntimeException(e);
                                 }
                                 //hs.start(HighScore.classStage);
@@ -622,12 +620,13 @@ public class AsteroidsApplication extends Application {
                                         e.printStackTrace();
                                     }
 
-                                    //game over screen
+                                    //Game over screen
                                     try {
                                         go.start(GameOverScreen.classStage);
-                                    } catch (IOException e) {
+                                    } catch (Exception e) {
                                         throw new RuntimeException(e);
                                     }
+
                                     //hs.start(HighScore.classStage);
                                     stage.close();
                                 });
