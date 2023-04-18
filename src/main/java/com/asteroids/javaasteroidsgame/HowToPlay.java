@@ -41,7 +41,7 @@ public class HowToPlay extends Application {
     public void start(Stage primaryStage) {
         // Text content
         Text text = new Text();
-        text.setText("D - Rotate Right\nA - Rotate Left\nSpace - Fire\n1- Apply Thrust\n2 - Hyperspace Jump");
+        text.setText("Right - Turn Right\nLeft - Turn Left\nSpace - Fire\nUp- Accelerate\nDown - Reverse\nJ - Hyperspace Jump");
         text.setFont(Font.font(20));
         text.setFill(Color.WHITE);
 
