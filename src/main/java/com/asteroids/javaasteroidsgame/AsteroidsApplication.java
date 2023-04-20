@@ -226,7 +226,7 @@ public class AsteroidsApplication extends Application {
 
                     //projectile movement
                     projectile.setMovement(ship.getMovement());
-                    for(int i = 0; i < 80; i++) {
+                    for(int i = 0; i < 100; i++) {
                         projectile.accelerate();
                     }
                     //projectile.setMovement(projectile.getMovement().normalize().multiply(4));
@@ -331,6 +331,7 @@ public class AsteroidsApplication extends Application {
                     if (ufoProjectile.getOrigin() == Projectile.ProjectileOrigin.UFO && ship.getCharacter().getBoundsInParent().intersects(ufoProjectile.getCharacter().getBoundsInParent())) {
                         // Handle the collision: decrease player's lives, end the game, etc.
                         ship.death();
+                        ship.fallingApart().forEach(fallingLine -> fallingLines.add(fallingLine));
                         healthText.setText("Lives: " + ls.decrementAndGet());
                         sounds.playSound("large"); // Explosion sound when projectile and ship collide
 
