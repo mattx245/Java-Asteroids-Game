@@ -43,16 +43,4 @@ public class UFO extends Character {
         this.getCharacter().setVisible(visibility);
     }
 
-
-
-
-//    public boolean readyToShoot() {
-//        long currentTime = System.currentTimeMillis();
-//        if (currentTime - lastShootTime > SHOOT_DELAY) {
-//            lastShootTime = currentTime;
-//            return true;
-//        }
-//        return false;
-//    }
-
 }
