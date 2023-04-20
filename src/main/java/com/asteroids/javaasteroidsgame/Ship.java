@@ -13,9 +13,6 @@ import java.util.List;
 // you just use the existing method setRotate.
 // The method is given the amount to turn in degrees as its parameter.
 
-
-import javafx.scene.shape.Polygon;
-
 public class Ship extends Character {
     private int health;
     private Sounds sounds;
@@ -110,6 +107,5 @@ public class Ship extends Character {
         }
         return fallingLines;
     }
-
 
 }

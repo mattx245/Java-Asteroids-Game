@@ -1,6 +1,5 @@
 package com.asteroids.javaasteroidsgame;
 
-import javafx.animation.Interpolatable;
 import javafx.application.Platform;
 import javafx.scene.control.TextInputDialog;
 import java.io.BufferedWriter;
@@ -9,7 +8,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.*;
 import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
