@@ -16,6 +16,7 @@ public abstract class Character {
     public Point2D movement;
     //alive tracker variable
     public boolean alive;
+    //store all subsequent objects
     public List<Character> characters = new ArrayList<>();
 
     public Character(Polygon polygon, int x, int y) {
@@ -26,6 +27,7 @@ public abstract class Character {
         //this.character.setFill(Color.WHITE);
 
         this.movement = new Point2D(0, 0);
+        // track all subsequent objects created
         characters.add(this);
     }
 
