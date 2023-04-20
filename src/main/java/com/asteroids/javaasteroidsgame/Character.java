@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 public abstract class Character {
 
-    //declaring the characters are polygons
+    //declaring that the characters are polygons
     public Polygon character;
     //movement variable
     public Point2D movement;
@@ -68,9 +68,6 @@ public abstract class Character {
         if (this.character.getTranslateY() > AsteroidsApplication.HEIGHT) {
             this.character.setTranslateY(this.character.getTranslateY() % AsteroidsApplication.HEIGHT);
         }
-        //The size of the character is not taken into account, so its x- or y -coordinates can be outside of the screen,
-        // even if part of the character stays visible.
-        // We can —probably— solve this problem with the getBoundsInParent-method of the Node -class. (mooc.fi)
     }
 
     public void accelerate() {
@@ -85,6 +82,7 @@ public abstract class Character {
         this.movement = this.movement.add(changeX, changeY);
     }
 
+    /* we realised this wasn't in the specification
     public void reverse() {
         double changeX = Math.cos(Math.toRadians(this.character.getRotate()));
         double changeY = Math.sin(Math.toRadians(this.character.getRotate()));
@@ -93,7 +91,7 @@ public abstract class Character {
         changeY *= -(8.0 - Math.abs(getMovement().getY()))/140;
 
         this.movement = this.movement.add(changeX, changeY);
-    }
+    }*/
 
     //collision method
     public boolean collide(Character other) {

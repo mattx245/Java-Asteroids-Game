@@ -34,6 +34,7 @@ public class Ship extends Character {
 
 
     }
+    //yiming
     public int getHealth() {
         return health;
     }

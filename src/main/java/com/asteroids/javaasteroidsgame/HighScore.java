@@ -151,6 +151,8 @@ public class HighScore extends Application {
         btn.setTranslateY(-100);
 
 
+
+
         btn.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {

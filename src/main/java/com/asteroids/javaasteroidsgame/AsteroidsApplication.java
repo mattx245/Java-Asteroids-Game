@@ -39,24 +39,15 @@ import javafx.animation.KeyFrame;
 import javafx.util.Duration;
 
 
-
-
-
-
-
 //base created following the mooc.fi tutorial loosely: https://java-programming.mooc.fi/part-14/3-larger-application-asteroids
 public class AsteroidsApplication extends Application {
 
-    //setting the rotation angle for the on click event
-    private double rotationAngle = 0.0;
     //size of screen
     public static int WIDTH = 950;
     public static int HEIGHT = 700;
     //declaring the projectile list and leaving it empty at the beginning
     List<Projectile> projectiles = new ArrayList<>();
 
-    //movement variable
-    Point2D movement = new Point2D(1, 0);
     //variable for controlling the shooting of projectiles
     private boolean canShoot = true;
     private boolean canShootUFO = true;
@@ -211,10 +202,12 @@ public class AsteroidsApplication extends Application {
                     sounds.playSound("thrust");
                     ship.accelerate();
                 }
+                /* not in the specification
                 if (pressedKeys.getOrDefault(KeyCode.DOWN, false)) {
                     sounds.playSound("thrust");
                     ship.reverse();
-                }
+                }*/
+
                 //adding projectiles
                 // shoot only if there are less than six projectiles on the screen
                 if (pressedKeys.getOrDefault(KeyCode.SPACE, false) && projectiles.size() < 6 && canShoot) {
