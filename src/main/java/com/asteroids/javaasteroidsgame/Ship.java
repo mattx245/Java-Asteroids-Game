@@ -17,7 +17,7 @@ import java.util.List;
 import javafx.scene.shape.Polygon;
 
 public class Ship extends Character {
-    public int health;
+    private int health;
     private Sounds sounds;
     private int respawnSafe;
     public Ship(int x, int y, Sounds sounds) {
@@ -34,13 +34,13 @@ public class Ship extends Character {
 
 
     }
-    //yiming
+    // getter for health
     public int getHealth() {
-        return health;
+        return this.health;
     }
-
+    // setter for health
     public void setHealth(int newHealth) {
-        health = newHealth;
+        this.health = newHealth;
     }
 
     public void death() {
