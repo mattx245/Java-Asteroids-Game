@@ -570,7 +570,7 @@ public class AsteroidsApplication extends Application {
                         ship.death();
                         ship.fallingApart().forEach(fallingLine -> fallingLines.add(fallingLine));
                         healthText.setText("Lives: " + ls.decrementAndGet());
-                        if (ship.getHealth >0) {
+                        if (ship.getHealth() >0) {
                             ship.alive = true;
                             ship.movement = new Point2D(0, 0);
                             respawnSafe = ship.respawning();
