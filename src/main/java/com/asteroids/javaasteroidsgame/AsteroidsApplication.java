@@ -78,7 +78,7 @@ public class AsteroidsApplication extends Application {
     public void setName (String nm)  {
         this.name = nm;
     }
-    private int respawnSafe = 0;
+    private Integer respawnSafe = 0;
     int level = 1; //initialize level
     @Override
     public void start(Stage stage) throws Exception {
@@ -313,54 +313,9 @@ public class AsteroidsApplication extends Application {
                 ufoProjectiles.forEach(ufoProjectile -> {
                     if (ufoProjectile.getOrigin() == Projectile.ProjectileOrigin.UFO && ship.getCharacter().getBoundsInParent().intersects(ufoProjectile.getCharacter().getBoundsInParent())) {
                         // Handle the collision: decrease player's lives, end the game, etc.
-                        ship.death();
-                        ship.fallingApart().forEach(fallingLine -> fallingLines.add(fallingLine));
-                        healthText.setText("Lives: " + ls.decrementAndGet());
                         sounds.playSound("large"); // Explosion sound when projectile and ship collide
 
-                        if (ship.getHealth() <= 0) {
-                            // If the ship's health is 0 or less, end the game
-                            // Game over scene switch
-                            //popup box asking for name
-                            Platform.runLater(() -> {
-                                stop();
-                                TextInputDialog dialog = new TextInputDialog();
-                                dialog.setTitle("Enter name here: ");
-                                dialog.showAndWait().ifPresent(string -> setName(string));
-
-                                //write name and points to hashmap
-                                map.put(name, pts);
-                                if (!exists) {
-                                    File file = new File(outputpath);
-                                }
-                                BufferedWriter bf = null;
-                                try {
-                                    bf = new BufferedWriter(new FileWriter("score.txt", true));
-                                    for (Map.Entry<String, AtomicInteger> entry:
-                                            map.entrySet()) {
-                                        bf.write(entry.getKey() + ":" + entry.getValue());
-                                        bf.newLine();
-                                    }
-                                    bf.flush();
-                                } catch (IOException e) {
-                                    e.printStackTrace();
-                                }
-
-                                //high score screen
-                                try {
-                                    go.start(GameOverScreen.classStage);
-                                } catch (Exception e) {
-                                    throw new RuntimeException(e);
-                                }
-
-                                //hs.start(HighScore.classStage);
-                                stage.close();
-                            });
-                        } else {
-                            // If the ship's health is still greater than 0, respawn the ship
-                            ship.movement = new Point2D(0, 0);
-                            respawnSafe = ship.respawning();
-                        }
+                        shipCollides();
 
                         // Remove the UFO projectile from the scene and the ufoProjectiles list
                         pane.getChildren().remove(ufoProjectile.getCharacter());
@@ -383,104 +338,22 @@ public class AsteroidsApplication extends Application {
                 // Collision detection between the player's projectiles and the UFO
                 projectiles.forEach(projectile -> {
                     if (ufoSpawned && ufo.isAlive() && projectile.getOrigin() == Projectile.ProjectileOrigin.SHIP && ufo.getCharacter().getBoundsInParent().intersects(projectile.getCharacter().getBoundsInParent())) {
-                        // Increase player's score by 5,000 points
+                        // Increase player's score by 300 points
                         points.setText("Points: " + pts.addAndGet(300));
 
-                        // Destroy the UFO
-                        ufo.setAlive(false);
-                        ufo.getCharacter().setVisible(false);
-                        ufoSpawned = false;
-
-                        // Play the UFO explosion sound
-                        sounds.playSound("medium");
-                        // Remove the UFO from the screen
-                        pane.getChildren().remove(ufo.getCharacter());
+                        ufoDied(now);
 
                         // Remove the projectile
                         projectile.setAlive(false);
-
-                        // Set the last spawn time to the current time, so the UFO will respawn after a delay
-                        lastSpawnTime = now;
                     }
                 });
 
-
-                // Collision detection between the player's projectiles and the UFO
-                projectiles.forEach(projectile -> {
-                    if (ufoSpawned && ufo.isAlive() && projectile.getOrigin() == Projectile.ProjectileOrigin.SHIP && ufo.getCharacter().getBoundsInParent().intersects(projectile.getCharacter().getBoundsInParent())) {
-                        // Increase player's score by 5,000 points
-                        points.setText("Points: " + pts.addAndGet(5000));
-
-                        // Destroy the UFO
-                        ufo.setAlive(false);
-                        ufo.getCharacter().setVisible(false);
-                        ufoSpawned = false;
-
-                        // Play the UFO explosion sound
-                        sounds.playSound("medium");
-                        // Remove the UFO from the screen
-                        pane.getChildren().remove(ufo.getCharacter());
-
-                        // Remove the projectile
-                        projectile.setAlive(false);
-
-                        // Reset the lastSpawnTime
-                        lastSpawnTime = now;
-                    }
-                });
 
                 // UFO collision code
                 if (ufoSpawned && ufo.getCharacter().getBoundsInParent().intersects(ship.getCharacter().getBoundsInParent()) && respawnSafe < 1) {
-                    ship.death(); // Reduce ship health by 1
-                    ship.fallingApart().forEach(fallingLine -> fallingLines.add(fallingLine));
-                    healthText.setText("Lives: " + ls.decrementAndGet());
                     sounds.playSound("large"); // Explosion sound when ship and UFO collide
-                    if (ship.getHealth() <= 0) {
-                        // If the ship's health is 0 or less, end the game
-                        // Game over scene switch
-                        try {
-                            //popup box asking for name
-                            Platform.runLater(() -> {
-                                stop();
-                                TextInputDialog dialog = new TextInputDialog();
-                                dialog.setTitle("Enter name here: ");
-                                dialog.showAndWait().ifPresent(string -> setName(string));
-
-                                //write name and points to hashmap
-                                map.put(name, pts);
-                                if (!exists) {
-                                    File file = new File(outputpath);
-                                }
-                                BufferedWriter bf = null;
-                                try {
-                                    bf = new BufferedWriter(new FileWriter("score.txt", true));
-                                    for (Map.Entry<String, AtomicInteger> entry:
-                                            map.entrySet()) {
-                                        bf.write(entry.getKey() + ":" + entry.getValue());
-                                        bf.newLine();
-                                    }
-                                    bf.flush();
-                                } catch (IOException e) {
-                                    e.printStackTrace();
-                                }
-
-                                //high score screen
-                                try {
-                                    go.start(GameOverScreen.classStage);
-                                } catch (Exception e) {
-                                    throw new RuntimeException(e);
-                                }
-                                //hs.start(HighScore.classStage);
-                                stage.close();
-                            });
-                        } catch (Exception e) {
-                            throw new RuntimeException(e);
-                        }
-                    } else {
-                        // If the ship's health is still greater than 0, respawn the ship
-                        ship.movement = new Point2D(0, 0);
-                        respawnSafe = ship.respawning();
-                    }
+                    shipCollides();
+                    ufoDied(now);
                 }
 
 
@@ -556,55 +429,7 @@ public class AsteroidsApplication extends Application {
                 asteroids.forEach(asteroid -> {
                     if (ship.collide(asteroid) && respawnSafe < 1) {
                         asteroid.setAlive(false);
-                        ship.death();
-                        ship.fallingApart().forEach(fallingLine -> fallingLines.add(fallingLine));
-                        healthText.setText("Lives: " + ls.decrementAndGet());
-                        if (ship.getHealth() >0) {
-                            ship.alive = true;
-                            ship.movement = new Point2D(0, 0);
-                            respawnSafe = ship.respawning();
-                        } else {
-                            //game over scene switch
-                            try {
-                                //popup box asking for name
-                                Platform.runLater(() -> {
-                                    stop();
-                                    TextInputDialog dialog = new TextInputDialog();
-                                    dialog.setTitle("Enter name here: ");
-                                    dialog.showAndWait().ifPresent(string -> setName(string));
-
-                                    //write name and points to hashmap
-                                    map.put(name, pts);
-                                    if (!exists) {
-                                        File file = new File(outputpath);
-                                    }
-                                    BufferedWriter bf = null;
-                                    try {
-                                        bf = new BufferedWriter(new FileWriter("score.txt", true));
-                                        for (Map.Entry<String, AtomicInteger> entry:
-                                                map.entrySet()) {
-                                            bf.write(entry.getKey() + ":" + entry.getValue());
-                                            bf.newLine();
-                                        }
-                                        bf.flush();
-                                    } catch (IOException e) {
-                                        e.printStackTrace();
-                                    }
-
-                                    //Game over screen
-                                    try {
-                                        go.start(GameOverScreen.classStage);
-                                    } catch (Exception e) {
-                                        throw new RuntimeException(e);
-                                    }
-
-                                    //hs.start(HighScore.classStage);
-                                    stage.close();
-                                });
-                            } catch (Exception e) {
-                                throw new RuntimeException(e);
-                            }
-                        }
+                        shipCollides();
                     }
                 });
 
@@ -627,6 +452,69 @@ public class AsteroidsApplication extends Application {
                 // Reduce Safe respawn time
                 respawnSafe--;
             }
+
+            public void ufoDied(long now){
+                // Destroy the UFO
+                ufo.setAlive(false);
+                ufo.getCharacter().setVisible(false);
+                ufoSpawned = false;
+
+                // Play the UFO explosion sound
+                sounds.playSound("medium");
+                // Remove the UFO from the screen
+                pane.getChildren().remove(ufo.getCharacter());
+
+                // Reset the lastSpawnTime
+                lastSpawnTime = now;
+            }
+            public void shipCollides() {
+                respawnSafe = ship.death(); // Reduce ship health by 1 // Returns -1 if ship died
+                ship.fallingApart().forEach(fallingLine -> fallingLines.add(fallingLine));
+                healthText.setText("Lives: " + ls.decrementAndGet());
+                if (respawnSafe.equals(-1)) {
+                    gameOver();
+                }
+            }
+            private void gameOver() {
+                try {
+                    //popup box asking for name
+                    Platform.runLater(() -> {
+                        stop();
+                        TextInputDialog dialog = new TextInputDialog();
+                        dialog.setTitle("Enter name here: ");
+                        dialog.showAndWait().ifPresent(string -> setName(string));
+
+                        //write name and points to hashmap
+                        map.put(name, pts);
+                        if (!exists) {
+                            File file = new File(outputpath);
+                        }
+                        BufferedWriter bf = null;
+                        try {
+                            bf = new BufferedWriter(new FileWriter("score.txt", true));
+                            for (Map.Entry<String, AtomicInteger> entry:
+                                    map.entrySet()) {
+                                bf.write(entry.getKey() + ":" + entry.getValue());
+                                bf.newLine();
+                            }
+                            bf.flush();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+
+                        //high score screen
+                        try {
+                            go.start(GameOverScreen.classStage);
+                        } catch (Exception e) {
+                            throw new RuntimeException(e);
+                        }
+                        //hs.start(HighScore.classStage);
+                        stage.close();
+                    });
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+            }
         }.start();
 
         stage.setTitle("Asteroids Game!");
@@ -636,8 +524,6 @@ public class AsteroidsApplication extends Application {
         //assigns stage variable for call in startscreen
         classStage = stage;
     }
-
-
 
     public static void main(String[] args) {
         launch(args);

@@ -40,9 +40,15 @@ public class Ship extends Character {
         this.health = newHealth;
     }
 
-    public void death() {
+    public int death() {
         sounds.playSound("beat");
         this.health = this.health - 1;
+
+        if(this.health > 1) {
+            return this.respawning();
+        } else {
+            return -1;
+        }
     }
     // judge if there is a collision with other objects except the ship itself
     public boolean ship_collides() {
@@ -75,6 +81,7 @@ public class Ship extends Character {
     }
     public int respawning(){
         this.hyperspaceJump();
+        this.setMovement(new Point2D(0, 0));
         return this.respawnSafe;
     }
 
