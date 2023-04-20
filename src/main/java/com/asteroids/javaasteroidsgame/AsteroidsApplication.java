@@ -292,7 +292,7 @@ public class AsteroidsApplication extends Application {
 
                     // Projectile movement
                     ufoProjectile.accelerate();
-                    ufoProjectile.setMovement(ufoProjectile.getMovement().normalize().multiply(6));
+                    ufoProjectile.setMovement(ufoProjectile.getMovement().normalize().multiply(4));
 
                     pane.getChildren().add(ufoProjectile.getCharacter());
 
