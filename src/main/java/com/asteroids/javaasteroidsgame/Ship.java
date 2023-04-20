@@ -44,6 +44,7 @@ public class Ship extends Character {
         sounds.playSound("beat");
         this.health = this.health - 1;
     }
+    // judge if there is a collision with other objects except the ship itself
     public boolean ship_collides() {
         for (Character character : characters) {
             if (character != this && character.collide(this)) {
@@ -60,6 +61,7 @@ public class Ship extends Character {
         while (!valid){
             newX = (int)(Math.random() * 950);
             newY = (int)(Math.random() * 700);
+            // judge if the ship in the new location will be within 40 range of other objects
             if ((!new Ship(newX,newY, sounds).ship_collides())&&(!new Ship(newX+40,newY, sounds).ship_collides())&&(!new Ship(newX-40,newY, sounds).ship_collides())&&(!new Ship(newX,newY-40, sounds).ship_collides())&&(!new Ship(newX,newY+40, sounds).ship_collides()) ){
                 valid = true;
                 this.movement = new Point2D(0, 0);
