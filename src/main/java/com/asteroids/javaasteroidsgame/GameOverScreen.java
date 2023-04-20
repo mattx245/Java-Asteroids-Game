@@ -18,6 +18,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import static com.asteroids.javaasteroidsgame.AsteroidsApplication.HEIGHT;
+import static com.asteroids.javaasteroidsgame.AsteroidsApplication.WIDTH;
+
 public class GameOverScreen extends HighScore {
     private int playerScore;
     private int playerRank;
@@ -51,7 +54,7 @@ public class GameOverScreen extends HighScore {
     @Override
     public void start(Stage stage) {
           Pane pane = new Pane();
-        pane.setPrefSize(950, 700);
+        pane.setPrefSize(WIDTH, HEIGHT);
         pane.setStyle("-fx-background-color: black");
 
         // Creates a new Text node for displaying high scores
@@ -146,7 +149,7 @@ public class GameOverScreen extends HighScore {
         pane.getChildren().addAll(buttonBox, playAgainBtn, viewHighScoresBtn, gameOverText, highScoresText, mainMenuBtn);
 
 
-        Scene scene = new Scene(pane,950, 700);
+        Scene scene = new Scene(pane, WIDTH, HEIGHT);
         stage.setScene(scene);
         stage.show();
         //assigns stage variable for call in startscreen

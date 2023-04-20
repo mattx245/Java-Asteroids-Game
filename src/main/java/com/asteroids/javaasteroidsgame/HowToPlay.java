@@ -17,6 +17,9 @@ import javafx.geometry.Pos;
 
 import java.util.Random;
 
+import static com.asteroids.javaasteroidsgame.AsteroidsApplication.HEIGHT;
+import static com.asteroids.javaasteroidsgame.AsteroidsApplication.WIDTH;
+
 public class HowToPlay extends Application {
 
     private void createStars(Pane pane, int numStars) {
@@ -89,7 +92,7 @@ public class HowToPlay extends Application {
 
 
 
-        Scene scene = new Scene(root, 950, 700);
+        Scene scene = new Scene(root, WIDTH, HEIGHT);
         primaryStage.setTitle("HowToPlay");
 
         primaryStage.setScene(scene);

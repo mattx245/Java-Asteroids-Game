@@ -59,7 +59,7 @@ public class Ship extends Character {
     public int hyperspaceJump() {
         boolean valid = false;
         int newX, newY;
-        this.respawnSafe = 100;
+        this.respawnSafe = 160;
         while (!valid){
             newX = (int)(Math.random() * 950);
             newY = (int)(Math.random() * 700);
@@ -83,10 +83,10 @@ public class Ship extends Character {
     public void move() {
         this.respawnSafe--;
         if(this.respawnSafe > 1) {
-            if(this.respawnSafe % 16 == 0) {
+            if(this.respawnSafe % 20 == 0) {
                 this.getCharacter().setStroke(Color.BLACK);
             }
-            else if(this.respawnSafe % 8 == 0) {
+            else if(this.respawnSafe % 10 == 0) {
                 this.getCharacter().setStroke(Color.WHITE);
             }
         }

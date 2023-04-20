@@ -18,6 +18,9 @@ import javafx.scene.shape.Circle;
 import java.io.IOException;
 import java.util.Random;
 
+import static com.asteroids.javaasteroidsgame.AsteroidsApplication.HEIGHT;
+import static com.asteroids.javaasteroidsgame.AsteroidsApplication.WIDTH;
+
 
 public class StartScreen extends Application {
 
@@ -148,7 +151,7 @@ public class StartScreen extends Application {
         // Set up the scene
         pane.getChildren().addAll(startImageView_left, startImageView_right);
         pane.getChildren().addAll(title, subheading, buttonContainer);
-        Scene scene = new Scene(pane, 950, 700);
+        Scene scene = new Scene(pane, WIDTH, HEIGHT);
         pane.setStyle("-fx-background-color: black");
         stage.setScene(scene);
         stage.setTitle("Asteroid Game");

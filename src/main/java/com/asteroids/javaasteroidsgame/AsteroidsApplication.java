@@ -43,8 +43,8 @@ import javafx.util.Duration;
 public class AsteroidsApplication extends Application {
 
     //size of screen
-    public static int WIDTH = 950;
-    public static int HEIGHT = 700;
+    public final static int WIDTH = 950;
+    public final static int HEIGHT = 700;
     //declaring the projectile list and leaving it empty at the beginning
     List<Projectile> projectiles = new ArrayList<>();
 

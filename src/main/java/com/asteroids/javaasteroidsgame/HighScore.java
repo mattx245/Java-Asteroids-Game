@@ -23,6 +23,9 @@ import java.io.FileReader;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import static com.asteroids.javaasteroidsgame.AsteroidsApplication.HEIGHT;
+import static com.asteroids.javaasteroidsgame.AsteroidsApplication.WIDTH;
+
 public class HighScore extends Application {
 
     public static String filepath = "score.txt";
@@ -180,7 +183,7 @@ public class HighScore extends Application {
         root.getChildren().add(borderPane);
 
 
-        Scene scene = new Scene(root, 950, 700);
+        Scene scene = new Scene(root, WIDTH, HEIGHT);
         primaryStage.setTitle("High score");
 
         primaryStage.setScene(scene);
