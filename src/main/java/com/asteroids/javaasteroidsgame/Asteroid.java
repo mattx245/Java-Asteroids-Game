@@ -25,7 +25,7 @@ public class Asteroid extends Character {
         setMovement(new Point2D(Math.cos(angle) * initialSpeed, Math.sin(angle) * initialSpeed));
     }
 
-    public void setColor() {
+    private void setColor() {
         getCharacter().setFill(Color.TRANSPARENT);
         getCharacter().setStroke(Color.WHITE);
         getCharacter().setStrokeWidth(2.0);

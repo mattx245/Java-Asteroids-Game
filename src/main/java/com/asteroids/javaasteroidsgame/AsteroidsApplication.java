@@ -166,21 +166,6 @@ public class AsteroidsApplication extends Application {
         scene.setFill(Color.BLACK);
         points.setFill(Color.WHITE);
 
-        // Text help
-        Text help = new Text();
-        help.setText("Help");
-        help.setFont(Font.font(20));
-        help.setFill(Color.WHITE);
-
-        // Create VBox to hold help
-        VBox vbox_help = new VBox(help);
-        vbox_help.setAlignment(Pos.CENTER);
-        pane.getChildren().add(vbox_help);
-
-        // Set position of VBox to top of Pane
-        vbox_help.setLayoutY(20);
-        vbox_help.setLayoutX(880);
-
         //rotating the ship
         //creating an animation timer that needs a pressedKeys hashmap to smooth the animation
         Map<KeyCode, Boolean> pressedKeys = new HashMap<>();
@@ -240,8 +225,11 @@ public class AsteroidsApplication extends Application {
                     projectiles.add(projectile);
 
                     //projectile movement
-                    projectile.accelerate();
-                    projectile.setMovement(projectile.getMovement().normalize().multiply(3));
+                    projectile.setMovement(ship.getMovement());
+                    for(int i = 0; i < 80; i++) {
+                        projectile.accelerate();
+                    }
+                    //projectile.setMovement(projectile.getMovement().normalize().multiply(4));
 
                     pane.getChildren().add(projectile.getCharacter());
 
@@ -643,16 +631,17 @@ public class AsteroidsApplication extends Application {
                         pane.getChildren().add(fallingLine.getCharacter()); // Add the Line character to the Pane
                     }
                     fallingLine.move();
-                    fallingLine.move();
                     if(!fallingLine.isAlive()) {
                         pane.getChildren().remove(fallingLine.getCharacter());
                     }
                 });
 
+                // Remove "not alive" fallingLines
                 fallingLines.removeAll(fallingLines.stream()
                         .filter(fallingLine -> !fallingLine.isAlive())
                         .collect(Collectors.toList()));
 
+                // Reduce Safe respawn time
                 respawnSafe--;
             }
         }.start();

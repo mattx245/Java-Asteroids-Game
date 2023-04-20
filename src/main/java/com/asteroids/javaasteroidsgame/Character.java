@@ -78,8 +78,8 @@ public abstract class Character {
         double changeX = Math.cos(angle);
         double changeY = Math.sin(angle);
 
-        changeX *= (8.0 - Math.abs(getMovement().getX()))/80;
-        changeY *= (8.0 - Math.abs(getMovement().getY()))/80;
+        changeX *= (8.0 - Math.abs(getMovement().getX()))/140;
+        changeY *= (8.0 - Math.abs(getMovement().getY()))/140;
 
 
         this.movement = this.movement.add(changeX, changeY);
@@ -89,8 +89,8 @@ public abstract class Character {
         double changeX = Math.cos(Math.toRadians(this.character.getRotate()));
         double changeY = Math.sin(Math.toRadians(this.character.getRotate()));
 
-        changeX *= -(8.0 - Math.abs(getMovement().getX()))/80;
-        changeY *= -(8.0 - Math.abs(getMovement().getY()))/80;
+        changeX *= -(8.0 - Math.abs(getMovement().getX()))/140;
+        changeY *= -(8.0 - Math.abs(getMovement().getY()))/140;
 
         this.movement = this.movement.add(changeX, changeY);
     }

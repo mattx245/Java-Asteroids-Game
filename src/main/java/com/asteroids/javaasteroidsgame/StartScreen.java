@@ -139,7 +139,7 @@ public class StartScreen extends Application {
         startImageView_left.setX(50);
         startImageView_right.setX(pane.getPrefWidth() - 650); // 950 - 300 (width) - 50 (margin)
 
-// Center the images on the Y-axis
+        // Center the images on the Y-axis
         double centerY = (pane.getPrefHeight() - 200) / 2; // (720 - 200) / 2
         startImageView_left.setY(centerY);
         startImageView_right.setY(centerY);

@@ -51,7 +51,7 @@ public class GameOverScreen extends HighScore {
     @Override
     public void start(Stage stage) {
           Pane pane = new Pane();
-        pane.setPrefSize(700, 500);
+        pane.setPrefSize(950, 700);
         pane.setStyle("-fx-background-color: black");
 
         // Creates a new Text node for displaying high scores
@@ -146,7 +146,7 @@ public class GameOverScreen extends HighScore {
         pane.getChildren().addAll(buttonBox, playAgainBtn, viewHighScoresBtn, gameOverText, highScoresText, mainMenuBtn);
 
 
-        Scene scene = new Scene(pane,700,500);
+        Scene scene = new Scene(pane,950, 700);
         stage.setScene(scene);
         stage.show();
         //assigns stage variable for call in startscreen
