@@ -328,7 +328,7 @@ public class AsteroidsApplication extends Application {
                         healthText.setText("Lives: " + ls.decrementAndGet());
                         sounds.playSound("large"); // Explosion sound when projectile and ship collide
 
-                        if (ship.health <= 0) {
+                        if (ship.getHealth() <= 0) {
                             // If the ship's health is 0 or less, end the game
                             // Game over scene switch
                             //popup box asking for name
@@ -445,7 +445,7 @@ public class AsteroidsApplication extends Application {
                     ship.fallingApart().forEach(fallingLine -> fallingLines.add(fallingLine));
                     healthText.setText("Lives: " + ls.decrementAndGet());
                     sounds.playSound("large"); // Explosion sound when ship and UFO collide
-                    if (ship.health <= 0) {
+                    if (ship.getHealth() <= 0) {
                         // If the ship's health is 0 or less, end the game
                         // Game over scene switch
                         try {
@@ -570,7 +570,7 @@ public class AsteroidsApplication extends Application {
                         ship.death();
                         ship.fallingApart().forEach(fallingLine -> fallingLines.add(fallingLine));
                         healthText.setText("Lives: " + ls.decrementAndGet());
-                        if (ship.health >0) {
+                        if (ship.getHealth >0) {
                             ship.alive = true;
                             ship.movement = new Point2D(0, 0);
                             respawnSafe = ship.respawning();
