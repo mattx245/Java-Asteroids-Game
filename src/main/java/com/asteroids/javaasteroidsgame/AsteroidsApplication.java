@@ -133,6 +133,7 @@ public class AsteroidsApplication extends Application {
 
         //adding the asteroids as a list
         List<Asteroid> asteroids = new ArrayList<>();
+
         // List of projectiles for UFO bullets
         List<Projectile> ufoProjectiles = new ArrayList<>();
         for (int i = 0; i < 1; i++) {
@@ -144,24 +145,14 @@ public class AsteroidsApplication extends Application {
         pane.getChildren().add(ship.getCharacter());
         asteroids.forEach(asteroid -> pane.getChildren().add(asteroid.getCharacter()));
 
-        // asteroid movement
-        /*for (Asteroid asteroid : asteroids) {
-            asteroid.turnRight();
-            asteroid.turnRight();
-            asteroid.accelerate();
-            asteroid.accelerate();
-        }*/
-
-
         Scene scene = new Scene(pane);
         scene.setFill(Color.BLACK);
         points.setFill(Color.WHITE);
 
-        //rotating the ship
-        //creating an animation timer that needs a pressedKeys hashmap to smooth the animation
-        Map<KeyCode, Boolean> pressedKeys = new HashMap<>();
-        //getting the pressed keys from the hashmap for faster/smoother animation
         //---------------------------------------------------------------------------------------
+        //getting the pressed keys from the hashmap for faster/smoother animation
+        Map<KeyCode, Boolean> pressedKeys = new HashMap<>();
+
         scene.setOnKeyPressed(event -> {
             pressedKeys.put(event.getCode(), Boolean.TRUE);
         });
@@ -170,9 +161,8 @@ public class AsteroidsApplication extends Application {
             pressedKeys.put(event.getCode(), Boolean.FALSE);
         });
 
-        // FallingLines:
         //---------------------------------------------------------------------------------------
-
+        // FallingLines:
         List<FallingLines> fallingLines = new ArrayList<>();
 
         //---------------------------------------------------------------------------------------
@@ -202,11 +192,16 @@ public class AsteroidsApplication extends Application {
                     sounds.playSound("thrust");
                     ship.accelerate();
                 }
+                if (pressedKeys.getOrDefault(KeyCode.J, false)) {
+                    respawnSafe = ship.hyperspaceJump();
+                }
                 /* not in the specification
                 if (pressedKeys.getOrDefault(KeyCode.DOWN, false)) {
                     sounds.playSound("thrust");
                     ship.reverse();
                 }*/
+
+                //---------------------------------------------------------------------------------------
 
                 //adding projectiles
                 // shoot only if there are less than six projectiles on the screen
@@ -222,7 +217,6 @@ public class AsteroidsApplication extends Application {
                     for(int i = 0; i < 100; i++) {
                         projectile.accelerate();
                     }
-                    //projectile.setMovement(projectile.getMovement().normalize().multiply(4));
 
                     pane.getChildren().add(projectile.getCharacter());
 
@@ -231,9 +225,7 @@ public class AsteroidsApplication extends Application {
                     Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(0.3), event -> canShoot = true));
                     timeline.play();
                 }
-                if (pressedKeys.getOrDefault(KeyCode.J, false)) {
-                    respawnSafe = ship.hyperspaceJump();
-                }
+
 
                 //---------------------------------------------------------------------------------------
 
@@ -495,7 +487,6 @@ public class AsteroidsApplication extends Application {
 
 
                 // ensure that there are no more than six projectiles on the screen
-                // is this for ufoprojectiles still or all?
                 if (projectiles.size() > 6) {
                     projectiles.subList(0, projectiles.size() - 6).clear();
                 }
