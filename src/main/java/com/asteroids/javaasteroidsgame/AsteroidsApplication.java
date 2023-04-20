@@ -351,7 +351,6 @@ public class AsteroidsApplication extends Application {
 
                 // UFO collision code
                 if (ufoSpawned && ufo.getCharacter().getBoundsInParent().intersects(ship.getCharacter().getBoundsInParent()) && respawnSafe < 1) {
-                    sounds.playSound("large"); // Explosion sound when ship and UFO collide
                     shipCollides();
                     ufoDied(now);
                 }
