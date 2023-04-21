@@ -54,9 +54,9 @@ public class GameOverScreen extends HighScore {
     @Override
     public void start(Stage stage) {
         Pane pane = new Pane();
-        createStars(pane, 200);
         pane.setPrefSize(950, 700);
         pane.setStyle("-fx-background-color: black");
+        createStars(pane, 200);
 
         // Loads the "gameover.png" image
         Image gameoverImage = new Image(getClass().getResourceAsStream("/img/gameover.png"));
@@ -152,7 +152,8 @@ public class GameOverScreen extends HighScore {
         // Adds spacing to the VBox
         vbox.setSpacing(-20);
 
-        pane.getChildren().addAll(vbox);
+        pane.getChildren().add(vbox);
+
 
         // Sets the stage size to (950, 700)
         stage.setWidth(950);
