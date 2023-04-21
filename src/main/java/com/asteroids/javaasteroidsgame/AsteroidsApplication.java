@@ -501,9 +501,10 @@ public class AsteroidsApplication extends Application {
                             e.printStackTrace();
                         }
 
-                        //high score screen
+                        //Game over screen loads high score
                         try {
-                            go.start(GameOverScreen.classStage);
+                            GameOverScreen gameOverScreen = new GameOverScreen(pts.get());
+                            gameOverScreen.start(GameOverScreen.classStage);
                         } catch (Exception e) {
                             throw new RuntimeException(e);
                         }
