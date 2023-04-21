@@ -44,7 +44,7 @@ public class Ship extends Character {
         sounds.playSound("beat");
         this.health = this.health - 1;
 
-        if(this.health > 1) {
+        if(this.health >= 1) {
             return this.respawning();
         } else {
             return -1;
