@@ -13,9 +13,9 @@ public abstract class Character {
     //declaring that the characters are polygons
     public Polygon character;
     //movement variable
-    public Point2D movement;
+    private Point2D movement;
     //alive tracker variable
-    public boolean alive;
+    private boolean alive;
     //store all subsequent objects
     public List<Character> characters = new ArrayList<>();
 

@@ -70,7 +70,7 @@ public class Ship extends Character {
             // judge if the ship in the new location will be within 40 range of other objects
             if ((!new Ship(newX,newY, sounds).ship_collides())&&(!new Ship(newX+40,newY, sounds).ship_collides())&&(!new Ship(newX-40,newY, sounds).ship_collides())&&(!new Ship(newX,newY-40, sounds).ship_collides())&&(!new Ship(newX,newY+40, sounds).ship_collides()) ){
                 valid = true;
-                this.movement = new Point2D(0, 0);
+                this.setMovement(new Point2D(0, 0));
                 // Set the position of the player's ship to the new location
                 this.character.setTranslateX(newX);
                 this.character.setTranslateY(newY);

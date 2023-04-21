@@ -20,7 +20,7 @@ import java.util.Random;
 import javafx.scene.layout.VBox;
 
 public class GameOverScreen extends HighScore {
-    public int playerScore;
+    private int playerScore;
 
     private void createStars(Pane pane, int numStars) {
         Random random = new Random();

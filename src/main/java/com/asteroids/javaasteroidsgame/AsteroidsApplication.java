@@ -134,6 +134,8 @@ public class AsteroidsApplication extends Application {
 
         // List of projectiles for UFO bullets
         List<Projectile> ufoProjectiles = new ArrayList<>();
+
+
         for (int i = 0; i < 1; i++) {
             Random rnd = new Random();
             Asteroid asteroid = new Asteroid(rnd.nextInt(WIDTH / 3), rnd.nextInt(HEIGHT), sounds);
