@@ -26,6 +26,7 @@ public class StartScreen extends Application {
 
     static Stage classStage = new Stage();
 
+    // Generates stars for background
     private void createStars(Pane pane, int numStars) {
         Random random = new Random();
 
