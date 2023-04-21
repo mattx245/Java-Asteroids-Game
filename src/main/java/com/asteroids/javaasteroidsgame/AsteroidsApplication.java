@@ -314,7 +314,7 @@ public class AsteroidsApplication extends Application {
 
                 // Collision detection between the UFO's projectiles and the player's ship
                 ufoProjectiles.forEach(ufoProjectile -> {
-                    if (ufoProjectile.getOrigin() == Projectile.ProjectileOrigin.UFO && ship.getCharacter().getBoundsInParent().intersects(ufoProjectile.getCharacter().getBoundsInParent())) {
+                    if (ufoProjectile.getOrigin() == Projectile.ProjectileOrigin.UFO && ship.getCharacter().getBoundsInParent().intersects(ufoProjectile.getCharacter().getBoundsInParent())  && respawnSafe < 1) {
                         // Handle the collision: decrease player's lives, end the game, etc.
                         sounds.playSound("large"); // Explosion sound when projectile and ship collide
 
