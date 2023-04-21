@@ -4,7 +4,6 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
@@ -22,6 +21,7 @@ import javafx.scene.layout.VBox;
 public class GameOverScreen extends HighScore {
     public int playerScore;
 
+    // Generates stars for background
     private void createStars(Pane pane, int numStars) {
         Random random = new Random();
 
@@ -58,13 +58,13 @@ public class GameOverScreen extends HighScore {
         pane.setPrefSize(950, 700);
         pane.setStyle("-fx-background-color: black");
 
-        // Load the "gameover.png" image
+        // Loads the "gameover.png" image
         Image gameoverImage = new Image(getClass().getResourceAsStream("/img/gameover.png"));
 
-        // Create a new ImageView object to display the image
+        // Creates a new ImageView object to display the image
         ImageView gameoverImageView = new ImageView(gameoverImage);
 
-        // Set the position and size of the ImageView
+        // Sets the position and size of the ImageView
         gameoverImageView.setFitWidth(400);
         gameoverImageView.setFitHeight(400);
         gameoverImageView.setX((pane.getPrefWidth() - gameoverImageView.getFitWidth()) / 2);
@@ -137,31 +137,32 @@ public class GameOverScreen extends HighScore {
         buttonBox.setSpacing(15);
         buttonBox.getChildren().addAll(playAgainBtn, viewHighScoresBtn, mainMenuBtn);
 
-// set the alignment of the buttonBox to center within the HBox
+        // sets the alignment of the buttonBox to center within the HBox
         HBox.setHgrow(buttonBox, javafx.scene.layout.Priority.ALWAYS);
         HBox.setMargin(buttonBox, new javafx.geometry.Insets(0, 50, 0, 50));
         buttonBox.setAlignment(Pos.CENTER);
 
-// Add the button box at the bottom of the pane
+        // Adds the button box at the bottom of the pane
         VBox vbox = new VBox();
         vbox.setPrefSize(pane.getPrefWidth(), pane.getPrefHeight());
         vbox.getChildren().addAll(gameOverText, highScoresText, gameoverImageView, buttonBox);
         VBox.setVgrow(buttonBox, javafx.scene.layout.Priority.ALWAYS);
         vbox.setAlignment(Pos.CENTER);
 
-// Add spacing to the VBox
+        // Adds spacing to the VBox
         vbox.setSpacing(-20);
 
         pane.getChildren().addAll(vbox);
 
-// Set the stage size to (950, 700)
+        // Sets the stage size to (950, 700)
         stage.setWidth(950);
         stage.setHeight(700);
 
         Scene scene = new Scene(pane, 950, 700); // Set the new scene size
         stage.setScene(scene);
         stage.show();
-//assigns stage variable for call in startscreen
+
+        //assigns stage variable for call in startscreen
         classStage = stage;
     }
 

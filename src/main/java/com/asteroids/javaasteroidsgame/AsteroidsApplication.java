@@ -114,6 +114,7 @@ public class AsteroidsApplication extends Application {
         healthText.setFill(Color.WHITE);
         pane.getChildren().add(healthText);
 
+        // Creates the UFO object
         UFO ufo = new UFO(WIDTH / 3, HEIGHT / 3);
         pane.getChildren().add(ufo.getCharacter()); // Add the UFO character to the Pane
         ufo.getCharacter().setVisible(false); // Set the UFO visibility to false initially
