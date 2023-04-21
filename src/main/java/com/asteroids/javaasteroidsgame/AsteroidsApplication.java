@@ -98,18 +98,16 @@ public class AsteroidsApplication extends Application {
         vbox_points.setLayoutY(20);
 
         // text for level
-        Text levelText = new Text(6, 20, "Level: 1");
+        Text levelText = new Text(20, 40, "Level: 1");
         levelText.setFont(Font.font(20));
         levelText.setFill(Color.WHITE);
-        VBox vbox_level = new VBox(levelText);
-        vbox_level.setPrefWidth(WIDTH);
-        pane.getChildren().add(vbox_level);
-        vbox_level.setLayoutY(20);
+        pane.getChildren().add(levelText);
+
 
         // text for lives
         AtomicInteger ls = new AtomicInteger();
         ls.set(3);
-        Text healthText = new Text(200, 39, "Lives:" + ls);
+        Text healthText = new Text(20, 70, "Lives: " + ls);
         healthText.setFont(Font.font(20));
         healthText.setFill(Color.WHITE);
         pane.getChildren().add(healthText);
