@@ -12,7 +12,7 @@ Coding parts               | Responsible member
 ----------------------------------------------
 Scene changes + highscores and points system (10000 for extra life) | Matthew
 Asteroid changes, break animation, and creation of smaller ones | Florian
-UFO + GameOverScreen, ufo shooting logic and movement. Graphic design and media sourcing  | Ronan Glennon
+UFO shooting logic and movement, gameOverscreen score retrieval | Ronan
 ship shooting, dying, flying | Anita
 spawning elements + levels + coordinates of where to spawn + hyperspace| Yiming
 
