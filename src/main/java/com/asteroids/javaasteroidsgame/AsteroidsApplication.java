@@ -480,8 +480,8 @@ public class AsteroidsApplication extends Application {
                     //popup box asking for name
                     Platform.runLater(() -> {
                         stop();
-                        TextInputDialog dialog = new TextInputDialog();
-                        dialog.setTitle("Enter name here: ");
+                        TextInputDialog dialog = new TextInputDialog("Enter name here: ");
+                        dialog.setTitle("Name entry");
                         dialog.showAndWait().ifPresent(string -> setName(string));
 
                         //write name and points to hashmap
