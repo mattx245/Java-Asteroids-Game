@@ -5,7 +5,7 @@ import javafx.scene.shape.Polygon;
 
 public class Projectile extends Character {
 
-    private int shooting_distance;
+    private int shootingDistance;
     private ProjectileOrigin origin;
 
     public enum ProjectileOrigin {
@@ -28,7 +28,7 @@ public class Projectile extends Character {
         this.getCharacter().setTranslateX(x + offsetX);
         this.getCharacter().setTranslateY(y + offsetY);
 
-        this.shooting_distance = 100;
+        this.shootingDistance = 100;
     }
 
 //
@@ -38,12 +38,12 @@ public class Projectile extends Character {
 
     @Override
     public void move() {
-        if (shooting_distance < 1) {
+        if (shootingDistance < 1) {
             this.setAlive(false);
             this.getCharacter().setVisible(false); // Hide the projectile when it's no longer alive
         } else {
             super.move();
-            shooting_distance -= 1;
+            shootingDistance -= 1;
         }
     }
 }
