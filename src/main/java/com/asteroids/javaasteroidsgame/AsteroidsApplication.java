@@ -279,7 +279,7 @@ public class AsteroidsApplication extends Application {
                 if (ufo.isAlive() && canShootUFO && ufoSpawned) {
                     // Create a new UFO projectile
                     double angle = ufo.calculateAngleBetweenUFOAndShip(ship);
-                    Projectile ufoProjectile = new Projectile((int) ufo.getCharacter().getTranslateX(), (int) ufo.getCharacter().getTranslateY(), angle, Projectile.ProjectileOrigin.UFO, Color.GREEN);
+                    Projectile ufoProjectile = new Projectile((int) ufo.getCharacter().getTranslateX(), (int) ufo.getCharacter().getTranslateY(), angle, Projectile.ProjectileOrigin.UFO);
                     // Set the fill color to green
                     ufoProjectile.getCharacter().setFill(Color.GREEN);
 

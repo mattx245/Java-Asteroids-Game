@@ -14,12 +14,12 @@ public class Projectile extends Character {
     }
 
     public Projectile(int x, int y, double rotation, ProjectileOrigin origin) {
-        super(origin == ProjectileOrigin.SHIP ? new Polygon(2, -2, 2, 2, -2, 2, -2, -2) : new Polygon(-2, 2, 2, 2, 0, -4), x, y); // Larger triangle shape for UFO projectiles
+        super(new Polygon(2, -2, 2, 2, -2, 2, -2, -2), x, y);
         //-1, 1, 1, 1, 0, -2
         this.origin = origin;
         this.setAlive(true);
 
-        this.getCharacter().setFill(Color.YELLOW);
+        this.getCharacter().setFill(Color.WHITE);
         this.getCharacter().setRotate(rotation);
 
         double radians = Math.toRadians(rotation);
@@ -32,11 +32,7 @@ public class Projectile extends Character {
         this.shooting_distance = 100;
     }
 
-    public Projectile(int x, int y, double rotation, ProjectileOrigin origin, Color color) {
-        this(x, y, rotation, origin);
-        this.getCharacter().setFill(color);
-    }
-
+//
     public ProjectileOrigin getOrigin() {
         return origin;
     }
