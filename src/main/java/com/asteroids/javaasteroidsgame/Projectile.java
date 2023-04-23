@@ -6,6 +6,7 @@ import javafx.scene.shape.Polygon;
 public class Projectile extends Character {
 
     private int shooting_distance;
+    private ProjectileOrigin origin;
 
     public enum ProjectileOrigin {
         SHIP,
@@ -35,9 +36,6 @@ public class Projectile extends Character {
         this(x, y, rotation, origin);
         this.getCharacter().setFill(color);
     }
-
-    private ProjectileOrigin origin;
-
 
     public ProjectileOrigin getOrigin() {
         return origin;
