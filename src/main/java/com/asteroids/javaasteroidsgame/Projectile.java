@@ -13,7 +13,8 @@ public class Projectile extends Character {
     }
 
     public Projectile(int x, int y, double rotation, ProjectileOrigin origin) {
-        super(origin == ProjectileOrigin.SHIP ? new Polygon(-1, 1, 1, 1, 0, -2) : new Polygon(-2, 2, 2, 2, 0, -4), x, y); // Larger triangle shape for UFO projectiles
+        super(origin == ProjectileOrigin.SHIP ? new Polygon(2, -2, 2, 2, -2, 2, -2, -2) : new Polygon(-2, 2, 2, 2, 0, -4), x, y); // Larger triangle shape for UFO projectiles
+        //-1, 1, 1, 1, 0, -2
         this.origin = origin;
         this.setAlive(true);
 
@@ -37,10 +38,6 @@ public class Projectile extends Character {
 
     private ProjectileOrigin origin;
 
-    public Projectile(int x, int y, ProjectileOrigin origin) {
-        super(new Polygon(2, -2, 2, 2, -2, 2, -2, -2), x, y);
-        this.origin = origin;
-    }
 
     public ProjectileOrigin getOrigin() {
         return origin;
