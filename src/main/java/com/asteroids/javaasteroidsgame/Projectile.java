@@ -15,7 +15,6 @@ public class Projectile extends Character {
 
     public Projectile(int x, int y, double rotation, ProjectileOrigin origin) {
         super(new Polygon(2, -2, 2, 2, -2, 2, -2, -2), x, y);
-        //-1, 1, 1, 1, 0, -2
         this.origin = origin;
         this.setAlive(true);
 
@@ -23,8 +22,8 @@ public class Projectile extends Character {
         this.getCharacter().setRotate(rotation);
 
         double radians = Math.toRadians(rotation);
-        double offsetX = 10 + 1 * Math.cos(radians);
-        double offsetY = -4 + 1 * Math.sin(radians);
+        double offsetX = 10 + Math.cos(radians);
+        double offsetY = -4 + Math.sin(radians);
 
         this.getCharacter().setTranslateX(x + offsetX);
         this.getCharacter().setTranslateY(y + offsetY);
