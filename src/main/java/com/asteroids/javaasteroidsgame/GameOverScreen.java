@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.Random;
 import javafx.scene.layout.VBox;
 
-public class GameOverScreen extends HighScore {
+public class GameOverScreen extends HighScoreScreen {
     private int playerScore;
 
     // Generates stars for background
@@ -38,7 +38,7 @@ public class GameOverScreen extends HighScore {
     public GameOverScreen(int playerScore) {
         this.playerScore = playerScore;
 
-        // Get the high scores list from the HighScore class
+        // Get the high scores list from the HighScoreScreen class
         List<Integer> playerHighScores = getHighScoreList();
 
         // Add the player's score to the high scores list
@@ -91,14 +91,14 @@ public class GameOverScreen extends HighScore {
         Button playAgainBtn = new Button("Play Again?");
         playAgainBtn.setStyle(buttonStyle);
         playAgainBtn.setOnAction(actionEvent -> {
-            AsteroidsApplication game = null;
+            GameScreen game = null;
             try {
-                game = new AsteroidsApplication();
+                game = new GameScreen();
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
             try {
-                game.start(AsteroidsApplication.classStage);
+                game.start(GameScreen.classStage);
                 stage.close();
             } catch (Exception e) {
                 throw new RuntimeException(e);
@@ -109,9 +109,9 @@ public class GameOverScreen extends HighScore {
         Button viewHighScoresBtn = new Button("View High Scores");
         viewHighScoresBtn.setStyle(buttonStyle);
         viewHighScoresBtn.setOnAction(e -> {
-            HighScore highScore = new HighScore();
+            HighScoreScreen highScore = new HighScoreScreen();
             try {
-                highScore.start(HighScore.classStage);
+                highScore.start(HighScoreScreen.classStage);
                 stage.close();
             } catch (Exception ee) {
                 throw new RuntimeException(ee);

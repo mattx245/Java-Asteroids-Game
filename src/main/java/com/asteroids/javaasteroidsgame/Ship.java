@@ -51,7 +51,7 @@ public class Ship extends Character {
         }
     }
     // judge if there is a collision with other objects except the ship itself
-    public boolean ship_collides() {
+    public boolean shipCollides() {
         for (Character character : characters) {
             if (character != this && character.collide(this)) {
                 return true;
@@ -68,7 +68,7 @@ public class Ship extends Character {
             newX = (int)(Math.random() * 950);
             newY = (int)(Math.random() * 700);
             // judge if the ship in the new location will be within 40 range of other objects
-            if ((!new Ship(newX,newY, sounds).ship_collides())&&(!new Ship(newX+40,newY, sounds).ship_collides())&&(!new Ship(newX-40,newY, sounds).ship_collides())&&(!new Ship(newX,newY-40, sounds).ship_collides())&&(!new Ship(newX,newY+40, sounds).ship_collides()) ){
+            if ((!new Ship(newX,newY, sounds).shipCollides())&&(!new Ship(newX+40,newY, sounds).shipCollides())&&(!new Ship(newX-40,newY, sounds).shipCollides())&&(!new Ship(newX,newY-40, sounds).shipCollides())&&(!new Ship(newX,newY+40, sounds).shipCollides()) ){
                 valid = true;
                 this.setMovement(new Point2D(0, 0));
                 // Set the position of the player's ship to the new location

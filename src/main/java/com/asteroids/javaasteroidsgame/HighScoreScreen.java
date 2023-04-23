@@ -4,7 +4,6 @@ package com.asteroids.javaasteroidsgame;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
@@ -21,12 +20,11 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.util.*;
-import java.util.concurrent.atomic.AtomicInteger;
 
-import static com.asteroids.javaasteroidsgame.AsteroidsApplication.HEIGHT;
-import static com.asteroids.javaasteroidsgame.AsteroidsApplication.WIDTH;
+import static com.asteroids.javaasteroidsgame.GameScreen.HEIGHT;
+import static com.asteroids.javaasteroidsgame.GameScreen.WIDTH;
 
-public class HighScore extends Application {
+public class HighScoreScreen extends Application {
 
     public static String filepath = "score.txt";
     //turns text file to hashmap

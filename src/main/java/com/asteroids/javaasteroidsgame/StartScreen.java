@@ -18,8 +18,8 @@ import javafx.scene.shape.Circle;
 import java.io.IOException;
 import java.util.Random;
 
-import static com.asteroids.javaasteroidsgame.AsteroidsApplication.HEIGHT;
-import static com.asteroids.javaasteroidsgame.AsteroidsApplication.WIDTH;
+import static com.asteroids.javaasteroidsgame.GameScreen.HEIGHT;
+import static com.asteroids.javaasteroidsgame.GameScreen.WIDTH;
 
 
 public class StartScreen extends Application {
@@ -76,14 +76,14 @@ public class StartScreen extends Application {
         btn.setPrefWidth(300);
 
         btn.setOnAction(actionEvent -> {
-            AsteroidsApplication game = null;
+            GameScreen game = null;
             try {
-                game = new AsteroidsApplication();
+                game = new GameScreen();
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
             try {
-                game.start(AsteroidsApplication.classStage);
+                game.start(GameScreen.classStage);
                 stage.close();
             } catch (Exception e) {
                 throw new RuntimeException(e);
@@ -96,9 +96,9 @@ public class StartScreen extends Application {
         btn2.setPrefWidth(300);
 
         btn2.setOnAction(actionEvent -> {
-            HighScore hs = new HighScore();
+            HighScoreScreen hs = new HighScoreScreen();
             try {
-                hs.start(HighScore.classStage);
+                hs.start(HighScoreScreen.classStage);
                 stage.close();
             } catch (Exception e) {
                 throw new RuntimeException(e);
@@ -111,9 +111,9 @@ public class StartScreen extends Application {
         btn3.setPrefWidth(300);
 
         btn3.setOnAction(actionEvent -> {
-            HowToPlay htp = new HowToPlay();
+            HowToPlayScreen htp = new HowToPlayScreen();
             try {
-                htp.start(HowToPlay.classStage);
+                htp.start(HowToPlayScreen.classStage);
                 stage.close();
             } catch (Exception e) {
                 throw new RuntimeException(e);

@@ -56,19 +56,19 @@ public abstract class Character {
 
         //making so the character stays on screen by reentering on the other side
         if (this.character.getTranslateX() < 0) {
-            this.character.setTranslateX(this.character.getTranslateX() + AsteroidsApplication.WIDTH);
+            this.character.setTranslateX(this.character.getTranslateX() + GameScreen.WIDTH);
         }
 
-        if (this.character.getTranslateX() > AsteroidsApplication.WIDTH) {
-            this.character.setTranslateX(this.character.getTranslateX() % AsteroidsApplication.WIDTH);
+        if (this.character.getTranslateX() > GameScreen.WIDTH) {
+            this.character.setTranslateX(this.character.getTranslateX() % GameScreen.WIDTH);
         }
 
         if (this.character.getTranslateY() < 0) {
-            this.character.setTranslateY(this.character.getTranslateY() + AsteroidsApplication.HEIGHT);
+            this.character.setTranslateY(this.character.getTranslateY() + GameScreen.HEIGHT);
         }
 
-        if (this.character.getTranslateY() > AsteroidsApplication.HEIGHT) {
-            this.character.setTranslateY(this.character.getTranslateY() % AsteroidsApplication.HEIGHT);
+        if (this.character.getTranslateY() > GameScreen.HEIGHT) {
+            this.character.setTranslateY(this.character.getTranslateY() % GameScreen.HEIGHT);
         }
     }
 

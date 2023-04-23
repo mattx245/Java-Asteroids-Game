@@ -38,7 +38,7 @@ import javafx.util.Duration;
 
 
 //base created following the mooc.fi tutorial loosely: https://java-programming.mooc.fi/part-14/3-larger-application-asteroids
-public class AsteroidsApplication extends Application {
+public class GameScreen extends Application {
 
     //size of screen
     public final static int WIDTH = 950;
@@ -72,7 +72,7 @@ public class AsteroidsApplication extends Application {
     //name for high score and setter
     String name;
 
-    public AsteroidsApplication() throws IOException {
+    public GameScreen() throws IOException {
     }
 
     public void setName (String nm)  {
@@ -509,7 +509,7 @@ public class AsteroidsApplication extends Application {
                         } catch (Exception e) {
                             throw new RuntimeException(e);
                         }
-                        //hs.start(HighScore.classStage);
+                        //hs.start(HighScoreScreen.classStage);
                         stage.close();
                     });
                 } catch (Exception e) {
