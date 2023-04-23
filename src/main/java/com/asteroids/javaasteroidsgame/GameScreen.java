@@ -423,7 +423,7 @@ public class GameScreen extends Application {
                 //projectile movement
                 projectiles.forEach(projectile -> projectile.move());
 
-                // falling apart of the asteroids and ship
+                // asteroid collision and falling apart of the ship
                 //---------------------------------------------------------------------------------------
 
                 asteroids.forEach(asteroid -> {
@@ -468,8 +468,8 @@ public class GameScreen extends Application {
                 lastSpawnTime = now;
             }
             public void shipCollides() {
+                ship.fallingLines().forEach(fallingLine -> fallingLines.add(fallingLine));
                 respawnSafe = ship.death(); // Reduce ship health by 1 // Returns -1 if ship died
-                ship.fallingApart().forEach(fallingLine -> fallingLines.add(fallingLine));
                 healthText.setText("Lives: " + ls.decrementAndGet());
                 if (respawnSafe.equals(-1)) {
                     gameOver();

@@ -99,21 +99,20 @@ public class Ship extends Character {
         super.move();
     }
 
-    public List<FallingLines> fallingApart(){
+    public List<FallingLines> fallingLines(){
         List<FallingLines> fallingLines = new ArrayList<>();
-        if(this.respawnSafe < 1) {
-            int x_ship = (int) this.getCharacter().getTranslateX();
-            int y_ship = (int) this.getCharacter().getTranslateY();
-            Point2D movement_ship = this.getMovement();
+        int x_ship = (int) this.getCharacter().getTranslateX();
+        int y_ship = (int) this.getCharacter().getTranslateY();
+        Point2D movement_ship = this.getMovement();
+        System.out.println("falling");
 
+        // Line 1
+        fallingLines.add(new FallingLines(new Polygon(-2, 8, 20, 0), x_ship + 2, y_ship - 8, movement_ship));
+        // Line 2
+        fallingLines.add(new FallingLines(new Polygon(-2, -8, 20, 0), x_ship + 2, y_ship + 8, movement_ship));
+        // Line 3
+        fallingLines.add(new FallingLines(new Polygon(-2, -8, -2, 8), x_ship + 20, y_ship, movement_ship));
 
-            // Line 1
-            fallingLines.add(new FallingLines(new Polygon(-2, 8, 20, 0), x_ship + 2, y_ship - 8, movement_ship));
-            // Line 2
-            fallingLines.add(new FallingLines(new Polygon(-2, -8, 20, 0), x_ship + 2, y_ship + 8, movement_ship));
-            // Line 3
-            fallingLines.add(new FallingLines(new Polygon(-2, -8, -2, 8), x_ship + 20, y_ship, movement_ship));
-        }
         return fallingLines;
     }
 

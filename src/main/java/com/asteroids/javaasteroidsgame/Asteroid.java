@@ -19,16 +19,9 @@ public class Asteroid extends Character {
         this.sounds = sounds;
 
         setWhiteStroke();
-        setColor();
         double initialSpeed = 0.25 + RANDOM.nextDouble() * 0.5;
         double angle = RANDOM.nextDouble() * 2 * Math.PI;
         setMovement(new Point2D(Math.cos(angle) * initialSpeed, Math.sin(angle) * initialSpeed));
-    }
-
-    private void setColor() {
-        getCharacter().setFill(Color.TRANSPARENT);
-        getCharacter().setStroke(Color.WHITE);
-        getCharacter().setStrokeWidth(2.0);
     }
 
     private static Polygon createPolygon() {
