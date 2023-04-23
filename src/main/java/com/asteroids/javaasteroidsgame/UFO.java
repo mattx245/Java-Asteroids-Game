@@ -7,9 +7,6 @@ import javafx.scene.shape.Polygon;
 
 public class UFO extends Character {
     private Point2D targetPosition;
-    private long lastShootTime;
-    private static final int SHOOT_DELAY = 2000; // 2 seconds
-
 
     private boolean isAlive;
 
